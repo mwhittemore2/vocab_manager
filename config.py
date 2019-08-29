@@ -10,6 +10,11 @@ class Config:
 
 class DevelopmentConfig(Config):
     DEBUG = True
+    MONGODB_SETTINGS = {
+        'db': 'development',
+        'username': os.environ.get('MONGODB_DEV_USER'),
+        'password': os.environ.get('MONGODB_DEV_PASSWORD')
+    }
 
 config = {
     'development': DevelopmentConfig,
