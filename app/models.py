@@ -5,6 +5,7 @@ class User(db.Document):
     email = StringField(primary_key=True)
     first_name = StringField()
     last_name = StringField()
+    password = StringField()
 
 class Resource(db.EmbeddedDocument):
     name = StringField()
