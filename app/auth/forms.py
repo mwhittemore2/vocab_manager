@@ -1,6 +1,18 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import BooleanField, StringField, PasswordField, SubmitField, ValidationError
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
+from ..models import User
+
+class LoginForm(FlaskForm):
+    email_validators = [DataRequired(), Length(1,64), Email()]
+    email = StringField('Email', validators=email_validators)
+
+    password_validators = [DataRequired()]
+    password = PasswordField('Password', validators=password_validators)
+
+    stay_logged_in = BooleanField("Stay logged in")
+
+    submit = SubmitField("Log In")
 
 class RegistrationForm(FlaskForm):
     email_validators=[DataRequired(), Length(1,64), Email()]
@@ -27,3 +39,7 @@ class RegistrationForm(FlaskForm):
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
 
     submit = SubmitField('Register')
+
+    def validate_email(self, field):
+        if User.objects(email=field.data).first():
+            raise ValidationError("Email already registered")

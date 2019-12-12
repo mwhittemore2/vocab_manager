@@ -1,11 +1,21 @@
+from flask_login import UserMixin
 from mongoengine import *
-from . import db
+from . import db, login_manager
+from werkzeug.security import check_password_hash 
 
-class User(db.Document):
+class User(UserMixin, db.Document):
     email = StringField(primary_key=True)
     first_name = StringField()
     last_name = StringField()
-    password = StringField()
+    password_hash = StringField()
+    
+    def verify_password(self, password):
+        return check_password_hash(self.password_hash, password)
+    
+    @login_manager.user_loader
+    def load_user(user_id):
+        return User.objects(email=user_id).first()
+
 
 class Resource(db.EmbeddedDocument):
     name = StringField()

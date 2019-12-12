@@ -7,3 +7,5 @@ coverage
 mongoengine
 flask-mongoengine
 flask-login
+pyyaml
+werkzeug
