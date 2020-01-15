@@ -1,8 +1,8 @@
 import requests
 
-from abc import ABC, abstractmethod
-
 import yaml
+
+from abc import ABC, abstractmethod
 
 class DataConnection(ABC):
 
@@ -36,9 +36,10 @@ class DictionaryDataRequest(ABC):
     def request(self, route, data):
         pass
 
-    def send_request(self, route, data=""):
+    """def send_request(self, route, params=""):
         try:
-            req = self.request(route, data)
+            route = "http://" + route
+            req = self.request(route, params)
 
             if not req.status_code >= 200 and req.status_code < 300:
                 raise Exception('Received non 200 response')
@@ -49,31 +50,39 @@ class DictionaryDataRequest(ABC):
                 return req.text
         
         except requests.exceptions.RequestException as e:
-            print(e)
+            print(e)"""
     
     def set_timeout(self, timeout):
         self.timeout = timeout
 
 class DeleteDictionaryData(DictionaryDataRequest):
-    def request(self, route, data=""):
+    def request(self, route, params=""):
         timeout = self.get_timeout()
         return requests.delete(route, timeout=timeout)
 
 class GetDictionaryData(DictionaryDataRequest):
-    def request(self, route, data=""):
+    def request(self, route, params=""):
         timeout = self.get_timeout()
+        if params:
+            data = params["data"]
+            headers = params["headers"]
+            return requests.get(route, data=data, headers=headers, timeout=timeout)    
         return requests.get(route, timeout=timeout)
 
 class PostDictionaryData(DictionaryDataRequest):
-    def request(self, route, data=""):
+    def request(self, route, params=""):
         timeout = self.get_timeout()
-        if data:
-            return requests.post(route, data=data, timeout=timeout)
+        if params:
+            data = params["data"]
+            headers = params["headers"]
+            return requests.post(route, data=data, headers=headers, timeout=timeout)
         return requests.post(route, timeout=timeout)
 
 class UpdateDictionaryData(DictionaryDataRequest):
-    def request(self, route, data=""):
+    def request(self, route, params=""):
         timeout = self.get_timeout()
-        if data:
-            return requests.put(route, data=data, timeout=timeout)
+        if params:
+            data = params["data"]
+            headers = params["headers"]
+            return requests.put(route, data=data, headers=headers, timeout=timeout)
         return requests.put(route, timeout=timeout)

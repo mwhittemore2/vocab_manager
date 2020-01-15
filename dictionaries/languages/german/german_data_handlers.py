@@ -83,7 +83,8 @@ class GermanEntryHandler():
             #for eng in roots[1]:
             #    translation["definitions"].append(eng["phrase"])
             translation["definitions"] = [eng["phrase"] for eng in roots[1]]
-
+            wc = len(translation["inflected_form"].split())
+            translation["word_count"] = wc
             translations.append(translation) 
 
         if len(pairs) < 2:
@@ -101,6 +102,8 @@ class GermanEntryHandler():
                     #for eng in pair[1]:
                     #    translation["definitions"].append(eng["phrase"])
                     translation["definitions"] = [eng["phrase"] for eng in pair[1]]
+                    wc = len(translation["inflected_form"].split())
+                    translation["word_count"] = wc
                     translations.append(translation)
             else:
                 for ger in pair[0]:
@@ -112,6 +115,8 @@ class GermanEntryHandler():
                     #for eng in pair[1]:
                     #    translation["definitions"].append(eng["phrase"])
                     translation["definitions"] = [eng["phrase"] for eng in pair[1]]
+                    wc = len(translation["inflected_form"].split())
+                    translation["word_count"] = wc
                     translations.append(translation)
         
         return translations
@@ -120,7 +125,8 @@ class GermanEntryHandler():
         default = GermanDefaultHandler(None)
         pronoun = GermanPronounHandler(default)
         adjective = GermanAdjectiveHandler(pronoun)
-        noun = GermanNounHandler(adjective)
+        adverb = GermanAdverbHandler(adjective)
+        noun = GermanNounHandler(adverb)
         verb = GermanVerbHandler(noun)
         self.handler = verb
 
@@ -179,6 +185,7 @@ class GermanEntryHandler():
                 new_pair["base_form"] = pair["base_form"]
                 new_pair["inflected_form"] = pair["inflected_form"]
                 new_pair["definitions"] = pair["definitions"]
+                new_pair["word_count"] = pair["word_count"]
                 new_pairs.append(new_pair)
 
         return new_pairs 
@@ -222,6 +229,13 @@ class GermanAdjectiveHandler(GermanBaseHandler):
         self.pos_tags = tag_map.keys()
         self.tag_map = tag_map
 
+class GermanAdverbHandler(GermanBaseHandler):
+    def initialize_tag_map(self):
+        tag_map = {}
+        tag_map["adv"] = "adverb"
+        self.pos_tags = tag_map.keys()
+        self.tag_map = tag_map
+
 class GermanDefaultHandler(GermanBaseHandler):
     def process_entry(self, entry):
         return [entry]
@@ -239,6 +253,7 @@ class GermanNounHandler(GermanBaseHandler):
 class GermanPronounHandler(GermanBaseHandler):
     def initialize_tag_map(self):
         tag_map = {}
+        tag_map["ppron"] = "personal_pronoun_singular"
         tag_map["ppron pl"] = "personal_pronoun_plural"
         self.pos_tags = tag_map.keys()
         self.tag_map = tag_map
@@ -255,8 +270,9 @@ class GermanVerbHandler(GermanBaseHandler):
             return super().get_data(entry)
     
     def has_correct_size(self, entry):
-        words = entry["inflected_form"].split()
-        wc = len(words)
+        #words = entry["inflected_form"].split()
+        #wc = len(words)
+        wc = entry["word_count"]
         same_phrase = entry["inflected_form"] == entry["base_form"]
         if wc > self.max_words and not same_phrase:
             return False

@@ -1,5 +1,5 @@
 class DictionaryComponent():
-    def __init__(self, conn_method)
+    def __init__(self, conn_method):
         self.set_connection(conn_method)
 
     def get_connection(self):

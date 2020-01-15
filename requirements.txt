@@ -9,3 +9,4 @@ flask-mongoengine
 flask-login
 pyyaml
 werkzeug
+requests

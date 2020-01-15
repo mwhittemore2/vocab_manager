@@ -27,15 +27,22 @@ class TextQuery(ABC):
         route += seperator + search
         query = self.build_query(params)
         conn_method = self.get_connection()
-
-        return conn_method.send_request(route, query)
+        lookup = {}
+        lookup["data"] = query
+        lookup["headers"] = {'Content-Type': 'application/json'}
+        return conn_method.request(route, lookup)
 
 class SimpleQuery(TextQuery):
     def build_query(self, params):
         term = params["term"]
+        
         query = {}
         query["query"] = {"match":{}}
-        query["query"]["match"]["infl_form"] = term
+        query["query"]["match"]["inflected_form"] = term
+
+        query["sort"] = []
+        query["sort"].append({"_score": "desc"})
+        query["sort"].append({"word_count": "asc"})
 
         query = json.dumps(query)
         return query
@@ -52,7 +59,7 @@ class PhraseQuery(TextQuery):
         infl_form["type"] = "phrase"
         infl_form["query"] = phrase
         infl_form["slop"] = slop
-        query["query"]["match"]["infl_form"] = infl_form
+        query["query"]["match"]["inflected_form"] = infl_form
 
         query = json.dumps(query)
         return query

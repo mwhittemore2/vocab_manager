@@ -1,11 +1,11 @@
 import os
 
-from connections import DataConnection, UpdateDictionaryData
+from connections import DataConnection, PostDictionaryData
 
 class GermanDataConnection(DataConnection):
     def __init__(self, config):
         super().load_params(config)
-        conn_method = UpdateDictionaryData()
+        conn_method = PostDictionaryData()
         super().set_connection(conn_method)
     
     def write(self, data):
@@ -17,8 +17,11 @@ class GermanDataConnection(DataConnection):
             output = "".join(data)
             tmp.write(output)
         
-        route = route + " @" + tmp_file 
-        conn_method.request(route)
+        data_bin = open(tmp_file, 'rb').read()
+        headers = {'Content-Type': 'application/x-ndjson'}
+        params = {}
+        params["data"] = data_bin
+        params["headers"] = headers
+        conn_method.request(route, params=params)
         
         os.remove(tmp_file)
-        
