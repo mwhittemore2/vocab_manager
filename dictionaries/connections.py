@@ -26,7 +26,7 @@ class DataConnection(ABC):
         pass
 
 class DictionaryDataRequest(ABC):
-    def __init__(self, timeout=10):
+    def __init__(self, timeout=60):
         self.set_timeout(timeout)
 
     def get_timeout(self):
@@ -35,22 +35,6 @@ class DictionaryDataRequest(ABC):
     @abstractmethod
     def request(self, route, data):
         pass
-
-    """def send_request(self, route, params=""):
-        try:
-            route = "http://" + route
-            req = self.request(route, params)
-
-            if not req.status_code >= 200 and req.status_code < 300:
-                raise Exception('Received non 200 response')
-
-            #Possibly check if message size is too big here.
-
-            if req.text:
-                return req.text
-        
-        except requests.exceptions.RequestException as e:
-            print(e)"""
     
     def set_timeout(self, timeout):
         self.timeout = timeout

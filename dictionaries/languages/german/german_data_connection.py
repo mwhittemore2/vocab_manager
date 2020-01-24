@@ -22,6 +22,6 @@ class GermanDataConnection(DataConnection):
         params = {}
         params["data"] = data_bin
         params["headers"] = headers
-        conn_method.request(route, params=params)
+        resp = conn_method.request(route, params=params)
         
         os.remove(tmp_file)
