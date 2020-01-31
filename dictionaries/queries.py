@@ -2,7 +2,7 @@ import json
 
 from abc import ABC, abstractmethod
 
-from connections import GetDictionaryData
+from dictionaries.connections import GetDictionaryData
 
 class TextQuery(ABC):
     def __init__(self):
@@ -35,7 +35,9 @@ class TextQuery(ABC):
 class SimpleQuery(TextQuery):
     def build_query(self, params):
         term = params["term"]
-        
+        size = params["size"]
+        page = params["page"]
+
         query = {}
         query["query"] = {"match":{}}
         query["query"]["match"]["inflected_form"] = term
@@ -43,6 +45,9 @@ class SimpleQuery(TextQuery):
         query["sort"] = []
         query["sort"].append({"_score": "desc"})
         query["sort"].append({"word_count": "asc"})
+
+        query["from"] = (page - 1) * size
+        query["size"] = size
 
         query = json.dumps(query)
         return query

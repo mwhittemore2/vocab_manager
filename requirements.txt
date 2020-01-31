@@ -10,3 +10,4 @@ flask-login
 pyyaml
 werkzeug
 requests
+flask_httpauth
