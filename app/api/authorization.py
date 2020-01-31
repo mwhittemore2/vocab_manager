@@ -36,13 +36,13 @@ def auth_error():
 @api.before_request
 @auth.login_required
 def before_request():
-    is_unknown = g.current_user.is_anonymous
-    is_unconfirmed = g.current_user.confirmed
-    if is_unknown and is_unconfirmed:
+    is_known = not g.current_user.is_anonymous
+    is_unconfirmed = not g.current_user.confirmed
+    if is_known and is_unconfirmed:
         msg = "Account is unconfirmed."
         return forbidden(msg)
 
-@api.route('/tokens/', methods=['POST'])
+@api.route('/tokens', methods=['POST'])
 def get_token():
     is_anonymous = g.current_user.is_anonymous
     token_used = g.token_used

@@ -10,11 +10,10 @@ from .errors import bad_request, resource_not_found, server_error
 from ..models import Resource, VocabEntry
 from .validation import check_request_params
 
-def convert_resource(resource_dict):
+def convert_resource(resource_dict, language):
     resource = {}
     title = resource_dict["title"]
     author = resource_dict["author"]
-    language = resource_dict["language"]
     page_number = resource_dict["page_number"]
 
     if "type" == "book":
@@ -84,7 +83,7 @@ def add_vocab_entry(language):
     timestamp = datetime.datetime.now()
 
     #Check that the resource has a valid structure
-    params = ["title", "author", "language", "page_number", "type"]
+    params = ["title", "author", "page_number", "type"]
     msg = check_request_params(resource, params)
     if msg:
         response = bad_request(msg)
@@ -98,7 +97,7 @@ def add_vocab_entry(language):
         return response, HTTPStatus.BAD_REQUEST.value
 
     #Insert vocabulary item
-    resource = convert_resource(resource)
+    resource = convert_resource(resource, language)
     vocab_entry = VocabEntry(email=email,
                              vocab_text=vocab_info["text"],
                              language=language,
@@ -145,6 +144,7 @@ def find_vocab_entry(language):
 
     #Search for vocabulary entry
     vocab_entry = VocabEntry.objects(vocab_text=vocab_text,
+                                     language=language,
                                      resource__title=title,
                                      resource__author=author,
                                      resource__page_number=page
@@ -251,6 +251,7 @@ def remove_vocab_entry(language):
         author = query["author"]
         page_num = int(query["page"])
         to_delete = VocabEntry.objects(vocab_text=vocab_text,
+                                       language=language,
                                        resource__title=title,
                                        resource__author=author,
                                        resource__page_number=page_num
@@ -264,7 +265,7 @@ def remove_vocab_entry(language):
             return response, HTTPStatus.NOT_FOUND.value
     else:
         #Delete all occurrences of vocab item
-        to_delete = VocabEntry.objects(vocab_text=vocab_text)
+        to_delete = VocabEntry.objects(vocab_text=vocab_text, language=language)
         if to_delete.first():
             to_delete.delete()
         else:

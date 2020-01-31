@@ -130,11 +130,59 @@ class DocumentRetrievalTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
 
 
-"""class APISecurityTest(APITest):
+class APISecurityTest(APITest):
     __test__ = True
 
+    def test_bad_password(self):
+        bad_password = "wrong_password"
+
+        #Make API call to list a user's documents
+        response = self.client.get(
+            '/api/v1/document_retrieval/list_docs',
+            headers=self.get_headers(self.username, bad_password)
+        )
+
+    def test_bad_user(self):
+        #Make API call to list documents
+        response = self.client.get(
+            '/api/v1/document_retrieval/list_docs',
+            headers=self.get_headers('','')
+        )
+
+        #Process response
+        self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED.value)
+
+    def test_no_user(self):
+        #Make API call to list documents
+        response = self.client.get(
+            '/api/v1/document_retrieval/list_docs'
+        )
+
+        #Process response
+        self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED.value)
+
     def test_token(self):
-"""
+        #Make API call to get token
+        response = self.client.post(
+            '/api/v1/tokens',
+            headers=self.get_headers(self.username, self.password)
+        )
+
+        #Process response
+        self.assertEqual(response.status_code, HTTPStatus.OK.value)
+        json_response = json.loads(response.get_data(as_text=True))
+        self.assertIsNotNone(json_response.get('token'))
+        token = json_response['token']
+        
+        #Make API call with the token
+        response = self.client.get(
+            '/api/v1/document_retrieval/list_docs',
+            headers=self.get_headers(token,'')
+        )
+
+        #Process response
+        self.assertEqual(response.status_code, HTTPStatus.OK.value)
+
 class TranslationTest(APITest):
     __test__ = True
 
@@ -286,7 +334,6 @@ class VocabularyAcquisitionTest(APITest):
         resource = {}
         resource["title"] = self.book1.title
         resource["author"] = self.book1.author
-        resource["language"] = self.book1.language
         resource["page_number"] = self.book1.page_number
         resource["publisher"] = self.book1.publisher
         resource["type"] = "book"
@@ -336,6 +383,69 @@ class VocabularyAcquisitionTest(APITest):
         word["title"] = self.book1.title
         word["author"] = self.book1.author
         word["page"] = 2
+        self.assertIn(word, json_response["vocab_items"])
+
+        #Lookup word from different authors
+        title = "Phänomenologie des Geistes"
+        author = "Georg Wilhelm Friedrich Hegel"
+        publisher = "Joseph Anton Goebhardt"
+        hegel = Book(title=title,
+                     author=author,
+                     language="german",
+                     page_number=1,
+                     publisher=publisher
+                     )
+        word = "Geist"
+        definitions = ["Spirit"]
+        pos = "noun_masculine"
+        vocab = VocabEntry(email=self.username,
+                           vocab_text=word,
+                           language="german",
+                           pos=pos,
+                           resource=hegel,
+                           definitions=definitions,
+                           timestamp=datetime.datetime.now()
+                           )
+        vocab.save()
+
+        query = {}
+        query["page"] = 1
+        query["queries"] = []
+
+        subquery_kant = {}
+        subquery_kant["page"] = {"start": 1, "finish": 3}
+        subquery_kant["title"] = self.book1.title
+        subquery_kant["author"] = self.book1.author
+        query["queries"].append(subquery_kant)
+
+        subquery_hegel = {}
+        subquery_hegel["page"] = {"start":1, "finish": 3}
+        subquery_hegel["title"] = hegel.title
+        subquery_hegel["author"] = hegel.author
+        query["queries"].append(subquery_hegel)
+        query = json.dumps(query, ensure_ascii=False)
+
+        #Make API call to look up words
+        response = self.client.get(
+            '/api/v1/vocab_acquisition/lookup_vocab_entries/german',
+            headers=self.get_headers(self.username, self.password),
+            data=query
+        )
+
+        #Process response
+        self.assertEqual(response.status_code, HTTPStatus.OK.value)
+        json_response = json.loads(response.get_data(as_text=True))
+        word = {}
+        word["vocab_text"] = "Erfahrung"
+        word["title"] = self.book1.title
+        word["author"] = self.book1.author
+        word["page"] = 2
+        self.assertIn(word, json_response["vocab_items"])
+        word = {}
+        word["vocab_text"] = "Geist"
+        word["title"] = hegel.title
+        word["author"] = hegel.author
+        word["page"] = 1
         self.assertIn(word, json_response["vocab_items"])
 
     def test_multi_removal(self):
