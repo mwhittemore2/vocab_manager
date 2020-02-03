@@ -8,8 +8,7 @@ from . import db, login_manager
 
 class User(UserMixin, db.Document):
     """
-    An object representation of a user of the 
-    Vocabulary Manager application.
+    A user of the Vocabulary Manager application.
     """
     email = StringField(primary_key=True)
     first_name = StringField()
@@ -27,6 +26,7 @@ class User(UserMixin, db.Document):
             The user-supplied password used for authentication
         
         Returns
+        -------
         boolean
             True if the user's password is correct, False otherwise.
         """
@@ -39,8 +39,7 @@ class User(UserMixin, db.Document):
     @login_manager.user_loader
     def load_user(user_id):
         """
-        Returns an object representation of the user
-        for login management.
+        Recognizes the user as logged in.
 
         Parameters
         ----------
@@ -56,7 +55,7 @@ class User(UserMixin, db.Document):
 
     def generate_auth_token(self, expiration):
         """
-        Creates an authentication token for access to
+        Creates an authentication token for access to the
         REST APIs.
 
         Parameters
@@ -65,6 +64,7 @@ class User(UserMixin, db.Document):
             The amount of time in seconds for which the token is valid
         
         Returns
+        -------
         token
             The user's authentication token
         """
@@ -102,8 +102,7 @@ class User(UserMixin, db.Document):
 
 class Resource(db.EmbeddedDocument):
     """
-    A representation of some artifact which contains
-    vocabulary words of interest to the user.
+    An artifact which contains vocabulary words of interest to the user.
     """
     title = StringField()
     author = StringField()
@@ -114,19 +113,19 @@ class Resource(db.EmbeddedDocument):
 
 class Book(Resource):
     """
-    A representation of a book the user is reading.
+    A book the user is reading.
     """
     publisher = StringField()
 
 class Website(Resource):
     """
-    A representation of a website the user has visited.
+    A website the user has visited.
     """
     url = StringField()
 
 class VocabEntry(db.Document):
     """
-    Record of a vocabulary entry that a user adds to his/her
+    A vocabulary entry that a user adds to his/her
     vocabulary list.
     """
     email = ReferenceField(User, reverse_delete_rule=CASCADE)
