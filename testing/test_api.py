@@ -8,9 +8,28 @@ from app.models import Book, Page, VocabEntry
 from testing.test_base import BaseTest
 
 class APITest(BaseTest):
+    """
+    Contains logic for running any test that interacts with
+    the REST APIS.
+    """
     __test__ = False
 
     def get_headers(self, username, password):
+        """
+        Creates headers to be sent in every JSON request.
+
+        Parameters
+        ----------
+        username : str
+            The name of the user
+        password : str
+            The user's password for accessing the REST APIs
+        
+        Returns
+        -------
+        dict
+            The headers of the JSON request
+        """
         credentials = b64encode((username + ":" + password).encode('utf-8'))
         credentials = credentials.decode('utf-8')
         headers = {}
@@ -20,9 +39,16 @@ class APITest(BaseTest):
         return headers 
 
 class DocumentRetrievalTest(APITest):
+    """
+    A collection of tests for validating the document_retrieval
+    REST API.
+    """
     __test__ = True
 
     def setUp(self):
+        """
+        Loads sample data before every test.
+        """
         super().setUp()
 
         #Load sample data
@@ -55,6 +81,9 @@ class DocumentRetrievalTest(APITest):
         self.hegel = {"book": book2, "page": page2}
 
     def test_fetch_page(self):
+        """
+        Tests the fetch_page service provided by document_retrieval.
+        """
         #Get page to fetch
         query = {}
         query["title"] = self.kant["book"].title
@@ -78,6 +107,9 @@ class DocumentRetrievalTest(APITest):
         self.assertEqual(json_response["content"], self.kant["page"].content)
 
     def test_list_docs(self):
+        """
+        Tests the list_docs service provided by document_retrieval.
+        """
         #Documents for testing
         kant = {}
         kant["title"] = self.kant["book"].title
@@ -99,6 +131,10 @@ class DocumentRetrievalTest(APITest):
         self.assertIn(hegel, json_response["docs"])
             
     def test_no_page(self):
+        """
+        Tests that the fetch_page service handles requests
+        for non-existent user resources correctly.
+        """
         #Search for non-existent page
         query = {}
         query["title"] = self.kant["book"].title
@@ -117,6 +153,10 @@ class DocumentRetrievalTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
     
     def test_no_docs(self):
+        """
+        Tests that the list_docs service handles requests for
+        non-existent user resources correctly.
+        """
         #Delete all docs
         Page.objects().delete()
 
@@ -131,9 +171,15 @@ class DocumentRetrievalTest(APITest):
 
 
 class APISecurityTest(APITest):
+    """
+    A collection of tests that validate the REST API security infrastructure.
+    """
     __test__ = True
 
     def test_bad_password(self):
+        """
+        Test that a user is denied access when an incorrect password is given.
+        """
         bad_password = "wrong_password"
 
         #Make API call to list a user's documents
@@ -142,7 +188,14 @@ class APISecurityTest(APITest):
             headers=self.get_headers(self.username, bad_password)
         )
 
+        #Process response
+        self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED.value)
+
     def test_bad_user(self):
+        """
+        Test that no credentials in the header lead to denying
+        access to the REST APIs.
+        """
         #Make API call to list documents
         response = self.client.get(
             '/api/v1/document_retrieval/list_docs',
@@ -153,6 +206,10 @@ class APISecurityTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED.value)
 
     def test_no_user(self):
+        """
+        Test that a REST API request with no known user leads to
+        denial of access.
+        """
         #Make API call to list documents
         response = self.client.get(
             '/api/v1/document_retrieval/list_docs'
@@ -162,6 +219,9 @@ class APISecurityTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED.value)
 
     def test_token(self):
+        """
+        Test that a user can properly receive and use an authentication token.
+        """
         #Make API call to get token
         response = self.client.post(
             '/api/v1/tokens',
@@ -184,9 +244,16 @@ class APISecurityTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
 
 class TranslationTest(APITest):
+    """
+    A collection of tests which validate the translation service.
+    """
     __test__ = True
 
     def test_inflected(self):
+        """
+        Test that a foreign word thats different from a base
+        dictionary word returns the right translation.
+        """
         #Get word to translate
         query = {}
         query["page"] = 1
@@ -210,6 +277,10 @@ class TranslationTest(APITest):
         self.assertIn(translation, candidates)
 
     def test_multiword(self):
+        """
+        Test that a search term consisting of multiple words
+        is translated correctly.
+        """
         #Get phrase to translate
         query = {}
         query["page"] = 1
@@ -230,6 +301,10 @@ class TranslationTest(APITest):
         self.assertEqual(translation, "books in print")
 
     def test_no_translation(self):
+        """
+        Test that a word that's not part of a foreign language
+        returns no translation.
+        """
         #Get random word that will return no matches
         query = {}
         query["page"] = 1
@@ -247,6 +322,10 @@ class TranslationTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
 
     def test_no_page(self):
+        """
+        Test that the translation services handles requests
+        for non-existent pages gracefully.
+        """
         #Look for page that will have no results
         query = {}
         query["page"] = 1000
@@ -264,9 +343,15 @@ class TranslationTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
 
 class VocabularyAcquisitionTest(APITest):
+    """
+    A collection of tests for validating the vocab_acquisition service.
+    """
     __test__ = True
 
     def setUp(self):
+        """
+        Loads sample data before each test is run.
+        """
         super().setUp()
 
         #Initialize resource objects
@@ -325,6 +410,9 @@ class VocabularyAcquisitionTest(APITest):
         vocab.save() 
 
     def test_add_vocab_item(self):
+        """
+        Tests the add_vocab_entry service.
+        """
         #Initialize request data
         vocab_info = {}
         vocab_info["text"] = "Vernunft"
@@ -356,6 +444,9 @@ class VocabularyAcquisitionTest(APITest):
         self.assertIsNotNone(vocab_item)
 
     def test_multi_lookup(self):
+        """
+        Tests the lookup_vocab_entries service.
+        """
         #Initialize request data
         query = {}
         query["page"] = 1
@@ -449,6 +540,10 @@ class VocabularyAcquisitionTest(APITest):
         self.assertIn(word, json_response["vocab_items"])
 
     def test_multi_removal(self):
+        """
+        Tests that the remove_vocab_entry service can delete
+        multiple words from a user's vocabulary.
+        """
         #Initialize data
         query = {}
         query["vocab_text"] = "Erfahrung"
@@ -466,6 +561,10 @@ class VocabularyAcquisitionTest(APITest):
         self.assertIsNone(entries.first())
     
     def test_no_lookup(self):
+        """
+        Tests that requests for non-existent vocabulary words are
+        handled gracefully.
+        """
         #Word that's not in user's vocabulary
         query = {}
         query["vocab_text"] = "Mensch"
@@ -502,6 +601,10 @@ class VocabularyAcquisitionTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
 
     def test_no_removal(self):
+        """
+        Tests that a request to remove a non-existent vocabulary
+        word is handled gracefully.
+        """
         #Word that's not in user's vocabulary
         query = {"vocab_text": "Mensch"}
         query = json.dumps(query, ensure_ascii=False)
@@ -536,6 +639,9 @@ class VocabularyAcquisitionTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
 
     def test_single_lookup(self):
+        """
+        Tests the lookup_vocab_entry service.
+        """
         #Initialize data
         vocab_text = "Erfahrung"
         query = {}
@@ -564,6 +670,10 @@ class VocabularyAcquisitionTest(APITest):
         self.assertEqual(vocab_text, json_response["vocab_item"]["vocab_text"])
 
     def test_single_removal(self):
+        """
+        Tests that the remove_vocab_entry service can successfully delete
+        a single vocabulary entry.
+        """
         #Initialize data
         vocab_text = "Erfahrung"
         query = {}
