@@ -7,6 +7,10 @@ from werkzeug.security import check_password_hash
 from . import db, login_manager 
 
 class User(UserMixin, db.Document):
+    """
+    An object representation of a user of the 
+    Vocabulary Manager application.
+    """
     email = StringField(primary_key=True)
     first_name = StringField()
     last_name = StringField()
@@ -14,6 +18,18 @@ class User(UserMixin, db.Document):
     confirmed = BooleanField(default=False)
 
     def verify_password(self, password):
+        """
+        Checks that the user-supplied password is correct.
+
+        Parameters
+        ----------
+        password : str
+            The user-supplied password used for authentication
+        
+        Returns
+        boolean
+            True if the user's password is correct, False otherwise.
+        """
         self.confirmed = False
         check_hash = check_password_hash(self.password_hash, password)
         if check_hash:
@@ -22,9 +38,36 @@ class User(UserMixin, db.Document):
     
     @login_manager.user_loader
     def load_user(user_id):
+        """
+        Returns an object representation of the user
+        for login management.
+
+        Parameters
+        ----------
+        user_id : str
+            A unique identifier of the user
+        
+        Returns
+        -------
+        User
+            An object representation of the user
+        """
         return User.objects(email=user_id).first()
 
     def generate_auth_token(self, expiration):
+        """
+        Creates an authentication token for access to
+        REST APIs.
+
+        Parameters
+        ----------
+        expiration : int
+            The amount of time in seconds for which the token is valid
+        
+        Returns
+        token
+            The user's authentication token
+        """
         s = Serializer(current_app.config["SECRET_KEY"],
                        expires_in=expiration)
         serialized = s.dumps({"email": self.email}).decode("utf-8")
@@ -32,6 +75,19 @@ class User(UserMixin, db.Document):
     
     @staticmethod
     def verify_auth_token(token):
+        """
+        Authenticates the user based on the supplied token.
+
+        Parameters
+        ----------
+        token : str
+            The user-supplied authentication token
+        
+        Returns
+        -------
+        User
+            An object representation of the authenticated user
+        """
         s = Serializer(current_app.config["SECRET_KEY"])
         try:
             data = s.loads(token)
@@ -45,6 +101,10 @@ class User(UserMixin, db.Document):
         return user
 
 class Resource(db.EmbeddedDocument):
+    """
+    A representation of some artifact which contains
+    vocabulary words of interest to the user.
+    """
     title = StringField()
     author = StringField()
     language = StringField()
@@ -53,12 +113,22 @@ class Resource(db.EmbeddedDocument):
     meta = {'allow_inheritance': True}
 
 class Book(Resource):
+    """
+    A representation of a book the user is reading.
+    """
     publisher = StringField()
 
 class Website(Resource):
+    """
+    A representation of a website the user has visited.
+    """
     url = StringField()
 
 class VocabEntry(db.Document):
+    """
+    Record of a vocabulary entry that a user adds to his/her
+    vocabulary list.
+    """
     email = ReferenceField(User, reverse_delete_rule=CASCADE)
     vocab_text = StringField()
     #Mongo uses this field to determine the proper
@@ -78,20 +148,35 @@ class VocabEntry(db.Document):
     ]}
 
 class DateRange(db.EmbeddedDocument):
+    """
+    A span of time of interest to the user.
+    """
     start_date = DateTimeField()
     end_date = DateTimeField()
 
 class PageRange(db.EmbeddedDocument):
+    """
+    A span of pages in a text resource of interest
+    to the user.
+    """
     start_page = IntField()
     end_page = IntField()
 
 class GroupDefinition(db.EmbeddedDocument):
+    """
+    A specification for finding specific vocabulary words
+    from the user's resource collection.
+    """
     title = StringField()
     author = StringField()
     pages = EmbeddedDocumentListField(PageRange)
     dates = EmbeddedDocumentListField(DateRange)
 
 class Group(db.Document):
+    """
+    A collection of vocabulary words from the user's
+    resources.
+    """
     group_id = StringField(primary_key=True)
     name = StringField()
     email = ReferenceField(User, reverse_delete_rule=CASCADE)
@@ -103,6 +188,9 @@ class Group(db.Document):
     ]}
 
 class TestResult(db.Document):
+    """
+    The results of running a vocabulary retention test.
+    """
     group_id = ReferenceField(Group, reverse_delete_rule=CASCADE)
     email = StringField()
     test_time = DateTimeField()
@@ -115,6 +203,9 @@ class TestResult(db.Document):
     ]}
 
 class Page(db.Document):
+    """
+    A page in one of the user's resources.
+    """
     email = ReferenceField(User, reverse_delete_rule=CASCADE)
     resource = EmbeddedDocumentField(Resource)
     content = StringField()
