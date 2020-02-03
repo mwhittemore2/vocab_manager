@@ -8,6 +8,21 @@ from .validation import check_request_params
 
 @api.route('translation/<string:language>')
 def translation(language):
+    """
+    Translates a user-specified piece of text.
+
+    Parameters
+    ----------
+    language : str
+        The language to translate from
+    
+    Returns
+    -------
+    json
+        A JSON representation of the translation
+    int
+        An HTTP status code
+    """
     req_data = request.json
 
     #Check that the translation query is valid

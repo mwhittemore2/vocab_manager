@@ -558,6 +558,10 @@ class VocabularyAcquisitionTest(APITest):
                                          resource=self.book1
                                          ).first()
         self.assertIsNotNone(vocab_entry)
+        json_response = json.loads(response.get_data(as_text=True))
+        self.assertEqual(self.book1.author, json_response["vocab_item"]["author"])
+        self.assertEqual(self.book1.title, json_response["vocab_item"]["title"])
+        self.assertEqual(vocab_text, json_response["vocab_item"]["vocab_text"])
 
     def test_single_removal(self):
         #Initialize data

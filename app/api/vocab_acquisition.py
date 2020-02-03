@@ -11,6 +11,22 @@ from ..models import Resource, VocabEntry
 from .validation import check_request_params
 
 def convert_resource(resource_dict, language):
+    """
+    Converts a dictionary representation of a user resource
+    into a Resource object.
+
+    Parameters
+    ----------
+    resource_dict : dictionary
+        A dictionary representation of the resource to convert
+    language : str
+        The source language of the resource
+    
+    Returns
+    -------
+    Resource
+        The user-specified resource represented as a Resource object
+    """
     resource = {}
     title = resource_dict["title"]
     author = resource_dict["author"]
@@ -37,6 +53,21 @@ def convert_resource(resource_dict, language):
     return resource
 
 def get_filter(query, language):
+    """
+    Provides a MongoEngine representation of a filter query.
+
+    Parameters
+    ----------
+    query : dictionary
+        A dictionary representation of the filter query
+    language : str
+        The language of the resources returned by the query
+    
+    Returns
+    -------
+    Q
+        A MongoEngine representation of the filter query
+    """
     fil = {}
     if "page" in query:
         has_start = "start" in query["page"]
@@ -57,16 +88,43 @@ def get_filter(query, language):
     return fil
 
 def get_vocab_response(vocab_entry):
+    """
+    Converts a VocabEntry object representation of a vocabulary item
+    to a JSON response.
+
+    Parameters
+    ----------
+    vocab_entry : VocabEntry
+
+    Returns
+    -------
+    json
+        A JSON representation of a vocabulary item
+    """
     response = {}
     response["vocab_text"] = vocab_entry.vocab_text
     response["title"] = vocab_entry.resource.title
     response["author"] = vocab_entry.resource.author
     response["page"] = vocab_entry.resource.page_number
-    #response = jsonify(response)
     return response
 
 @api.route('vocab_acquisition/add_vocab_entry/<string:language>', methods=['POST'])
 def add_vocab_entry(language):
+    """
+    Saves a new vocabulary word to a user's vocabulary list.
+
+    Parameters
+    ----------
+    language : str
+        The language of the vocabulary word
+    
+    Returns
+    -------
+    json
+        A JSON Response to the user's request
+    int
+        An HTTP status code
+    """
     user = g.current_user
     email = user.email
     req_data = request.json
@@ -126,6 +184,20 @@ def add_vocab_entry(language):
 
 @api.route('vocab_acquisition/lookup_vocab_entry/<string:language>')
 def find_vocab_entry(language):
+    """
+    Finds a single vocabulary entry from a user's vocabulary list.
+
+    Parameters
+    ----------
+    language : str
+        The language of the vocabulary entry
+    
+    Returns
+    json
+        A JSON representation of the requested vocabulary word
+    int
+        An HTTP status code
+    """
     user = g.current_user
     email = user.email
     req_data = request.json
@@ -163,6 +235,21 @@ def find_vocab_entry(language):
 
 @api.route('vocab_acquisition/lookup_vocab_entries/<string:language>')
 def find_vocab_entries(language):
+    """
+    Finds a collection of vocabulary items from a user's vocabulary list.
+
+    Parameters
+    ----------
+    language : str
+        The language of the vocabulary words
+    
+    Returns
+    -------
+    json
+        A JSON representation of the requested vocabulary words
+    int
+        An HTTP status code
+    """
     user = g.current_user
     email = user.email
     req_data = request.json
@@ -224,6 +311,21 @@ def find_vocab_entries(language):
 
 @api.route('vocab_acquisition/remove_vocab_entry/<string:language>', methods=['DELETE'])
 def remove_vocab_entry(language):
+    """
+    Deletes the requested entries from a user's vocabulary list.
+
+    Parameters
+    ----------
+    language : str
+        The language of the vocabulary entries to be deleted
+    
+    Returns
+    -------
+    json
+        A JSON response to the deletion request
+    int
+        An HTTP status code
+    """
     user = g.current_user
     email = user.email
     req_data = request.json

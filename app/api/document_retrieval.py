@@ -9,6 +9,14 @@ from .validation import check_request_params
 
 @api.route('/document_retrieval/fetch_page')
 def fetch_page():
+    """
+    Gets a specified page from a user resource.
+
+    Returns
+    -------
+    json
+        A JSON representation of a page from a user specified resource.
+    """
     user = g.current_user
     email = user.email
     req_data = request.json
@@ -48,6 +56,14 @@ def fetch_page():
 
 @api.route('/document_retrieval/list_docs')
 def list_docs():
+    """
+    Lists the documents/resources that a user has previously uploaded.
+
+    Returns
+    -------
+    json
+        A JSON list of all the documents a user has previously uploaded.
+    """
     user = g.current_user
     email = user.email
 
