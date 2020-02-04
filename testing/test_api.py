@@ -300,6 +300,31 @@ class TranslationTest(APITest):
         translation = json_response["translations"][0]["definition"]
         self.assertEqual(translation, "books in print")
 
+    def test_see_also(self):
+        """
+        Test that a valid link to the base form of a translation
+        is given.
+        """
+        #Look up term that will have a different base form
+        query = {}
+        query["page"] = 1
+        query["query"] = "Häuser"
+        query = json.dumps(query, ensure_ascii=False)
+
+        #Make API call to translate word
+        response = self.client.get(
+            '/api/v1/translation/german',
+            headers=self.get_headers(self.username, self.password),
+            data=query
+        )
+
+        #Process response
+        self.assertEqual(response.status_code, HTTPStatus.OK.value)
+        json_response = json.loads(response.get_data(as_text=True))
+        translation = json_response["translations"][0]["see_also"]
+        self.assertIn("Haus", translation["text"])
+        self.assertEqual(translation["pos"], "noun_neuter")
+
     def test_no_translation(self):
         """
         Test that a word that's not part of a foreign language

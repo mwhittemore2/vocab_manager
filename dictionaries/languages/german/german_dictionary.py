@@ -22,11 +22,12 @@ class GermanDictionary():
                 translation = {}
                 translation["text"] = match["inflected_form"]
                 translation["definition"] = d
-
+                
                 see_also = {}
                 see_also["text"] = match["base_form"]
                 see_also["pos"] = match["pos"]
                 translation["see_also"] = see_also
+                formatted.append(translation)
         
         return formatted
     
