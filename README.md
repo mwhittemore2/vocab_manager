@@ -4,8 +4,7 @@ This application is designed to integrate the foreign language vocabularies a us
 
 To reach the goal of offering a consolidated vocabulary management tool, the project currently supports the following web services:
 
-    -- Addition and deletion of acquired foreign language vocabulary along
-       with their context
+    -- Addition and deletion of acquired foreign language vocabulary along with their context
 
     -- Dictionary translations from German to English (more languages to come)
     
