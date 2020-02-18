@@ -10,9 +10,9 @@ To reach the goal of offering a consolidated vocabulary management tool, the pro
     
     -- Access to foreign language resources a user has acquired
 
-These services can be found under vocab_manager/app/api. From a technical perspective, the back-end code for these services is written in Python with Flask used as the web framework for supporting these services. In addition, MongoDB was used to as a database for storing user data
+These services can be found under vocab_manager/app/api. From a technical perspective, the back-end code for these services is written in Python with Flask used as the web framework for supporting these services. In addition, MongoDB was used as a database for storing user data
 and Elasticsearch was used to provide a foreign language dictionary service. The code for populating Elasticsearch with dictionary data can be found under vocab_manager/dictionaries.
 
 The front-end component of the project should be regarded only as a skeleton, but I plan to eventually build it out using React.
 
-The project overall is ongoing, with more features to support management of non-electronic vocabulary sources. Please keep checking for further updates.
+The project is still ongoing. More features to support management of non-electronic vocabulary sources are planned for future releases. Please keep checking for further updates.
