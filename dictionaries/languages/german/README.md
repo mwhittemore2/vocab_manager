@@ -5,7 +5,7 @@ and the route to the Elasticsearch service (typically http://localhost:9200).
 
 Once this is done, make sure to activate the virtual environment with the
 dependencies from this project's requirements.txt file. Next, add the full 
-path on your machine to the directory vocab_manager/dictionaries to your 
+path on your machine to the directory **vocab_manager/dictionaries** to your 
 PYTHONPATH variable (we'll call this full path $DICTIONARIES). At this point, 
 assuming the variable $CONFIG points to the config mentioned in the previous 
 paragraph, you can run the following command:
