@@ -138,7 +138,6 @@ class GermanDictionary():
         if "status" in json_response:
             #Presence of 'status' key indicates an error
             response = {}
-            response["status"] = HTTPStatus.NOT_FOUND.value
             response["text"] = "No translations found"
             response = json.dumps(response, ensure_ascii=False)
             return (response, HTTPStatus.NOT_FOUND.value)
@@ -146,13 +145,11 @@ class GermanDictionary():
         translations = json_response["hits"]["hits"]
         if not translations:
             response = {}
-            response["status"] = HTTPStatus.NOT_FOUND.value
             response["text"] = "No translations found"
             response = json.dumps(response, ensure_ascii=False)
             return (response, HTTPStatus.NOT_FOUND.value)
 
         response = {}
-        response["status"] = HTTPStatus.OK.value
         if page == 1:
             response["translations"] = self.get_top_matches(translations, query)
         else:

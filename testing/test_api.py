@@ -93,7 +93,7 @@ class DocumentRetrievalTest(APITest):
         
         #Make API call to fetch page
         response = self.client.get(
-            '/api/v1/document_retrieval/fetch_page',
+            '/api/v1/document_retrieval/page',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -120,7 +120,7 @@ class DocumentRetrievalTest(APITest):
 
         #Make API call to list a user's documents
         response = self.client.get(
-            '/api/v1/document_retrieval/list_docs',
+            '/api/v1/document_retrieval/doc_list',
             headers=self.get_headers(self.username, self.password)
         )
 
@@ -144,7 +144,7 @@ class DocumentRetrievalTest(APITest):
 
         #Make API call to fetch page
         response = self.client.get(
-            '/api/v1/document_retrieval/fetch_page',
+            '/api/v1/document_retrieval/page',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -162,7 +162,7 @@ class DocumentRetrievalTest(APITest):
 
         #Make API call to list a user's documents
         response = self.client.get(
-            '/api/v1/document_retrieval/list_docs',
+            '/api/v1/document_retrieval/doc_list',
             headers=self.get_headers(self.username, self.password)
         )
 
@@ -184,7 +184,7 @@ class APISecurityTest(APITest):
 
         #Make API call to list a user's documents
         response = self.client.get(
-            '/api/v1/document_retrieval/list_docs',
+            '/api/v1/document_retrieval/doc_list',
             headers=self.get_headers(self.username, bad_password)
         )
 
@@ -198,7 +198,7 @@ class APISecurityTest(APITest):
         """
         #Make API call to list documents
         response = self.client.get(
-            '/api/v1/document_retrieval/list_docs',
+            '/api/v1/document_retrieval/doc_list',
             headers=self.get_headers('','')
         )
 
@@ -212,7 +212,7 @@ class APISecurityTest(APITest):
         """
         #Make API call to list documents
         response = self.client.get(
-            '/api/v1/document_retrieval/list_docs'
+            '/api/v1/document_retrieval/doc_list'
         )
 
         #Process response
@@ -236,7 +236,7 @@ class APISecurityTest(APITest):
         
         #Make API call with the token
         response = self.client.get(
-            '/api/v1/document_retrieval/list_docs',
+            '/api/v1/document_retrieval/doc_list',
             headers=self.get_headers(token,'')
         )
 
@@ -458,7 +458,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to add a vocabulary entry
         response = self.client.post(
-            '/api/v1/vocab_acquisition/add_vocab_entry/german',
+            '/api/v1/vocab_acquisition/german/vocab_entry',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -486,7 +486,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up words
         response = self.client.get(
-            '/api/v1/vocab_acquisition/lookup_vocab_entries/german',
+            '/api/v1/vocab_acquisition/german/vocab_collection',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -543,7 +543,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up words
         response = self.client.get(
-            '/api/v1/vocab_acquisition/lookup_vocab_entries/german',
+            '/api/v1/vocab_acquisition/german/vocab_collection',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -576,7 +576,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API cal to delete words
         response = self.client.delete(
-            '/api/v1/vocab_acquisition/remove_vocab_entry/german',
+            '/api/v1/vocab_acquisition/german/vocab_entry',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -600,7 +600,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up word
         response = self.client.get(
-            '/api/v1/vocab_acquisition/lookup_vocab_entry/german',
+            '/api/v1/vocab_acquisition/german/vocab_entry',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -617,7 +617,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up words
         response = self.client.get(
-            '/api/v1/vocab_acquisition/lookup_vocab_entries/german',
+            '/api/v1/vocab_acquisition/german/vocab_collection',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -636,7 +636,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to delete word
         response = self.client.delete(
-            '/api/v1/vocab_acquisition/remove_vocab_entry/german',
+            '/api/v1/vocab_acquisition/german/vocab_entry',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -655,7 +655,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to delete word
         response = self.client.delete(
-            '/api/v1/vocab_acquisition/remove_vocab_entry/german',
+            '/api/v1/vocab_acquisition/german/vocab_entry',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -678,7 +678,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up single word
         response = self.client.get(
-            '/api/v1/vocab_acquisition/lookup_vocab_entry/german',
+            '/api/v1/vocab_acquisition/german/vocab_entry',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
@@ -711,7 +711,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to delete single instance
         response = self.client.delete(
-            '/api/v1/vocab_acquisition/remove_vocab_entry/german',
+            '/api/v1/vocab_acquisition/german/vocab_entry',
             headers=self.get_headers(self.username, self.password),
             data=query
         )
