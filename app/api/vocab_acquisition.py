@@ -37,19 +37,21 @@ def convert_resource(resource_dict, language):
         if "publisher" in resource_dict:
             publisher = resource_dict["publisher"]
         
-        resource = Book(title=title,
+        resource = Book(
+                        title=title,
                         author=author,
                         language=language,
                         page_number=page_number,
                         publisher=publisher
-        )
+                        )
     #Process other resource types here as they become available
     else:
-        resource = Resource(title=resource_dict["title"],
+        resource = Resource(
+                            title=resource_dict["title"],
                             author=author,
                             language=language,
                             page_number=page_number
-        )
+                            )
     
     return resource
 
@@ -74,7 +76,8 @@ def get_filter(query, language):
         has_start = "start" in query["page"]
         has_finish = "finish" in query["page"]
         if has_start and has_finish:
-            fil = Q(language=language,
+            fil = Q(
+                    language=language,
                     resource__title=query["title"],
                     resource__author=query["author"],
                     resource__page_number__gte=query["page"]["start"],
@@ -82,7 +85,8 @@ def get_filter(query, language):
                     )
             return fil
             
-    fil = Q(language=language,
+    fil = Q(
+            language=language,
             resource__title=query["title"],
             resource__author=query["author"]
             )
@@ -157,7 +161,8 @@ def add_vocab_entry(language):
 
     #Insert vocabulary item
     resource = convert_resource(resource, language)
-    vocab_entry = VocabEntry(email=email,
+    vocab_entry = VocabEntry(
+                             email=email,
                              vocab_text=vocab_info["text"],
                              language=language,
                              pos=vocab_info["pos"],
@@ -166,7 +171,8 @@ def add_vocab_entry(language):
                              timestamp=timestamp
                              )
     vocab_entry.save()
-    check_insert = VocabEntry.objects(email=email,
+    check_insert = VocabEntry.objects(
+                                      email=email,
                                       vocab_text=vocab_info["text"],
                                       language=language,
                                       pos=vocab_info["pos"],
@@ -216,7 +222,8 @@ def find_vocab_entry(language):
     vocab_text = req_data["vocab_text"]
 
     #Search for vocabulary entry
-    vocab_entry = VocabEntry.objects(vocab_text=vocab_text,
+    vocab_entry = VocabEntry.objects(
+                                     vocab_text=vocab_text,
                                      language=language,
                                      resource__title=title,
                                      resource__author=author,
@@ -287,12 +294,14 @@ def find_vocab_list(language):
     
     #Search for vocabulary entries based on filters
     vocab_entries = VocabEntry.objects(filters)
-    vocab_entries = vocab_entries.order_by("vocab_text",
+    vocab_entries = vocab_entries.order_by(
+                                           "vocab_text",
                                            "resource__title",
                                            "resource__author",
                                            "resource__page_number"
                                            )
-    paginated = vocab_entries.paginate(page=page,
+    paginated = vocab_entries.paginate(
+                                       page=page,
                                        per_page=entries_per_page
                                        )
     vocab_items = [get_vocab_response(item) for item in paginated.items]
@@ -351,7 +360,8 @@ def remove_vocab_entry(language):
         title = query["title"]
         author = query["author"]
         page_num = int(query["page"])
-        to_delete = VocabEntry.objects(vocab_text=vocab_text,
+        to_delete = VocabEntry.objects(
+                                       vocab_text=vocab_text,
                                        language=language,
                                        resource__title=title,
                                        resource__author=author,

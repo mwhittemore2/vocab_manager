@@ -54,23 +54,27 @@ class DocumentRetrievalTest(APITest):
         #Load sample data
         content_kant = "Erfahrung ist ohne Zweifel das erste Produkt..."
         content_hegel = "Das Wissen, welches zuerst oder unmittlebar..."
-        book1 = Book(title="Kritik der reinen Vernunft",
+        book1 = Book(
+                     title="Kritik der reinen Vernunft",
                      author="Immanuel Kant",
                      language="german",
                      page_number=1,
                      publisher="Johann Friedrich Hartknoch"
                      )
-        book2 = Book(title="Phänomenologie des Geistes",
+        book2 = Book(
+                     title="Phänomenologie des Geistes",
                      author="Georg Wilhelm Friedrich Hegel",
                      language="german",
                      page_number=1,
                      publisher="Joseph Anton Goebhardt"
                      )
-        page1 = Page(email=self.username,
+        page1 = Page(
+                     email=self.username,
                      resource=book1,
                      content=content_kant
                      )
-        page2 = Page(email=self.username,
+        page2 = Page(
+                     email=self.username,
                      resource=book2,
                      content=content_hegel
                      )
@@ -93,10 +97,10 @@ class DocumentRetrievalTest(APITest):
         
         #Make API call to fetch page
         response = self.client.get(
-            '/api/v1/document_retrieval/page',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/document_retrieval/page',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -120,9 +124,9 @@ class DocumentRetrievalTest(APITest):
 
         #Make API call to list a user's documents
         response = self.client.get(
-            '/api/v1/document_retrieval/doc_list',
-            headers=self.get_headers(self.username, self.password)
-        )
+                                   '/api/v1/document_retrieval/doc_list',
+                                   headers=self.get_headers(self.username, self.password)
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -144,10 +148,10 @@ class DocumentRetrievalTest(APITest):
 
         #Make API call to fetch page
         response = self.client.get(
-            '/api/v1/document_retrieval/page',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/document_retrieval/page',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -162,9 +166,9 @@ class DocumentRetrievalTest(APITest):
 
         #Make API call to list a user's documents
         response = self.client.get(
-            '/api/v1/document_retrieval/doc_list',
-            headers=self.get_headers(self.username, self.password)
-        )
+                                   '/api/v1/document_retrieval/doc_list',
+                                   headers=self.get_headers(self.username, self.password)
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -184,9 +188,9 @@ class APISecurityTest(APITest):
 
         #Make API call to list a user's documents
         response = self.client.get(
-            '/api/v1/document_retrieval/doc_list',
-            headers=self.get_headers(self.username, bad_password)
-        )
+                                   '/api/v1/document_retrieval/doc_list',
+                                   headers=self.get_headers(self.username, bad_password)
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED.value)
@@ -198,9 +202,9 @@ class APISecurityTest(APITest):
         """
         #Make API call to list documents
         response = self.client.get(
-            '/api/v1/document_retrieval/doc_list',
-            headers=self.get_headers('','')
-        )
+                                   '/api/v1/document_retrieval/doc_list',
+                                   headers=self.get_headers('','')
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED.value)
@@ -212,8 +216,8 @@ class APISecurityTest(APITest):
         """
         #Make API call to list documents
         response = self.client.get(
-            '/api/v1/document_retrieval/doc_list'
-        )
+                                   '/api/v1/document_retrieval/doc_list'
+                                  )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.UNAUTHORIZED.value)
@@ -224,9 +228,9 @@ class APISecurityTest(APITest):
         """
         #Make API call to get token
         response = self.client.post(
-            '/api/v1/tokens',
-            headers=self.get_headers(self.username, self.password)
-        )
+                                    '/api/v1/tokens',
+                                    headers=self.get_headers(self.username, self.password)
+                                    )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -236,9 +240,9 @@ class APISecurityTest(APITest):
         
         #Make API call with the token
         response = self.client.get(
-            '/api/v1/document_retrieval/doc_list',
-            headers=self.get_headers(token,'')
-        )
+                                   '/api/v1/document_retrieval/doc_list',
+                                   headers=self.get_headers(token,'')
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -262,10 +266,10 @@ class TranslationTest(APITest):
 
         #Make API call to translate word
         response = self.client.get(
-            '/api/v1/translation/german',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/translation/german',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -289,10 +293,10 @@ class TranslationTest(APITest):
 
         #Make API call to translate phrase
         response = self.client.get(
-            '/api/v1/translation/german',
-            headers=self.get_headers(self.username, self.password),
-            data=query        
-        )
+                                   '/api/v1/translation/german',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query        
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -313,10 +317,10 @@ class TranslationTest(APITest):
 
         #Make API call to translate word
         response = self.client.get(
-            '/api/v1/translation/german',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/translation/german',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -338,10 +342,10 @@ class TranslationTest(APITest):
 
         #Make API call to translate word
         response = self.client.get(
-            '/api/v1/translation/german',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/translation/german',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -359,10 +363,10 @@ class TranslationTest(APITest):
 
         #Make API call to translate word
         response = self.client.get(
-            '/api/v1/translation/german',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/translation/german',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -383,13 +387,15 @@ class VocabularyAcquisitionTest(APITest):
         title = "Kritik der reinen Vernunft"
         author = "Immanuel Kant"
         publisher = "Johann Friedrich Hartknoch"
-        self.book1 = Book(title=title,
+        self.book1 = Book(
+                          title=title,
                           author=author,
                           language="german",
                           page_number=1,
                           publisher=publisher
                           )
-        self.book2 = Book(title=title,
+        self.book2 = Book(
+                          title=title,
                           author=author,
                           language="german",
                           page_number=2,
@@ -404,7 +410,8 @@ class VocabularyAcquisitionTest(APITest):
         word = "Erfahrung"
         pos = "noun_feminine"
         definitions = ["Experience"]
-        vocab = VocabEntry(email=self.username,
+        vocab = VocabEntry(
+                           email=self.username,
                            vocab_text=word,
                            language="german",
                            pos=pos,
@@ -413,7 +420,8 @@ class VocabularyAcquisitionTest(APITest):
                            timestamp=datetime.datetime.now()
                            )
         vocab.save()
-        vocab = VocabEntry(email=self.username,
+        vocab = VocabEntry(
+                           email=self.username,
                            vocab_text=word,
                            language="german",
                            pos=pos,
@@ -424,7 +432,8 @@ class VocabularyAcquisitionTest(APITest):
         vocab.save()
         word = "Möglichkeit"
         definitions = ["Possibility"]
-        vocab = VocabEntry(email=self.username,
+        vocab = VocabEntry(
+                           email=self.username,
                            vocab_text=word,
                            language="german",
                            pos=pos,
@@ -458,10 +467,10 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to add a vocabulary entry
         response = self.client.post(
-            '/api/v1/vocab_acquisition/german/vocab_entry',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                    '/api/v1/vocab_acquisition/german/vocab_entry',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
+                                    )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.CREATED.value)
@@ -486,10 +495,10 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up words
         response = self.client.get(
-            '/api/v1/vocab_acquisition/german/vocab_collection',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/vocab_acquisition/german/vocab_collection',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -505,7 +514,8 @@ class VocabularyAcquisitionTest(APITest):
         title = "Phänomenologie des Geistes"
         author = "Georg Wilhelm Friedrich Hegel"
         publisher = "Joseph Anton Goebhardt"
-        hegel = Book(title=title,
+        hegel = Book(
+                     title=title,
                      author=author,
                      language="german",
                      page_number=1,
@@ -514,7 +524,8 @@ class VocabularyAcquisitionTest(APITest):
         word = "Geist"
         definitions = ["Spirit"]
         pos = "noun_masculine"
-        vocab = VocabEntry(email=self.username,
+        vocab = VocabEntry(
+                           email=self.username,
                            vocab_text=word,
                            language="german",
                            pos=pos,
@@ -543,10 +554,10 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up words
         response = self.client.get(
-            '/api/v1/vocab_acquisition/german/vocab_collection',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/vocab_acquisition/german/vocab_collection',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
@@ -576,10 +587,10 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API cal to delete words
         response = self.client.delete(
-            '/api/v1/vocab_acquisition/german/vocab_entry',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                      '/api/v1/vocab_acquisition/german/vocab_entry',
+                                      headers=self.get_headers(self.username, self.password),
+                                      data=query
+                                     )
 
         self.assertEqual(response.status_code, HTTPStatus.NO_CONTENT.value)
         entries = VocabEntry.objects(vocab_text="Erfahrung")
@@ -600,10 +611,10 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up word
         response = self.client.get(
-            '/api/v1/vocab_acquisition/german/vocab_entry',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/vocab_acquisition/german/vocab_entry',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                  )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -617,10 +628,10 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up words
         response = self.client.get(
-            '/api/v1/vocab_acquisition/german/vocab_collection',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/vocab_acquisition/german/vocab_collection',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                  )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -636,10 +647,10 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to delete word
         response = self.client.delete(
-            '/api/v1/vocab_acquisition/german/vocab_entry',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                      '/api/v1/vocab_acquisition/german/vocab_entry',
+                                      headers=self.get_headers(self.username, self.password),
+                                      data=query
+                                     )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -655,10 +666,10 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to delete word
         response = self.client.delete(
-            '/api/v1/vocab_acquisition/german/vocab_entry',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                      '/api/v1/vocab_acquisition/german/vocab_entry',
+                                      headers=self.get_headers(self.username, self.password),
+                                      data=query
+                                     )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -678,14 +689,15 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to look up single word
         response = self.client.get(
-            '/api/v1/vocab_acquisition/german/vocab_entry',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                   '/api/v1/vocab_acquisition/german/vocab_entry',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
-        vocab_entry = VocabEntry.objects(vocab_text=vocab_text,
+        vocab_entry = VocabEntry.objects(
+                                         vocab_text=vocab_text,
                                          resource=self.book1
                                          ).first()
         self.assertIsNotNone(vocab_entry)
@@ -711,18 +723,20 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to delete single instance
         response = self.client.delete(
-            '/api/v1/vocab_acquisition/german/vocab_entry',
-            headers=self.get_headers(self.username, self.password),
-            data=query
-        )
+                                      '/api/v1/vocab_acquisition/german/vocab_entry',
+                                      headers=self.get_headers(self.username, self.password),
+                                      data=query
+                                      )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NO_CONTENT.value)
-        vocab_entry = VocabEntry.objects(vocab_text=vocab_text,
+        vocab_entry = VocabEntry.objects(
+                                         vocab_text=vocab_text,
                                          resource=self.book1
                                          ).first()
         self.assertIsNone(vocab_entry)
-        vocab_entry = VocabEntry.objects(vocab_text=vocab_text,
+        vocab_entry = VocabEntry.objects(
+                                         vocab_text=vocab_text,
                                          resource=self.book2
                                          ).first()
         self.assertIsNotNone(vocab_entry)

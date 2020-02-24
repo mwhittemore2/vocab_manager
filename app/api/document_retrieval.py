@@ -33,7 +33,8 @@ def page():
     page_num = int(req_data["page"])
 
     #Search for the requested page
-    page = Page.objects(email=email,
+    page = Page.objects(
+                        email=email,
                         resource__title=title,
                         resource__author=author,
                         resource__page_number=page_num

@@ -52,9 +52,10 @@ class BaseTest(TestCase):
         first_name = self.app.config["TEST_USER"]["first_name"]
         last_name = self.app.config["TEST_USER"]["last_name"]
         password = self.app.config["TEST_USER"]["password"]
-        user = User(email=email,
+        user = User(
+                    email=email,
                     first_name=first_name,
                     last_name=last_name,
                     password_hash=generate_password_hash(password)
-        )
+                   )
         user.save()
