@@ -1,0 +1,27 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %} Vocabulary Manager {% endblock %}
+
+{% block navbar %}
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+        <a class="navbar-brand" href="#">Vocabulary Manager</a>
+        </div>
+        <div class="btn-group pull-right">
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false">
+                Action
+            </button>
+            <div class="dropdown-menu">
+                <a href="#" class="dropdown-item">Review Vocabulary</a>
+                </br>
+                <a href="#" class="dropdown-item">View Documents</a>
+                <a href="#" class="dropdown-item">Manage Content</a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item">Log Out</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
