@@ -1,1 +1,13 @@
-<h1> Vocabulary Manager </h1>
+{% extends "bootstrap/base.html" %}
+
+{% block content %}
+<div class="container container-table">
+  <div class="row vertical-center-row">
+      <div class="text-center col-md-4 col-md-offset-4">
+        <h1> Vocabulary Manager </h1>
+        <a class="btn btn-primary" href="auth/login" role="button">Log In</a> 
+        <a class="btn btn-primary" href="auth/register" role="button">Sign Up</a>
+      </div>
+  </div>
+</div>
+{% endblock %}

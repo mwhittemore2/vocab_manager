@@ -38,7 +38,7 @@ class RegistrationForm(FlaskForm):
     password = PasswordField('Password', validators=password_validators)
     password2 = PasswordField('Confirm password', validators=[DataRequired()])
 
-    submit = SubmitField('Register')
+    submit = SubmitField('Sign Up')
 
     def validate_email(self, field):
         if User.objects(email=field.data).first():
