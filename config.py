@@ -8,6 +8,11 @@ class Config:
     AUTH_TOKEN_LIFETIME = os.environ.get('AUTH_TOKEN_LIFETIME') or 3600
     DICTIONARY_ROUTES = os.environ.get('DICTIONARY_ROUTES') or 'dict_routes.yaml'
     DICTIONARY_MANAGER = DictionaryManager(DICTIONARY_ROUTES)
+    DOCUMENT_UPLOAD = {}
+    DOCUMENT_UPLOAD["BATCH_SIZE"] = os.environ.get("DOCUMENT_UPLOAD_BATCH_SIZE") or 100
+    DOCUMENT_UPLOAD["LINE_SIZE"] = os.environ.get("DOCUMENT_UPLOAD_LINE_SIZE") or 100
+    DOCUMENT_UPLOAD["PAGE_LIMIT"] = os.environ.get("DOCUMENT_UPLOAD_PAGE_LIMIT") or 30
+    LANGUAGE_OPTIONS = [('english', 'English'), ('german', 'German')]
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     TRANSLATIONS_PAGE_SIZE = os.environ.get('TRANSLATIONS_PAGE_SIZE') or 25
     VOCAB_ENTRIES_PER_PAGE = os.environ.get('VOCAB_ENTRIES_PER_PAGE') or 50

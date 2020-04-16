@@ -201,13 +201,20 @@ class TestResult(db.Document):
         'email'
     ]}
 
+class PageContent(db.Document):
+    """
+    The text content of a page from a user's resource.
+    """
+    lines = GenericEmbeddedDocumentField()
+    breaks = GenericEmbeddedDocumentField()
+
 class Page(db.Document):
     """
     A page in one of the user's resources.
     """
     email = ReferenceField(User, reverse_delete_rule=CASCADE)
     resource = EmbeddedDocumentField(Resource)
-    content = StringField()
+    content = EmbeddedDocumentField(PageContent)
 
     meta = {'indexes':[
         ('email',

@@ -21,6 +21,7 @@ def register():
         user.save()
         login = LoginForm()
         return render_template('auth/login.html', form=login)
+
     return render_template('auth/register.html', form=form)
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -37,11 +38,11 @@ def login():
             login_user(user, stay_logged_in)
             
             dest = request.args.get('next')
-            print(dest)
             if dest is None or not dest.startswith("/"):
                 dest = url_for("main.index")
             return redirect(dest)
         flash("Invalid username or password")
+        
     return render_template('auth/login.html', form=form)
 
 @auth.route('/logout')

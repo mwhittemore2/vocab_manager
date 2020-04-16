@@ -32,4 +32,8 @@ def create_app(config_name):
     from .api import api as api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
 
+    #add content management
+    from .content_management import cm as cm_blueprint
+    app.register_blueprint(cm_blueprint, url_prefix='/content_management')
+
     return app
