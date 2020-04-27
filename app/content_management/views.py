@@ -1,4 +1,5 @@
 from flask import current_app, flash, g, render_template
+from flask_login import login_required
 
 from . import content_management
 from .forms import SourceTextForm
@@ -6,6 +7,7 @@ from .lib.resources import create_book
 from .lib.upload import DocumentUploader
 
 @content_management.route("/document_upload", methods=["GET", "POST"])
+@login_required
 def document_upload():
     """
     Uploads a user-specified document to the database.

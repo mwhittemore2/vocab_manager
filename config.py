@@ -42,6 +42,11 @@ class TestingConfig(Config):
         'first_name': os.environ.get('TEST_USER_FIRST_NAME'),
         'last_name': os.environ.get('TEST_USER_LAST_NAME')
     }
+    TEST_DOCUMENT_UPLOAD = {
+        'page_limit': os.environ.get('TEST_DOC_UPLOAD_PAGE_LIMIT'),
+        'line_size': os.environ.get('TEST_DOC_UPLOAD_LINE_SIZE'),
+        'batch_size': os.environ.get('TEST_DOC_UPLOAD_BATCH_SIZE')
+    }
     WTF_CSRF_ENABLED = False
 
 config = {

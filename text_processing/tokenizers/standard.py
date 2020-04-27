@@ -11,7 +11,7 @@ class Tokenizer():
 
         Parameters
         ----------
-        language : spacy.Language
+        language : str
             The language to be tokenized
         """
         self.language = language
@@ -33,10 +33,13 @@ class Tokenizer():
         """
         tokens = self.language.tokenize(line)
         whitespace = self.language.whitespace()
+        whitespace = {"text": whitespace, "size": len(whitespace)}
         new_tokens = deque([])
         for token in tokens:
+            token = {"text": token, "size": len(token)}
             new_tokens.append(token)
-            new_tokens.append(whitespace)
+            if not self.language.is_punctuation(token["text"]):
+                new_tokens.append(whitespace)
         return new_tokens
 
     def split_token(self, token, pos):

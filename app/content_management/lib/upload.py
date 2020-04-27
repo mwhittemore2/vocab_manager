@@ -24,11 +24,11 @@ class DocumentUploader():
         doc : dict
             The document to be deleted
         """
-        to_delete = Page(
-                         email=self.params["email"],
-                         resource__title=doc["title"],
-                         resource__author=doc["author"]
-                         )
+        to_delete = Page.objects(
+                                 email=self.params["email"],
+                                 resource__title=doc["title"],
+                                 resource__author=doc["author"]
+                                )
         if to_delete.first():
             try: 
                 to_delete.delete()
@@ -79,18 +79,26 @@ class DocumentUploader():
         lines = {1:{}}
         line_breaks = {}
         batch = []
+        char_count = 0
+        t_num = 1
         for line in doc["file"]:
+            #blank new line
+            if line == "\n":
+                char_count = 0
+                t_num = 1
+                line_num += 1
+                lines[line_num] = {}
+                continue
+
             tokenized = tokenizer.tokenize(line, line_size)
-            char_count = 0
-            t_num = 0
             for token in tokenized:
                 #Check if token continues onto next line
                 if token["size"] + char_count >= line_size:
                     lines[line_num][t_num] = token["text"]
-                    if token["break"]:
-                        line_breaks[line_num] = token["break"]
+                    if "break" in token:
+                        line_breaks["end"][line_num] = token["break"]
                     char_count = 0
-                    t_num = 0
+                    t_num = 1
                     if line_num < new_page:
                         line_num += 1
                         lines[line_num] = {}
@@ -100,6 +108,8 @@ class DocumentUploader():
                     lines[line_num][t_num] = token["text"]
                     char_count += token["size"]
                     t_num += 1
+                    if "break" in token:
+                        line_breaks["start"][line_num] = token["break"]
                 
                 #Save current page and start new one
                 if line_num > new_page:
@@ -113,9 +123,13 @@ class DocumentUploader():
                     page_number += 1
                     line_num = 1
                     lines = {1:{}}
-                    line_breaks = {}
+                    line_breaks = {"start":{}, "end":{}}
                 
                 #Insert pages into database if there are enough
                 if len(batch) >= batch_size:
                     self.insert_batch(batch, doc)
                     batch = []
+        
+        #Load last remaining batch
+        if len(batch) > 0:
+            self.insert_batch(batch, doc)

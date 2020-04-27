@@ -1,8 +1,6 @@
 from abc import ABC
 
-from spacy.lang.de import German
-from spacy.lang.en import English
-from spacy.tokenizer import Tokenizer as BaseTokenizer
+from nltk.tokenize import word_tokenize
 
 from standard import Tokenizer
 
@@ -16,12 +14,28 @@ class Language(ABC):
 
         Parameters
         ----------
-        language : spacy.Language
+        language : str
             The language to be tokenized
         """
         self.language = language
-        self.tokenizer = BaseTokenizer(language.vocab)
+        self.tokenizer = (lambda s: word_tokenize(s, self.language))
     
+    def is_punctuation(self, token):
+        """
+        Determines if a token is punctuation.
+
+        Parameters
+        ----------
+        token : str
+            The token to be tested
+        
+        Returns
+        -------
+        bool
+            True is the token is punctuation, False otherwise.
+        """
+        pass
+
     def separator(self):
         """
         Punctuation for separating text across lines.
@@ -49,6 +63,35 @@ class StandardLanguage(Language):
     """
     Representation of a standard western European language.
     """
+
+    def __init__(self, language):
+        """
+        Initializes the language representation.
+
+        Parameters
+        ----------
+        language : str
+            The language to be tokenized
+        """
+        super().__init__(language)
+        self.punctuation = [".","?",","]
+
+    def is_punctuation(self, token):
+        """
+        Determines if a token is punctuation.
+
+        Parameters
+        ----------
+        token : str
+            The token to be tested
+        
+        Returns
+        -------
+        bool
+            True if the token is punctuation, False otherwise.
+        """
+        return token in self.punctuation
+
     def separator(self):
         """
         Standard punctuation for separating a word across lines.
@@ -102,8 +145,8 @@ class TokenizerMapper():
         Initializes the tokenizers.
         """
         self.tokenizers = {}
-        self.tokenizers["english"] = Tokenizer(StandardLanguage(English()))
-        self.tokenizers["german"] = Tokenizer(StandardLanguage(German()))
+        self.tokenizers["english"] = Tokenizer(StandardLanguage("english"))
+        self.tokenizers["german"] = Tokenizer(StandardLanguage("german"))
         #Add more languages as they become available
     
     def select(self, language):

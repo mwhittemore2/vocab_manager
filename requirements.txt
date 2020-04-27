@@ -11,3 +11,4 @@ pyyaml
 werkzeug
 requests
 flask_httpauth
+nltk
