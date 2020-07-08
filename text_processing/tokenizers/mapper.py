@@ -2,7 +2,7 @@ from abc import ABC
 
 from nltk.tokenize import word_tokenize
 
-from standard import Tokenizer
+from .standard import Tokenizer
 
 class Language(ABC):
     """
@@ -166,9 +166,9 @@ class TokenizerMapper():
         """
         #Search for desired tokenizer
         if language in self.tokenizers:
-            tokenizer = self.tokenizers["language"]
-            return (lambda line, line_size: tokenizer.tokenize(line, line_size))
+            tokenizer = self.tokenizers[language]
+            return tokenizer
         
         #Default to English
         tokenizer = self.tokenizers["english"]
-        return (lambda line, line_size: tokenizer.tokenize(line, line_size))
+        return tokenizer

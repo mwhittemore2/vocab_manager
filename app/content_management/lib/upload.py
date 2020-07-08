@@ -64,9 +64,9 @@ class DocumentUploader():
             The document to be saved
         """
         user = self.params["email"]
-        new_page = self.params["new_page"]
-        line_size = self.params["line_size"]
-        batch_size = self.params["batch_size"]
+        new_page = int(self.params["new_page"])
+        line_size = int(self.params["line_size"])
+        batch_size = int(self.params["batch_size"])
         tokenizer = self.params["tokenizer"]
         resource = self.params["resource"]
         
@@ -75,41 +75,39 @@ class DocumentUploader():
 
         #Process each line in document
         line_num = 1
+        line_str = "1"
         page_num = 1
-        lines = {1:{}}
-        line_breaks = {}
+        lines = {line_str:[]}
+        line_breaks = {"start":{}, "end":{}}
         batch = []
         char_count = 0
-        t_num = 1
         for line in doc["file"]:
             #blank new line
             if line == "\n":
                 char_count = 0
-                t_num = 1
                 line_num += 1
-                lines[line_num] = {}
+                line_str = str(line_num)
+                lines[line_str] = []
                 continue
 
             tokenized = tokenizer.tokenize(line, line_size)
             for token in tokenized:
                 #Check if token continues onto next line
                 if token["size"] + char_count >= line_size:
-                    lines[line_num][t_num] = token["text"]
+                    lines[line_str].append(token["text"])
                     if "break" in token:
-                        line_breaks["end"][line_num] = token["break"]
+                        line_breaks["end"][line_str] = token["break"]
+                        line_breaks["start"][str(line_num+1)] = token["break"]
                     char_count = 0
-                    t_num = 1
                     if line_num < new_page:
                         line_num += 1
-                        lines[line_num] = {}
+                        line_str = str(line_num)
+                        lines[line_str] = []
                     else:
                         line_num += 1
                 else:
-                    lines[line_num][t_num] = token["text"]
+                    lines[line_str].append(token["text"])
                     char_count += token["size"]
-                    t_num += 1
-                    if "break" in token:
-                        line_breaks["start"][line_num] = token["break"]
                 
                 #Save current page and start new one
                 if line_num > new_page:
@@ -120,9 +118,10 @@ class DocumentUploader():
                                 content=page_content
                                 )
                     batch.append(page)
-                    page_number += 1
+                    page_num += 1
                     line_num = 1
-                    lines = {1:{}}
+                    line_str = "1"
+                    lines = {line_str:[]}
                     line_breaks = {"start":{}, "end":{}}
                 
                 #Insert pages into database if there are enough
@@ -130,6 +129,14 @@ class DocumentUploader():
                     self.insert_batch(batch, doc)
                     batch = []
         
-        #Load last remaining batch
-        if len(batch) > 0:
-            self.insert_batch(batch, doc)
+        #Load last page
+        page_content = PageContent(lines=lines, breaks=line_breaks)
+        page = Page(
+                        email=user,
+                        resource=resource(doc, page_num),
+                        content=page_content    
+                        )
+        batch.append(page)
+            
+        #Insert final batch
+        self.insert_batch(batch, doc)

@@ -3,6 +3,8 @@ from flask_wtf import FlaskForm
 from wtforms import FileField, SelectField, StringField, SubmitField
 from wtforms.validators import DataRequired, Length
 
+from app import languages
+
 class SourceTextForm(FlaskForm):
     """
     Assists a user in uploading a document.
@@ -16,7 +18,7 @@ class SourceTextForm(FlaskForm):
     author = StringField('Author', validators=author_validators)
 
     #Document Language
-    lang_options = current_app.config["LANGUAGE_OPTIONS"]
+    lang_options = languages
     language = SelectField('Language', choices=lang_options)
 
     #Document Text

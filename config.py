@@ -1,6 +1,7 @@
 import os
 
 from dictionaries.dictionary_manager import DictionaryManager
+from text_processing.tokenizers.mapper import TokenizerMapper
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -14,6 +15,7 @@ class Config:
     DOCUMENT_UPLOAD["PAGE_LIMIT"] = os.environ.get("DOCUMENT_UPLOAD_PAGE_LIMIT") or 30
     LANGUAGE_OPTIONS = [('english', 'English'), ('german', 'German')]
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
+    TOKENIZER = TokenizerMapper()
     TRANSLATIONS_PAGE_SIZE = os.environ.get('TRANSLATIONS_PAGE_SIZE') or 25
     VOCAB_ENTRIES_PER_PAGE = os.environ.get('VOCAB_ENTRIES_PER_PAGE') or 50
 
@@ -43,6 +45,8 @@ class TestingConfig(Config):
         'last_name': os.environ.get('TEST_USER_LAST_NAME')
     }
     TEST_DOCUMENT_UPLOAD = {
+        'doc_location': os.environ.get('TEST_DOC_UPLOAD_DOC_LOCATION'),
+        'doc_metadata': os.environ.get('TEST_DOC_UPLOAD_DOC_METADATA'),
         'page_limit': os.environ.get('TEST_DOC_UPLOAD_PAGE_LIMIT'),
         'line_size': os.environ.get('TEST_DOC_UPLOAD_LINE_SIZE'),
         'batch_size': os.environ.get('TEST_DOC_UPLOAD_BATCH_SIZE')

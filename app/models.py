@@ -201,12 +201,24 @@ class TestResult(db.Document):
         'email'
     ]}
 
-class PageContent(db.Document):
+class PageContent(db.EmbeddedDocument):
     """
     The text content of a page from a user's resource.
     """
-    lines = GenericEmbeddedDocumentField()
-    breaks = GenericEmbeddedDocumentField()
+    #Dictionary of lines for a page:
+    #{line_num : [words]}
+    # where: 
+    #  - line_num is the number of a line in the page
+    #  - [words] is a list of words in order on that line
+    lines = DictField()
+
+    #Dictionary of line breaks for a page:
+    #{boundary: {line_num: word}}
+    # where:
+    #  - boundary is the start or end of the broken line
+    #  - line_num is the number of the broken line
+    #  - word is the full word that is split across multiple lines 
+    breaks = DictField()
 
 class Page(db.Document):
     """

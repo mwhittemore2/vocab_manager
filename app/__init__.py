@@ -10,6 +10,8 @@ db = MongoEngine()
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 
+languages = [('english', 'English'), ('german', 'German')]
+
 def create_app(config_name):
     app = Flask(__name__)
     app.config.from_object(config[config_name])
