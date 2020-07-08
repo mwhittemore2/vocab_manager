@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DisplayOptions check options 1`] = `
+<div
+  id="document-viewer-options-menu"
+>
+  <div>
+    Select words to translate
+  </div>
+  <div>
+    Manage bookmarks
+  </div>
+</div>
+`;
+
+exports[`OptionsMenu hide menu 1`] = `
+<div
+  id="document-viewer-options-menu"
+/>
+`;
+
+exports[`OptionsMenu show menu 1`] = `
+<DisplayOptions
+  selectOption={[MockFunction]}
+/>
+`;

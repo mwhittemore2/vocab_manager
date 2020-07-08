@@ -1,0 +1,456 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Line component raw line 1`] = `
+<div>
+  <Word
+    canColor={false}
+    key="word-0-Die "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 0,
+        "text": "Die ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-1-Welt "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 1,
+        "text": "Welt ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-2-ist "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 2,
+        "text": "ist ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-3-meine "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 3,
+        "text": "meine ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-4-Vorstellung"
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 4,
+        "text": "Vorstellung",
+      }
+    }
+  />
+  <br />
+</div>
+`;
+
+exports[`Line component select final word 1`] = `
+<div>
+  <Word
+    canColor={false}
+    key="word-0-Die "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 0,
+        "text": "Die ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-1-Welt "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 1,
+        "text": "Welt ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-2-ist "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 2,
+        "text": "ist ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-3-meine "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 3,
+        "text": "meine ",
+      }
+    }
+  />
+  <Word
+    canColor={true}
+    key="word-4-Vorstellung"
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 4,
+        "text": "Vorstellung",
+      }
+    }
+  />
+  <br />
+</div>
+`;
+
+exports[`Line component select first word 1`] = `
+<div>
+  <Word
+    canColor={true}
+    key="word-0-Die "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 0,
+        "text": "Die ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-1-Welt "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 1,
+        "text": "Welt ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-2-ist "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 2,
+        "text": "ist ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-3-meine "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 3,
+        "text": "meine ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-4-Vorstellung"
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 4,
+        "text": "Vorstellung",
+      }
+    }
+  />
+  <br />
+</div>
+`;
+
+exports[`Line component select middle word 1`] = `
+<div>
+  <Word
+    canColor={false}
+    key="word-0-Die "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 0,
+        "text": "Die ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-1-Welt "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 1,
+        "text": "Welt ",
+      }
+    }
+  />
+  <Word
+    canColor={true}
+    key="word-2-ist "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 2,
+        "text": "ist ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-3-meine "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 3,
+        "text": "meine ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-4-Vorstellung"
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 4,
+        "text": "Vorstellung",
+      }
+    }
+  />
+  <br />
+</div>
+`;
+
+exports[`Line component select multiple words 1`] = `
+<div>
+  <Word
+    canColor={false}
+    key="word-0-Die "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 0,
+        "text": "Die ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-1-Welt "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 1,
+        "text": "Welt ",
+      }
+    }
+  />
+  <Word
+    canColor={false}
+    key="word-2-ist "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 2,
+        "text": "ist ",
+      }
+    }
+  />
+  <Word
+    canColor={true}
+    key="word-3-meine "
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 3,
+        "text": "meine ",
+      }
+    }
+  />
+  <Word
+    canColor={true}
+    key="word-4-Vorstellung"
+    selectWord={[MockFunction]}
+    word={
+      Object {
+        "line": 5,
+        "page": 10,
+        "pos": 4,
+        "text": "Vorstellung",
+      }
+    }
+  />
+  <br />
+</div>
+`;
+
+exports[`Page component multiple lines 1`] = `
+<div
+  className="page"
+>
+  <Line
+    key="line-10-0"
+    line={
+      Array [
+        "Die ",
+        "Welt ",
+      ]
+    }
+    num={0}
+    page={
+      Object {
+        "currPage": 10,
+        "selected": Set {},
+        "words": Array [
+          Array [
+            "Die ",
+            "Welt ",
+          ],
+          Array [
+            "ist ",
+            "meine ",
+            "Vorstellung",
+          ],
+        ],
+      }
+    }
+    selectWord={[MockFunction]}
+  />
+  <Line
+    key="line-10-1"
+    line={
+      Array [
+        "ist ",
+        "meine ",
+        "Vorstellung",
+      ]
+    }
+    num={1}
+    page={
+      Object {
+        "currPage": 10,
+        "selected": Set {},
+        "words": Array [
+          Array [
+            "Die ",
+            "Welt ",
+          ],
+          Array [
+            "ist ",
+            "meine ",
+            "Vorstellung",
+          ],
+        ],
+      }
+    }
+    selectWord={[MockFunction]}
+  />
+</div>
+`;
+
+exports[`Page component no lines 1`] = `
+<div
+  className="page"
+/>
+`;
+
+exports[`Page component single line 1`] = `
+<div
+  className="page"
+>
+  <Line
+    key="line-10-0"
+    line={
+      Array [
+        "Die ",
+        "Welt",
+      ]
+    }
+    num={0}
+    page={
+      Object {
+        "currPage": 10,
+        "selected": Set {},
+        "words": Array [
+          Array [
+            "Die ",
+            "Welt",
+          ],
+        ],
+      }
+    }
+    selectWord={[MockFunction]}
+  />
+</div>
+`;

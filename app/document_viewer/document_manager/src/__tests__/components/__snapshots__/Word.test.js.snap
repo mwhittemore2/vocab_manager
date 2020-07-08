@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text component check raw text 1`] = `
+<span>
+  Welt
+</span>
+`;
+
+exports[`Word component Selected word 1`] = `undefined`;
+
+exports[`Word component Unselected word 1`] = `undefined`;

@@ -1,0 +1,71 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Document Iterator multiple docs 1`] = `
+<div
+  id="document-selector"
+>
+  <DocumentChoice
+    doc={
+      Object {
+        "author": "Schopenhauer",
+        "title": "Die Welt",
+      }
+    }
+    key="docChoice-0-Die Welt"
+    selector={[MockFunction]}
+  />
+  <DocumentChoice
+    doc={
+      Object {
+        "author": "Kant",
+        "title": "Kritik",
+      }
+    }
+    key="docChoice-1-Kritik"
+    selector={[MockFunction]}
+  />
+</div>
+`;
+
+exports[`Document Iterator no docs 1`] = `
+<div
+  id="document-selector"
+/>
+`;
+
+exports[`Document Iterator single doc 1`] = `
+<div
+  id="document-selector"
+>
+  <DocumentChoice
+    doc={
+      Object {
+        "author": "Schopenhauer",
+        "title": "Die Welt",
+      }
+    }
+    key="docChoice-0-Die Welt"
+    selector={[MockFunction]}
+  />
+</div>
+`;
+
+exports[`Document Selector dispaly loading message 1`] = `<Loading />`;
+
+exports[`Document Selector populate selector 1`] = `
+<DocumentIterator
+  documents={
+    Array [
+      Object {
+        "author": "Schopenhauer",
+        "title": "Die Welt",
+      },
+      Object {
+        "author": "Kant",
+        "title": "Kritik",
+      },
+    ]
+  }
+  selectDocument={[MockFunction]}
+/>
+`;

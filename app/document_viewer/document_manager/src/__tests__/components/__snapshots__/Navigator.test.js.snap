@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigator correct display 1`] = `
+<div
+  id="DOCUMENT_VIEWER-navigator"
+>
+  <button
+    id="DOCUMENT_VIEWER-previous"
+  >
+    Previous
+  </button>
+  <div
+    id="DOCUMENT_VIEWER-current"
+  >
+    <input
+      onKeyDown={[Function]}
+      placeholder={1}
+      type="text"
+    />
+  </div>
+  <button
+    id="DOCUMENT_VIEWER-next"
+  >
+    Next
+  </button>
+</div>
+`;

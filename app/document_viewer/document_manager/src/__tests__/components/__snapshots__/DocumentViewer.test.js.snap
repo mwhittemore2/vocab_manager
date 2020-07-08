@@ -1,0 +1,79 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Display show page 1`] = `
+<div
+  id="document-viewer"
+>
+  <Page
+    lines={
+      Object {
+        "currPage": 1,
+        "selected": Set {},
+        "words": Array [
+          Array [
+            "Die ",
+            "Welt ",
+          ],
+          Array [
+            "ist ",
+            "meine ",
+            "Vorstellung",
+          ],
+        ],
+      }
+    }
+    selectWord={[Function]}
+  />
+  <Navigator
+    cursor={[MockFunction]}
+    results={
+      Object {
+        "currPage": 1,
+        "selected": Set {},
+        "words": Array [
+          Array [
+            "Die ",
+            "Welt ",
+          ],
+          Array [
+            "ist ",
+            "meine ",
+            "Vorstellung",
+          ],
+        ],
+      }
+    }
+    viewer="document-viewer"
+  />
+</div>
+`;
+
+exports[`DocumentViewer use viewer 1`] = `
+<Display
+  cursor={[MockFunction]}
+  lines={
+    Object {
+      "currPage": 1,
+      "selected": Set {},
+      "words": Array [
+        Array [
+          "Die ",
+          "Welt ",
+        ],
+        Array [
+          "ist ",
+          "meine ",
+          "Vorstellung",
+        ],
+      ],
+    }
+  }
+  selectWord={[MockFunction]}
+/>
+`;
+
+exports[`DocumentViewer viewer inactive 1`] = `
+<div
+  id="document-viewer"
+/>
+`;

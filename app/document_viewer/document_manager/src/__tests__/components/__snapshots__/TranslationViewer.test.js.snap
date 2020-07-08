@@ -1,0 +1,273 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BaseFormMatch multiple definitions 1`] = `
+<div>
+  Text: 
+  Welt
+  <br />
+  POS: 
+  Noun
+  <br />
+  Definitions:
+  <Definitions
+    match={
+      Object {
+        "definitions": Array [
+          "world",
+          "earth",
+        ],
+        "pos": "Noun",
+        "text": "Welt",
+      }
+    }
+    page={1}
+  />
+</div>
+`;
+
+exports[`BaseFormMatch single definition 1`] = `
+<div>
+  Text: 
+  Welt
+  <br />
+  POS: 
+  Noun
+  <br />
+  Definitions:
+  <Definitions
+    match={
+      Object {
+        "definitions": Array [
+          "world",
+        ],
+        "pos": "Noun",
+        "text": "Welt",
+      }
+    }
+    page={1}
+  />
+</div>
+`;
+
+exports[`Definitions multiple definitions 1`] = `
+<ol>
+  <li
+    key="tr-def-1-0"
+  >
+    book
+  </li>
+  <li
+    key="tr-def-1-1"
+  >
+    novel
+  </li>
+  <li
+    key="tr-def-1-2"
+  >
+    writing
+  </li>
+</ol>
+`;
+
+exports[`Definitions next page 1`] = `
+<ol>
+  <li
+    key="tr-def-2-0"
+  >
+    lamp
+  </li>
+  <li
+    key="tr-def-2-1"
+  >
+    light
+  </li>
+</ol>
+`;
+
+exports[`Definitions single definition 1`] = `
+<ol>
+  <li
+    key="tr-def-1-0"
+  >
+    book
+  </li>
+</ol>
+`;
+
+exports[`DerivedFormMatch multiple definitions 1`] = `
+<div>
+  Text: 
+  Welten
+  <br />
+  Definitions:
+  <Definitions
+    match={
+      Object {
+        "definitions": Array [
+          "worlds",
+          "earths",
+        ],
+        "see_also": Object {
+          "pos": "Noun",
+          "text": "Welt",
+        },
+        "text": "Welten",
+      }
+    }
+    page={1}
+  />
+  <br />
+  See Also: 
+  Welt
+   (
+  Noun
+  )
+  <br />
+</div>
+`;
+
+exports[`DerivedFormMatch single definition 1`] = `
+<div>
+  Text: 
+  Welten
+  <br />
+  Definitions:
+  <Definitions
+    match={
+      Object {
+        "definitions": Array [
+          "worlds",
+        ],
+        "see_also": Object {
+          "pos": "Noun",
+          "text": "Welt",
+        },
+        "text": "Welten",
+      }
+    }
+    page={1}
+  />
+  <br />
+  See Also: 
+  Welt
+   (
+  Noun
+  )
+  <br />
+</div>
+`;
+
+exports[`TranslationViewer loading 1`] = `
+<div
+  id="translation-viewer"
+>
+  <Loading />
+</div>
+`;
+
+exports[`TranslationViewer not in document viewer 1`] = `undefined`;
+
+exports[`TranslationViewer view translations 1`] = `
+<div
+  id="translation-viewer"
+>
+  <button>
+    Close
+  </button>
+  <ViewMatches
+    translations={
+      Object {
+        "currPage": 1,
+        "matches": Array [
+          Object {
+            "definitions": Array [
+              "world",
+              "earth",
+            ],
+            "pos": "Noun",
+            "text": "Welt",
+          },
+        ],
+      }
+    }
+  />
+  <Navigator
+    cursor={[MockFunction]}
+    results={
+      Object {
+        "currPage": 1,
+        "matches": Array [
+          Object {
+            "definitions": Array [
+              "world",
+              "earth",
+            ],
+            "pos": "Noun",
+            "text": "Welt",
+          },
+        ],
+      }
+    }
+    viewer="translation-viewer"
+  />
+</div>
+`;
+
+exports[`ViewMatches multiple matches 1`] = `
+<div
+  id="translation-matches"
+>
+  <BaseFormMatch
+    key="tr-match-1-0"
+    match={
+      Object {
+        "definitions": Array [
+          "world",
+          "earth",
+        ],
+        "pos": "Noun",
+        "text": "Welt",
+      }
+    }
+    page={1}
+  />
+  <DerivedFormMatch
+    key="tr-match-1-1"
+    match={
+      Object {
+        "definitions": Array [
+          "worlds",
+          "earths",
+        ],
+        "see_also": Object {
+          "pos": "Noun",
+          "text": "Welt",
+        },
+        "text": "Welten",
+      }
+    }
+    page={1}
+  />
+</div>
+`;
+
+exports[`ViewMatches single match 1`] = `
+<div
+  id="translation-matches"
+>
+  <BaseFormMatch
+    key="tr-match-1-0"
+    match={
+      Object {
+        "definitions": Array [
+          "world",
+          "earth",
+        ],
+        "pos": "Noun",
+        "text": "Welt",
+      }
+    }
+    page={1}
+  />
+</div>
+`;
