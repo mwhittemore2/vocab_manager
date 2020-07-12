@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EndpointManager check tags 1`] = `
+<div
+  id="translation-coordinator-endpoint-manager"
+>
+  Set the boundaries of the text to be translated
+  <br />
+  <button>
+    Start
+  </button>
+  <button>
+    Finish
+  </button>
+</div>
+`;
+
+exports[`Punctuation add comma button 1`] = `
+<button>
+  ,
+</button>
+`;
+
+exports[`QueueManager check tags 1`] = `
+<div
+  id="translation-coordinator-queue-manager"
+>
+  Control the content of the translation queue
+  <br />
+  <button />
+</div>
+`;
+
+exports[`Spacing add whitespace button 1`] = `
+<button>
+  whitespace
+</button>
+`;
+
+exports[`TextManager check tags 1`] = `
+<div
+  id="translation-coordinator-text-manager"
+>
+  Select the text to be added to the translation queue.
+  <br />
+  Punctuation
+  <br />
+  <Punctuation
+    addText={[MockFunction]}
+    key="text-manager-0-,"
+    punct=","
+  />
+  <Punctuation
+    addText={[MockFunction]}
+    key="text-manager-1-."
+    punct="."
+  />
+  <Punctuation
+    addText={[MockFunction]}
+    key="text-manager-2-'"
+    punct="'"
+  />
+  <Punctuation
+    addText={[MockFunction]}
+    key="text-manager-3-\\""
+    punct="\\""
+  />
+  <br />
+  Spacing
+  <br />
+  <Spacing
+    addText={[MockFunction]}
+    description="whitespace"
+    key="text-manager-0-whitespace"
+    spacing=" "
+  />
+  <br />
+  Custom Text
+</div>
+`;
+
+exports[`TranslationCoordinator check tags 1`] = `
+<div
+  id="translation-coordinator"
+>
+  <TextManager
+    addText={[MockFunction]}
+  />
+  <EndpointManager
+    setEndpoint={[MockFunction]}
+  />
+  <QueueManager
+    clearQueue={[MockFunction]}
+  />
+  <button>
+    Get Translations
+  </button>
+</div>
+`;

@@ -40,6 +40,10 @@
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
     "enzyme-to-json": "^3.5.0",
-    "react-addons-test-utils": "^15.6.2"
+    "mockserver": "^3.1.1",
+    "mockserver-client": "^5.11.0",
+    "mockserver-node": "^5.11.0",
+    "react-addons-test-utils": "^15.6.2",
+    "webpack-cli": "^3.3.12"
   }
 }

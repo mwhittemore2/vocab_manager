@@ -1,6 +1,7 @@
 import { 
     DocumentDisplay, DocumentSelection, Options, 
-    TranslationCandidate, TranslationDisplay
+    TranslationCandidate, TranslationCoordination,
+    TranslationDisplay
 } from './components/containers'
 
 const App = () =>
@@ -9,6 +10,7 @@ const App = () =>
         <TranslationCandidate />
         <DocumentDisplay />
         <Options />
+        <TranslationCoordination />
         <TranslationDisplay />
     </div>
 

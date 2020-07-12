@@ -2,8 +2,8 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Provider } from 'react-redux'
 import App from './App'
-import initStateData from './store/initialState'
-import storeFactory from './store'
+import { initStateData } from './store/initialState'
+import { storeFactory } from './store'
 
 const store = storeFactory(initStateData)
 

@@ -2,7 +2,7 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import thunk from 'redux-thunk'
 import { documents, interaction, loaded, lines, option,
          pages, translations } from './reducers'
-import initStateData from './initialState'
+import { initStateData } from './initialState'
 
 let console = window.console
 

@@ -103,6 +103,16 @@ export const addToTranslationQueue = (dispatch, getState, word) => {
     highlight(dispatch, newWord.selected)
 }
 
+export const clearTranslationQueue = () =>
+    (dispatch, getState) => {
+        let emptyQueue = []
+        let msg = {
+            type: C.FILTER_TRANSLATION_QUEUE,
+            searchPhrase: emptyQueue
+        }
+        dispatch(msg)
+    }
+
 export const deleteFromTranslationQueue = (position) =>
     (dispatch, getState) => {
         let searchPhrase = getState().translations.searchPhrase

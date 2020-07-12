@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import DocumentViewer from './ui/DocumentViewer'
 import DocumentSelector from './ui/DocumentSelector'
 import OptionsMenu from './ui/OptionsMenu'
+import TranslationCoordinator from './ui/TranslationCoordinator'
 import TranslationQueue from './ui/TranslationQueue'
 import TranslationViewer from './ui/TranslationViewer'
 import * as actions from '../actions'
@@ -72,6 +73,31 @@ export const TranslationCandidate = connect(
         })
 )(TranslationQueue)
 
+export const TranslationCoordination = connect(
+    state =>
+        ({
+            interaction: state.interaction,
+            option: state.option
+        }),
+    dispatch =>
+        ({
+            addText(txt){
+                let textToAdd = {
+                    text: txt
+                }
+                dispatch(actions.registerSelectedWord(textToAdd))
+            },
+            clearQueue(){
+                dispatch(actions.clearTranslationQueue())
+            },
+            setEndpoint(endpoint){
+                dispatch(actions.setTextBoundary(endpoint))
+            },
+            translate(){
+                dispatch(actions.navigate(C.NEXT_PAGE, 0, actions.getTranslations))
+            }
+        })
+)(TranslationCoordinator)
 
 export const TranslationDisplay = connect(
     state => 
