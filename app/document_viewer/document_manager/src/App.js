@@ -1,3 +1,4 @@
+import React from "react"
 import { 
     DocumentDisplay, DocumentSelection, Options, 
     TranslationCandidate, TranslationCoordination,
