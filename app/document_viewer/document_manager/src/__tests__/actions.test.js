@@ -6,11 +6,39 @@ import * as actions from '../actions'
 
 jest.mock('axios')
 
+describe("Append translation queue", () => {
+    let initState
+    let store
+    beforeEach(() => {
+        localStorage.removeItem('redux-store')
+        initState = {
+            translations: {
+                searchPhrase: ["das ", "Buch "]
+            }
+        }
+        store = storeFactory(initState)
+    })
+
+    it("Add multiple words", () => {
+        let toAppend = ["ist ", "interessant."]
+        let expectedState = {
+            translations: {
+                searchPhrase: ["das ", "Buch ", "ist ", "interessant."]
+            }
+        }
+        let msg = {
+            type: C.APPEND_TRANSLATION_QUEUE,
+            words: toAppend
+        }
+        store.dispatch(msg)
+        expect(store.getState().translations).toStrictEqual(expectedState.translations)
+    })
+})
+
 describe("Choose document", () => {
     let testData
     let initState
     let store
-
     beforeEach(() => {
         localStorage.removeItem('redux-store')
         testData = [
@@ -81,6 +109,15 @@ describe("Filter translation queue", () => {
         } 
         localStorage.removeItem('redux-store')
         store = storeFactory(initState)
+    })
+
+    it("clear queue", () => {
+        actions.clearTranslationQueue()(store.dispatch, store.getState)
+        let result = {
+            currPage: 1,
+            searchPhrase: []
+        }
+        expect(store.getState().translations).toStrictEqual(result)
     })
 
     it("remove last element", () => {
@@ -169,6 +206,44 @@ describe("List documents", () => {
             expect(store.getState().documents).toStrictEqual(data.docs)
         }
         actions.listDocuments()(testDispatch, store.getState)  
+    })
+})
+
+describe("Reset translations", () => {
+    let initState
+    let store
+    beforeEach(() => {
+        localStorage.removeItem('redux-store')
+        initState = {
+            translations: {
+                boundary: {
+                    buffer: [],
+                    currState: C.TEXT_START,
+                    start: {}
+                },
+                currPage: 1,
+                matches: [],
+                searchPhrase: ["das ", "Buch"]
+            }
+        }
+        store = storeFactory(initState)
+    })
+
+    it("go to default state", () => {
+        let defaultState = {
+            translations: {
+                boundary: {
+                    buffer: [],
+                    currState: "",
+                    start: {}
+                },
+                currPage: 1,
+                matches: [],
+                searchPhrase: []
+            }
+        }
+        actions.resetTranslations()(store.dispatch, store.getState)
+        expect(store.getState().translations).toStrictEqual(defaultState.translations)
     })
 })
 
@@ -305,6 +380,37 @@ describe("Set page range", () => {
         }
         axios.mockResolvedValue(JSON.stringify(data))
         actions.getPages(testDispatch, store.getState, 6)
+    })
+})
+
+describe("Set text boundary", () => {
+    let initState
+    let store
+    beforeEach(() => {
+        localStorage.removeItem('redux-store')
+        initState = {
+            translations: {
+                boundary:{
+                    currState: C.TEXT_START
+                },
+                searchPhrase: []
+            }
+        }
+        store = storeFactory(initState)
+    })
+
+    it("Text end", () => {
+        let boundary = C.TEXT_FINISH
+        actions.setTextBoundary(boundary)(store.dispatch, store.getState)
+        let result = {
+            translations: {
+                boundary: {
+                    currState: C.TEXT_FINISH
+                },
+                searchPhrase: []
+            }
+        }
+        expect(store.getState().translations).toStrictEqual(result.translations)
     })
 })
 

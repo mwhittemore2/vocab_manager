@@ -106,7 +106,13 @@ export const translations = (state={}, action) => {
                 ...state,
                 boundary: bufferedBoundary
             }
-
+        
+        case C.APPEND_TRANSLATION_QUEUE:
+            return {
+                ...state,
+                searchPhrase: state.searchPhrase.concat(action.words)
+            }
+        
         case C.DISPLAY_TRANSLATION:
             return {
                 ...state,
@@ -128,6 +134,18 @@ export const translations = (state={}, action) => {
             return {
                 ...state,
                 boundary: textBoundary
+            }
+        
+        case C.RESET_TRANSLATIONS:
+            return {
+                boundary: {
+                    buffer: [],
+                    currState: "",
+                    start: {}
+                },
+                currPage: 1,
+                matches: [],
+                searchPhrase: []
             }
 
         default:

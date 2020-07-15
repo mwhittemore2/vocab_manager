@@ -16,7 +16,12 @@ export const initStateData = {
         startPage: 0,
         endPage: 0
     },
-    translations:{
+    translations: {
+        boundary: {
+            buffer: [],
+            currState: "",
+            start: {}
+        },
         currPage: 1,
         matches: [],
         searchPhrase: []

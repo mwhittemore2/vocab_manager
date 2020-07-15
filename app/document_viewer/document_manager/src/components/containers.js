@@ -90,11 +90,17 @@ export const TranslationCoordination = connect(
             clearQueue(){
                 dispatch(actions.clearTranslationQueue())
             },
+            //TODO: Update UI component to support this action
+            closeViewer(){
+                dispatch(actions.setOption(C.DOC_VIEWER_OPTIONS.DEFAULT))
+                dispatch(actions.resetTranslations())
+            },
             setEndpoint(endpoint){
                 dispatch(actions.setTextBoundary(endpoint))
             },
             translate(){
                 dispatch(actions.navigate(C.NEXT_PAGE, 0, actions.getTranslations))
+                dispatch(action.setOption(C.TRANSLATION_VIEWER))
             }
         })
 )(TranslationCoordinator)
@@ -110,6 +116,7 @@ export const TranslationDisplay = connect(
         ({
             closeViewer(){
                 dispatch(actions.setOption(C.DOC_VIEWER_OPTIONS.DEFAULT))
+                dispatch(actions.resetTranslations())
             },
             cursor(direction, pageNumber){
                 dispatch(actions.navigate(direction, pageNumber, getTranslation))

@@ -1,4 +1,5 @@
 import axios from "axios"
+import { collectTextRange } from './lib/textProcessing'
 import C from './constants'
 
 const buildPhrase = words => {
@@ -65,10 +66,6 @@ const convertTranslations = (page, response) => {
     return msg
 }
 
-const getNextWord = (getState, word) => {}
-
-const getPreviousWord = (getState, word) => {}
-
 const logError = error => console.error(error)
 
 const makeServiceCall = (convert, dispatch, url, method, body={}) => {
@@ -91,15 +88,15 @@ const multiDispatch = (dispatch, messages) => {
 
 const parseResponse = response => JSON.parse(response)
 
-const processLineBreaks = (getState, word) => {}
-
-
 export const addToTranslationQueue = (dispatch, getState, word) => {
-    let newWord = processLineBreaks(getState, word)
+    let direction = C.DIRECTION.RIGHT
+    let lines = getState().lines
+    let newWord = getNextWord(direction, lines, word)
     let msg = {
         type: C.ADD_WORD,
-        word: newWord.text
+        word: newWord.fulltext
     }
+    dispatch(msg)
     highlight(dispatch, newWord.selected)
 }
 
@@ -209,6 +206,14 @@ export const registerSelectedWord = (word) =>
         }
     }
 
+export const resetTranslations = () =>
+    (dispatch, getState) => {
+        let msg = {
+            type: C.RESET_TRANSLATIONS
+        }
+        dispatch(msg)
+    }
+
 export const setCurrentDocument = doc =>
     (dispatch, getState) => {
         let msg = {
@@ -243,7 +248,10 @@ export const setTextBoundary = (boundary) =>
     }
 
 //Add full phrase to translation queue
-export const setTextEnd = (dispatch, getState, word) => {}
+export const setTextEnd = (dispatch, getState, word) => {
+        let selected = collectTextRange(dispatch, getState, word)
+        highlight(dispatch, selected)
+}
 
 export const setTextStart = (dispatch, getState, word) => {
     let lines = getState().lines
