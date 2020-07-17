@@ -141,27 +141,28 @@ export const getTokenIdentifier = (line, page, pos) => {
 export const moveLeft = (breaks, currWord, lines, tokenData) => {
     let nextWord = {}
     let leftToken = tokenData.positions[0]
-    if(!(currWord.page === leftToken[0])){
-        nextWord.pointer = breaks.previous
+    let page, line, pos = leftToken
+    if(!(currWord.page === page)){
+        nextWord.pointer = breaks.pageBoundaries.previous
     }
-    else if(leftToken[1] === 0 & leftToken[2] === 0){
-        nextWord.pointer = breaks.previous
+    else if(line === 0 & pos === 0){
+        nextWord.pointer = breaks.pageBoundaries.previous
     }
     else{
-        if(leftToken[2] === 0){
-            let prevLine = leftToken[1] - 1
+        if(pos === 0){
+            let prevLine = line - 1
             let prevPos = lines.words[prevLine].length - 1
             nextWord.pointer = {
                 line: prevLine,
-                page: currWord.page,
+                page: page,
                 pos: prevPos
             }
         }
         else{
             let prevPos = currWord.pos - 1
             nextWord.pointer = {
-                line: prevLine,
-                page: currWord.page,
+                line: line,
+                page: page,
                 pos: prevPos
             }
         }
@@ -171,7 +172,39 @@ export const moveLeft = (breaks, currWord, lines, tokenData) => {
 }
 
 export const moveRight = (breaks, currWord, lines, tokenData) => {
+    let nextWord = {}
+    let lastTokenPos = tokenData.positions.length - 1
+    let rightToken = tokenData.positions[lastTokenPos]
+    let page, line, pos = rightToken
+    let lastLine = lines.words.length - 1
+    let lastLinePos = lines.words[lastLine].length - 1
+    if(!(currWord.page === page)){
+        nextWord.pointer = breaks.pageBoundaries.next
+    }
+    else if(line === lastLine & pos === lastLinePos){
+        nextWord.pointer = breaks.pageBoundaries.next
+    }
+    else{
+        if(pos === lines.words[line].length - 1){
+            let nextLine = line + 1
+            let nextPos = 0
+            nextWord.pointer = {
+                line: nextLine,
+                page: page,
+                pos: nextPos
+            }
+        }
+        else{
+            let nextPos = pos + 1
+            nextWord.pointer = {
+                line: line,
+                page: page,
+                pos: nextPos
+            }
+        }
+    }
 
+    return nextWord
 }
 
 export const processLineBreak = (direction, lines, side, word) => {
