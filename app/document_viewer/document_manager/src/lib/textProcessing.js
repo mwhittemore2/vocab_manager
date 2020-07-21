@@ -20,7 +20,7 @@ export const collectTextRange = (dispatch, getState, word) => {
     let toAppend = []
     
     //Check that the page difference is within proper limits
-    if(word.page - start.page > 1 | word.page - start.page < 0){
+    if((word.page - start.page > 1) | (word.page - start.page < 0)){
         let errorMessage = "Text to be translated spans too many pages."
         window.alert(errorMessage)
         return selected
@@ -77,8 +77,10 @@ export const collectTextRange = (dispatch, getState, word) => {
 
 export const getNextWord = (direction, lines, word) => {
     let nextWord
+
     //word is custom defined
-    if(!("pos" in Object.keys(word))){
+    let hasPos = word.hasOwnProperty('pos')
+    if(!hasPos){
         nextWord = {
             fulltext: word.text,
             pointer: {},
@@ -91,7 +93,7 @@ export const getNextWord = (direction, lines, word) => {
     let line = word.line
     let page = word.page
     let pos = word.pos
-    if(pos > 1 & pos < lines.words[line].length - 1){
+    if((pos > 0) & (pos < lines.words[line].length - 1)){
         nextWord = {
             fulltext: word.text,
             pointer: {
@@ -141,11 +143,13 @@ export const getTokenIdentifier = (line, page, pos) => {
 export const moveLeft = (breaks, currWord, lines, tokenData) => {
     let nextWord = {}
     let leftToken = tokenData.positions[0]
-    let page, line, pos = leftToken
+    let page = leftToken[0]
+    let line = leftToken[1]
+    let pos = leftToken[2]
     if(!(currWord.page === page)){
         nextWord.pointer = breaks.pageBoundaries.previous
     }
-    else if(line === 0 & pos === 0){
+    else if((line === 0) & (pos === 0)){
         nextWord.pointer = breaks.pageBoundaries.previous
     }
     else{
@@ -175,13 +179,15 @@ export const moveRight = (breaks, currWord, lines, tokenData) => {
     let nextWord = {}
     let lastTokenPos = tokenData.positions.length - 1
     let rightToken = tokenData.positions[lastTokenPos]
-    let page, line, pos = rightToken
+    let page = rightToken[0]
+    let line = rightToken[1]
+    let pos = rightToken[2]
     let lastLine = lines.words.length - 1
     let lastLinePos = lines.words[lastLine].length - 1
     if(!(currWord.page === page)){
         nextWord.pointer = breaks.pageBoundaries.next
     }
-    else if(line === lastLine & pos === lastLinePos){
+    else if((line === lastLine) & (pos === lastLinePos)){
         nextWord.pointer = breaks.pageBoundaries.next
     }
     else{
@@ -210,9 +216,9 @@ export const moveRight = (breaks, currWord, lines, tokenData) => {
 export const processLineBreak = (direction, lines, side, word) => {
     let breaks = lines.breaks
     let line = word.line
-    let nextWord
-    let tokenData
-    let tokenPointer
+    let nextWord = {}
+    let tokenData = {}
+    let tokenPointer = {}
    
     //Initialize default pointer
     nextWord.pointer = {}
@@ -242,7 +248,9 @@ export const processLineBreak = (direction, lines, side, word) => {
 
     //Get selected tokens
     let tokenIDs = tokenData.positions.map((token) => {
-        let page, lineNum, position = token
+        let page = token[0] 
+        let lineNum = token[1]
+        let position = token[2]
         let tokenID = getTokenIdentifier(lineNum, page, position)
         return tokenID
     })

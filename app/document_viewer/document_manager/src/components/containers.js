@@ -58,7 +58,7 @@ export const Options = connect(
         })
 )(OptionsMenu)
 
-/*
+
 export const TranslationCandidate = connect(
     state => 
         ({
@@ -67,11 +67,11 @@ export const TranslationCandidate = connect(
         }),
     dispatch => 
         ({
-            remove(position){
+            remove: (position) => {
                 dispatch(actions.deleteFromTranslationQueue(position))
             }
         })
-)(TranslationQueue)*/
+)(TranslationQueue)
 
 export const TranslationCoordination = connect(
     state =>

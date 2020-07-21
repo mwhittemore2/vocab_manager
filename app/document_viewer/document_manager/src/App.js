@@ -5,20 +5,10 @@ import {
     TranslationDisplay
 } from './components/containers'
 
-/*
 const App = () =>
     <div className="app">
         <DocumentSelection />
         <TranslationCandidate />
-        <DocumentDisplay />
-        <Options />
-        <TranslationCoordination />
-        <TranslationDisplay />
-    </div>*/
-
-const App = () =>
-    <div className="app">
-        <DocumentSelection />
         <DocumentDisplay />
         <Options />
         <TranslationCoordination />

@@ -12,7 +12,7 @@ const buildKey = (index, word) => {
 }
 
 export const QueueElement = ({position, remove, text}) =>
-    <span onClick={remove(position)}>{text}</span>
+    <span onClick={() => remove(position)}>{text}</span>
 
 export class TranslationQueue extends React.Component{
     render(){

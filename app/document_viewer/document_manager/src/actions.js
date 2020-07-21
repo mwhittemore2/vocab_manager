@@ -124,8 +124,8 @@ export const addToTranslationQueue = (dispatch, getState, word) => {
     let lines = getState().lines
     let newWord = getNextWord(direction, lines, word)
     let msg = {
-        type: C.ADD_WORD,
-        word: newWord.fulltext
+        type: C.APPEND_TRANSLATION_QUEUE,
+        words: [newWord.fulltext]
     }
     dispatch(msg)
     highlight(dispatch, newWord.selected)
