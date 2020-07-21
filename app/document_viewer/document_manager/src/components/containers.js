@@ -83,7 +83,8 @@ export const TranslationCoordination = connect(
         ({
             addText: (txt) => {
                 let textToAdd = {
-                    text: txt
+                    fulltext: txt,
+                    selected: new Set([])
                 }
                 dispatch(actions.registerSelectedWord(textToAdd))
             },

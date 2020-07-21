@@ -23,10 +23,10 @@ export class TranslationQueue extends React.Component{
             return(
                 <div id={queueID}>
                     {translations.searchPhrase.map((word, index) =>
-                        <QueueElement key={buildKey(index, word)}
-                                      pos={index}
+                        <QueueElement key={buildKey(index, word.fulltext)}
+                                      position={index}
                                       remove={remove}
-                                      text={word}/>)}
+                                      text={word.fulltext}/>)}
                 </div>
             )
         }

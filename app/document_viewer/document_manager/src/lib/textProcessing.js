@@ -46,13 +46,13 @@ export const collectTextRange = (dispatch, getState, word) => {
         let direction = C.DIRECTION.RIGHT
         let nextWord = getNextWord(direction, lines, currWord)
         if(word.page - start.page === 1){
-            toAppend.push(nextWord.fulltext)
+            toAppend.push(nextWord)
             selected = union(selected, nextWord.selected)
             lines = getState().lines
             currWord = nextWord.pointer
         }
         else{
-            toAppend.push(nextWord.fulltext)
+            toAppend.push(nextWord)
             selected = union(selected, nextWord.selected)
             currWord = nextWord.pointer
         }

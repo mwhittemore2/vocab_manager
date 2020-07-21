@@ -4,7 +4,7 @@ import C from './constants'
 
 const buildPhrase = words => {
     if(words.length > 0){
-        let phrase = words.reduce((acc, currVal) => acc + currVal)
+        let phrase = words.reduce((acc, currVal) => acc.fulltext + currVal)
         return phrase
     }
     else{
@@ -125,7 +125,7 @@ export const addToTranslationQueue = (dispatch, getState, word) => {
     let newWord = getNextWord(direction, lines, word)
     let msg = {
         type: C.APPEND_TRANSLATION_QUEUE,
-        words: [newWord.fulltext]
+        words: [newWord]
     }
     dispatch(msg)
     highlight(dispatch, newWord.selected)
@@ -133,23 +133,27 @@ export const addToTranslationQueue = (dispatch, getState, word) => {
 
 export const clearTranslationQueue = () =>
     (dispatch, getState) => {
+        let toUnighlight = getState().lines.selected
         let emptyQueue = []
         let msg = {
             type: C.FILTER_TRANSLATION_QUEUE,
             searchPhrase: emptyQueue
         }
         dispatch(msg)
+        unhighlight(dispatch, toUnighlight)
     }
 
 export const deleteFromTranslationQueue = (position) =>
     (dispatch, getState) => {
         let searchPhrase = getState().translations.searchPhrase
+        let toUnhighlight = searchPhrase[position].selected
         let filteredPhrase = searchPhrase.filter((val, index) => index != position)
         let msg = {
             type: C.FILTER_TRANSLATION_QUEUE,
             searchPhrase: filteredPhrase
         }
         dispatch(msg)
+        unhighlight(dispatch, toUnhighlight)
     }
 
 export const getPages = (dispatch, getState, pageNumber) => {
@@ -240,6 +244,8 @@ export const registerSelectedWord = (word) =>
 
 export const resetTranslations = () =>
     (dispatch, getState) => {
+        clearTranslationQueue()(dispatch, getState)
+        
         let msg = {
             type: C.RESET_TRANSLATIONS
         }
