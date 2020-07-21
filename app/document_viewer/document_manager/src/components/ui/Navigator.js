@@ -4,7 +4,7 @@ import C from '../../constants'
 
 export const Navigator = ({cursor, jumpToPage, results, viewer}) =>
     <div id={viewer.concat("-navigator")}>
-        <button id={viewer.concat("-previous")} onClick={cursor(C.PREVIOUS_PAGE, results.currPage)}>
+        <button id={viewer.concat("-previous")} onClick={() => cursor(C.PREVIOUS_PAGE, results.currPage)}>
             Previous
         </button>
         <div id={viewer.concat("-current")}>
@@ -12,7 +12,7 @@ export const Navigator = ({cursor, jumpToPage, results, viewer}) =>
                   type="text"
                   placeholder={results.currPage}/>
         </div>
-        <button id={viewer.concat("-next")} onClick={cursor(C.NEXT_PAGE, results.currPage)}>
+        <button id={viewer.concat("-next")} onClick={() => cursor(C.NEXT_PAGE, results.currPage)}>
             Next
         </button>
     </div>

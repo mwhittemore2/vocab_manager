@@ -4,8 +4,12 @@ const translationData = {
     },
     "httpResponse": {
         "body": {
-            "text": "Welt",
-            "definitions": ["world", "earth"]
+            "translations":[
+                {
+                    "text": "Welt",
+                    "definitions": ["world", "earth"]
+                }
+            ]
         }
     }
 }

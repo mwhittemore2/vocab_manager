@@ -16,10 +16,10 @@ export const DocumentDisplay = connect(
         }),
     dispatch =>
         ({
-            cursor(direction, pageNumber){
-                dispatch(actions.navigate(direction, pageNumber, getPage))
+            cursor: (direction, pageNumber) => {
+                dispatch(actions.navigate(direction, pageNumber, actions.getPages))
             },
-            selectWord(word){
+            selectWord: (word) => {
                 dispatch(actions.registerSelectedWord(word))
             }
         })
@@ -34,10 +34,10 @@ export const DocumentSelection = connect(
         }),
     dispatch =>
         ({
-            getDocuments(){
+            getDocuments: () => {
                 dispatch(actions.listDocuments());
             },
-            selectDocument(doc){
+            selectDocument: (doc) => {
                 dispatch(actions.setCurrentDocument(doc));
             }
         })
@@ -52,13 +52,13 @@ export const Options = connect(
         }),
     dispatch => 
         ({
-             selectOption(option){
+             selectOption: (option) => {
                  dispatch(actions.setOption(option))
              }
         })
 )(OptionsMenu)
 
-
+/*
 export const TranslationCandidate = connect(
     state => 
         ({
@@ -71,7 +71,7 @@ export const TranslationCandidate = connect(
                 dispatch(actions.deleteFromTranslationQueue(position))
             }
         })
-)(TranslationQueue)
+)(TranslationQueue)*/
 
 export const TranslationCoordination = connect(
     state =>
@@ -81,26 +81,26 @@ export const TranslationCoordination = connect(
         }),
     dispatch =>
         ({
-            addText(txt){
+            addText: (txt) => {
                 let textToAdd = {
                     text: txt
                 }
                 dispatch(actions.registerSelectedWord(textToAdd))
             },
-            clearQueue(){
+            clearQueue: () => {
                 dispatch(actions.clearTranslationQueue())
             },
             //TODO: Update UI component to support this action
-            closeViewer(){
+            closeViewer: () => {
                 dispatch(actions.setOption(C.DOC_VIEWER_OPTIONS.DEFAULT))
                 dispatch(actions.resetTranslations())
             },
-            setEndpoint(endpoint){
+            setEndpoint: (endpoint) => {
                 dispatch(actions.setTextBoundary(endpoint))
             },
-            translate(){
+            translate: () => {
                 dispatch(actions.navigate(C.NEXT_PAGE, 0, actions.getTranslations))
-                dispatch(action.setOption(C.TRANSLATION_VIEWER))
+                dispatch(actions.setOption(C.TRANSLATION_VIEWER))
             }
         })
 )(TranslationCoordinator)
@@ -109,17 +109,18 @@ export const TranslationDisplay = connect(
     state => 
         ({
             interaction: state.interaction,
+            loaded: state.loaded,
             option: state.option,
             translations: state.translations
         }),
     dispatch =>
         ({
-            closeViewer(){
+            closeViewer: () => {
                 dispatch(actions.setOption(C.DOC_VIEWER_OPTIONS.DEFAULT))
                 dispatch(actions.resetTranslations())
             },
-            cursor(direction, pageNumber){
-                dispatch(actions.navigate(direction, pageNumber, getTranslation))
+            cursor: (direction, pageNumber) => {
+                dispatch(actions.navigate(direction, pageNumber, actions.getTranslations))
             }
         })
 )(TranslationViewer)

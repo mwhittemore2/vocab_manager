@@ -30,7 +30,6 @@ export class TranslationQueue extends React.Component{
                 </div>
             )
         }
-        //Default to empty tag
         return(
             <div id={queueID}></div>
         )

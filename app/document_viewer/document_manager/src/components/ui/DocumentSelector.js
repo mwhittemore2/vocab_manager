@@ -10,12 +10,12 @@ const buildKey = (doc, index) => {
     return key
 }
 
-export const DocumentChoice = ({doc={}, selector=f=>f}) =>
-    <div onClick={selector(doc)}>
+export const DocumentChoice = ({doc, selector}) =>
+    <div onClick={() => selector(doc)}>
         {doc.title}
     </div>
 
-export const DocumentIterator = ({documents=[], selectDocument=f=>f}) =>
+export const DocumentIterator = ({documents, selectDocument}) =>
     <div id="document-selector">
         {documents.sort((a, b) => (a.title > b.title) ? 1 : -1).map((doc, index) =>
             <DocumentChoice key={buildKey(doc.title, index)}
@@ -47,6 +47,9 @@ export const DocumentIterator = ({documents=[], selectDocument=f=>f}) =>
                 )
             }
         }
+        return (
+            <div id={"document-selector"}/>
+        )
     }
 }
 

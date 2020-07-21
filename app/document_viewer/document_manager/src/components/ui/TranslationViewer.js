@@ -80,7 +80,7 @@ export class TranslationViewer extends React.Component{
                     let translations = this.props.translations
                     return(
                         <div id={viewerID}>
-                            <button onClick={closeViewer()}>Close</button>
+                            <button onClick={() => closeViewer()}>Close</button>
                             <ViewMatches translations={translations}/>
                             <Navigator cursor={cursor}
                                        results={translations}
@@ -97,7 +97,6 @@ export class TranslationViewer extends React.Component{
                 }
             }
         }
-        ///Default to empty tag
         return( 
             <div id={viewerID}></div>
         )
@@ -128,6 +127,7 @@ TranslationViewer.propTypes = {
     translations: PropTypes.object
 }
 
+/*
 TranslationViewer.defaultProps = {
     closeViewer: f=>f,
     cursor: f=>f,
@@ -135,6 +135,6 @@ TranslationViewer.defaultProps = {
     loaded: {},
     option: C.DOC_VIEWER_OPTIONS.DEFAULT,
     translations: {}
-}
+}*/
 
 export default TranslationViewer

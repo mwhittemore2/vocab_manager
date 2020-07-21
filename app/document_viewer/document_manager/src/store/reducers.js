@@ -55,7 +55,7 @@ export const loaded = (state={}, action) => {
             let newState = {
                 ...state,
             }
-            newState[action.component] = "loaded"
+            newState[action.component] = true
             return newState
         
         default:

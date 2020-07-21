@@ -36,3 +36,5 @@ export const storeFactory = (initialState=initStateData) =>
             initialState
     )
 
+export default storeFactory
+

@@ -22,22 +22,22 @@ export const EndpointManager = ({setEndpoint}) =>
     <div id={endpointManagerID}>
         Set the boundaries of the text to be translated
         <br></br>
-        <button onClick={setEndpoint(C.TEXT_START)}>Start</button>
-        <button onClick={setEndpoint(C.TEXT_FINISH)}>Finish</button>
+        <button onClick={() => setEndpoint(C.TEXT_START)}>Start</button>
+        <button onClick={() => setEndpoint(C.TEXT_FINISH)}>Finish</button>
     </div>
 
 export const QueueManager = ({clearQueue}) => 
     <div id={queueManagerID}>
         Control the content of the translation queue
         <br></br>
-        <button onClick={clearQueue()}></button>
+        <button onClick={() => clearQueue()}>Clear Queue</button>
     </div>
 
 export const Punctuation = ({addText, punct}) => 
-    <button onClick={addText(punct)}>{punct}</button>
+    <button onClick={() => addText(punct)}>{punct}</button>
 
 export const Spacing = ({addText, description, spacing}) =>
-    <button onClick={addText(spacing)}>{description}</button>
+    <button onClick={() => addText(spacing)}>{description}</button>
 
 export const TextManager = ({addText}) => 
     <div id={textManagerID}>
@@ -76,7 +76,7 @@ export class TranslationCoordinator extends React.Component{
                         <TextManager addText={addText}/>
                         <EndpointManager setEndpoint={setEndpoint}/>
                         <QueueManager clearQueue={clearQueue}/>
-                        <button onClick={translate()}>Get Translations</button>
+                        <button onClick={() => translate()}>Get Translations</button>
                     </div>
                 )
             }

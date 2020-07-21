@@ -6,10 +6,10 @@ const optionsMenuID = "document-viewer-options-menu"
 
 export const DisplayOptions = ({selectOption}) =>
     <div id={optionsMenuID}>
-        <div onClick={selectOption(C.DOC_VIEWER_OPTIONS.ADD_VOCAB)}>
+        <div onClick={() => selectOption(C.DOC_VIEWER_OPTIONS.TRANSLATION_COORDINATOR)}>
             Select words to translate
         </div>
-        <div onClick={selectOption(C.DOC_VIEWER_OPTIONS.BOOKMARKS)}>
+        <div onClick={() => selectOption(C.DOC_VIEWER_OPTIONS.BOOKMARKS)}>
             Manage bookmarks
         </div>
     </div>
@@ -26,7 +26,6 @@ export class OptionsMenu extends React.Component{
                 )
             }
         }
-        ///Default to empty tag
         return(
             <div id={optionsMenuID}></div>
         )
@@ -43,10 +42,11 @@ OptionsMenu.propTypes = {
     selectOption: PropTypes.func
 }
 
+/*
 OptionsMenu.defaultProps = {
     interaction: C.DOCUMENT_VIEWER,
     option: C.DOC_VIEWER_OPTIONS.DEFAULT,
     selectOption: f=>f
-}
+}*/
 
 export default OptionsMenu

@@ -6,7 +6,7 @@ import C from '../../constants'
 
 const displayID = "document-viewer"
 
-export const Display = ({cursor=f=>f, lines={}, selectWord=f=>f}) =>
+export const Display = ({cursor, lines, selectWord}) =>
     <div id={displayID}>
         <Page lines={lines} selectWord={selectWord} />
         <Navigator cursor={cursor}
@@ -27,7 +27,6 @@ export class DocumentViewer extends React.Component{
                          selectWord={selectWord}/>
             )
         }
-        ///Default to empty tag
         return(
             <div id={displayID}></div>
         )
@@ -49,7 +48,7 @@ DocumentViewer.propTypes = {
 
 DocumentViewer.defaultProps = {
     cursor: f=>f,
-    interaction: C.DOCUMENT_VIEWER,
+    interaction: C.DOCUMENT_SELECTOR,
     lines: {},
     selectWord: f=>f
 }

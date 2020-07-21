@@ -1,18 +1,34 @@
 import axios from "axios"
-import { collectTextRange } from './lib/textProcessing'
+import { collectTextRange, getNextWord } from './lib/textProcessing'
 import C from './constants'
 
 const buildPhrase = words => {
-    let phrase = words.reduce((acc, currVal) => acc + currVal)
-    return phrase
+    if(words.length > 0){
+        let phrase = words.reduce((acc, currVal) => acc + currVal)
+        return phrase
+    }
+    else{
+        //TODO: Change this to a warning that the translation queue is empty
+        let emptyPhrase = ""
+        return emptyPhrase
+    }
 }
 
 const convertDocuments = response => {
+    let messages = []
     let msg = {
         type: C.LIST_DOCUMENTS,
-        documents: response.docs
+        documents: response.works
     }
-    return msg
+    messages.push(msg)
+    
+    msg = {
+        type: C.FINISHED_LOADING,
+        component: C.DOCUMENT_SELECTOR
+    }
+    messages.push(msg)
+    
+    return messages
 }
 
 const convertPages = response => {
@@ -48,6 +64,7 @@ const convertPages = response => {
 }
 
 const convertTranslations = (page, response) => {
+    let messages = []
     let msg = {}
     if ("translations" in response){
         msg = {
@@ -63,7 +80,15 @@ const convertTranslations = (page, response) => {
             currPage: 1
         }
     }
-    return msg
+    messages.push(msg)
+
+    msg = {
+        type: C.FINISHED_LOADING,
+        component: C.TRANSLATION_VIEWER
+    }
+    messages.push(msg)
+
+    return messages
 }
 
 const logError = error => console.error(error)
@@ -86,7 +111,13 @@ const multiDispatch = (dispatch, messages) => {
     messages.forEach(msg => dispatch(msg)) 
 }
 
-const parseResponse = response => JSON.parse(response)
+const parseResponse = response => {
+    if(typeof response === "string"){
+        return JSON.parse(response)
+    }
+
+    return response.data
+}
 
 export const addToTranslationQueue = (dispatch, getState, word) => {
     let direction = C.DIRECTION.RIGHT
@@ -155,9 +186,10 @@ export const getTranslations = (dispatch, getState, pageNumber) => {
         page: pageNumber,
         query: phrase
     }
+    //TODO: Insert loading message here
     makeServiceCall(
         (response) => convertTranslations(pageNumber, response),
-        dispatch,
+        (messages) => multiDispatch(dispatch, messages),
         localStorage["login::services::getTranslations"],
         'GET',
         body
@@ -176,7 +208,7 @@ export const listDocuments = () =>
     (dispatch, getState) => {
         makeServiceCall(
             convertDocuments,
-            dispatch,
+            (messages) => multiDispatch(dispatch, messages),
             localStorage["login::services::listDocuments"],
             'GET'
         )            
@@ -227,6 +259,10 @@ export const setCurrentDocument = doc =>
             interaction_type: C.DOCUMENT_VIEWER
         }
         dispatch(msg)
+
+        let firstPage = 1
+        getPages(dispatch, getState, firstPage)
+        //TODO: Set loaded to false again and clear document list
     }
 
 export const setOption = option => 

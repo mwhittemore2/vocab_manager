@@ -2,13 +2,13 @@ import C from '../constants'
 
 export const initStateData = {
     documents: [],
-    interaction: "selector",
+    interaction: C.DOCUMENT_SELECTOR,
     lines: {
         currPage: 1,
         selected: new Set([]),
         words: []
     },
-    loaded: {},
+    loaded: {"DOCUMENT_SELECTOR": false, "TRANSLATION_VIEWER": false},
     option: C.DOC_VIEWER_OPTIONS.DEFAULT,
     pages: {
         content: [],
