@@ -56,7 +56,7 @@ export const Options = connect(
                  dispatch(actions.setOption(option))
              }
         })
-)(OptionsMenu)
+)(OptionsMenu);
 
 
 export const TranslationCandidate = connect(
@@ -71,20 +71,20 @@ export const TranslationCandidate = connect(
                 dispatch(actions.deleteFromTranslationQueue(position))
             }
         })
-)(TranslationQueue)
+)(TranslationQueue);
 
 export const TranslationCoordination = connect(
     state =>
         ({
             interaction: state.interaction,
-            option: state.option
+            option: state.option,
+            translations: state.translations
         }),
     dispatch =>
         ({
             addText: (txt) => {
                 let textToAdd = {
-                    fulltext: txt,
-                    selected: new Set([])
+                    text: txt
                 }
                 dispatch(actions.registerSelectedWord(textToAdd))
             },
@@ -104,7 +104,7 @@ export const TranslationCoordination = connect(
                 dispatch(actions.setOption(C.TRANSLATION_VIEWER))
             }
         })
-)(TranslationCoordinator)
+)(TranslationCoordinator);
 
 export const TranslationDisplay = connect(
     state => 
@@ -124,4 +124,4 @@ export const TranslationDisplay = connect(
                 dispatch(actions.navigate(direction, pageNumber, actions.getTranslations))
             }
         })
-)(TranslationViewer)
+)(TranslationViewer);

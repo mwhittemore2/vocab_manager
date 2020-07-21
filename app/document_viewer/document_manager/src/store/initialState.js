@@ -1,5 +1,12 @@
 import C from '../constants'
 
+const getDefaultLoadStatus = () => {
+    let loadStatus = {}
+    loadStatus[C.DOCUMENT_SELECTOR] = false
+    loadStatus[C.TRANSLATION_VIEWER] = false
+    return loadStatus
+}
+
 export const initStateData = {
     documents: [],
     interaction: C.DOCUMENT_SELECTOR,
@@ -8,7 +15,7 @@ export const initStateData = {
         selected: new Set([]),
         words: []
     },
-    loaded: {"DOCUMENT_SELECTOR": false, "TRANSLATION_VIEWER": false},
+    loaded: getDefaultLoadStatus(),
     option: C.DOC_VIEWER_OPTIONS.DEFAULT,
     pages: {
         content: [],

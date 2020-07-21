@@ -71,12 +71,21 @@ export class TranslationCoordinator extends React.Component{
                 let clearQueue = this.props.clearQueue
                 let setEndpoint = this.props.setEndpoint
                 let translate = this.props.translate
+                let translations = this.props.translations
                 return(
                     <div id={coordinatorID}>
                         <TextManager addText={addText}/>
                         <EndpointManager setEndpoint={setEndpoint}/>
                         <QueueManager clearQueue={clearQueue}/>
-                        <button onClick={() => translate()}>Get Translations</button>
+                        <button onClick={() => {
+                            if(translations.searchPhrase.length > 0){
+                                translate()
+                            }
+                            else{
+                                let errorMessage = "Translation Queue must have content to be translated."
+                                window.alert(errorMessage)
+                            }
+                        }}>Get Translations</button>
                     </div>
                 )
             }
@@ -116,7 +125,8 @@ TranslationCoordinator.propTypes = {
     interaction: PropTypes.string,
     option: PropTypes.string,
     setEndpoint: PropTypes.func,
-    translate: PropTypes.func
+    translate: PropTypes.func,
+    translations: PropTypes.object
 }
 
 export default TranslationCoordinator

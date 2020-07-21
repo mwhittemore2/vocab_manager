@@ -3,6 +3,10 @@ import C from '../constants'
 
 export const documents = (state=[], action) => {
     switch (action.type){
+        case C.CLEAR_DOCUMENTS:
+            let emptyDocList = []
+            return emptyDocList
+            
         case C.LIST_DOCUMENTS:
             return action.documents
 
@@ -57,6 +61,13 @@ export const loaded = (state={}, action) => {
             }
             newState[action.component] = true
             return newState
+        
+        case C.NOT_LOADED:
+            let nextState = {
+                ...state,
+            }
+            nextState[action.component] = false
+            return nextState
         
         default:
             return state

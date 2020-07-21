@@ -8,7 +8,6 @@ const buildPhrase = words => {
         return phrase
     }
     else{
-        //TODO: Change this to a warning that the translation queue is empty
         let emptyPhrase = ""
         return emptyPhrase
     }
@@ -254,6 +253,7 @@ export const resetTranslations = () =>
 
 export const setCurrentDocument = doc =>
     (dispatch, getState) => {
+        //Start transition to document viewer
         let msg = {
             type: C.SELECT_DOCUMENT,
             document: doc
@@ -266,9 +266,21 @@ export const setCurrentDocument = doc =>
         }
         dispatch(msg)
 
+        //Get first page of selected document
         let firstPage = 1
         getPages(dispatch, getState, firstPage)
-        //TODO: Set loaded to false again and clear document list
+
+        //Cleanup operations
+        msg = {
+            type: C.NOT_LOADED,
+            component: C.DOCUMENT_SELECTOR
+        }
+        dispatch(msg)
+       
+        msg = {
+            type: C.CLEAR_DOCUMENTS
+        }
+        dispatch(msg)
     }
 
 export const setOption = option => 
