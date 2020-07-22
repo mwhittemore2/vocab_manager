@@ -5,6 +5,10 @@ import { grammar } from "../../data/grammar"
 
 const coordinatorID = "translation-coordinator"
 
+const customTextID = "translation-coordinator-custom-text-manager"
+
+const customTextSubmit = "translation-coordinator-custom-text-submit"
+
 const endpointManagerID = "translation-coordinator-endpoint-manager"
 
 const queueManagerID = "translation-coordinator-queue-manager"
@@ -17,6 +21,39 @@ const buildTextManagerKey = (index, text) => {
     let key = domain + separator + index.toString() + separator + text
     return key
 }
+
+const processTranslationRequest = (currState, translate) => {
+    if(currState.searchPhrase.length > 0){
+        translate()
+    }
+    else{
+        let errorMessage = "Translation Queue must have content to be translated."
+        window.alert(errorMessage)
+    }
+}
+
+const submitCustomText = (e, addText) => {
+    let enterKey = C.KEYBOARD_INPUT.ENTER
+    if(e.keyCode === enterKey){
+        let customText = e.target.value
+        if(customText){
+            addText(customText)
+            document.getElementById(customTextSubmit).value=''
+        }
+        else{
+            let errorMessage = "Enter text to add to the translation queue"
+            window.alert(errorMessage)
+        }
+    }
+}
+
+export const CustomText = ({addText}) =>
+    <div id={customTextID}>
+        <input id={customTextSubmit}
+               onKeyDown={(e) => submitCustomText(e, addText)}
+               type="text"
+               placeholder="Enter text here"/>
+    </div>
 
 export const EndpointManager = ({setEndpoint}) => 
     <div id={endpointManagerID}>
@@ -59,6 +96,7 @@ export const TextManager = ({addText}) =>
                      spacing={grammar.default.spacing[description]}/>)}
         <br></br>
         Custom Text
+        <CustomText addText={addText}/>
     </div>
 
 export class TranslationCoordinator extends React.Component{
@@ -78,13 +116,7 @@ export class TranslationCoordinator extends React.Component{
                         <EndpointManager setEndpoint={setEndpoint}/>
                         <QueueManager clearQueue={clearQueue}/>
                         <button onClick={() => {
-                            if(translations.searchPhrase.length > 0){
-                                translate()
-                            }
-                            else{
-                                let errorMessage = "Translation Queue must have content to be translated."
-                                window.alert(errorMessage)
-                            }
+                            processTranslationRequest(translations, translate)
                         }}>Get Translations</button>
                     </div>
                 )
@@ -94,6 +126,10 @@ export class TranslationCoordinator extends React.Component{
             <div id={coordinatorID}></div>
         )
     }
+}
+
+CustomText.propTypes = {
+    addText: PropTypes.func
 }
 
 EndpointManager.propTypes = {

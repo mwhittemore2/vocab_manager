@@ -209,7 +209,7 @@ export const highlight = (dispatch, words) => {
 
 export const jumpToPage = (e, navigator) =>
     (dispatch, getState) => {
-        let enterKey = 13
+        let enterKey = C.KEYBOARD_INPUT.ENTER
         if(e.keyCode === enterKey){
             let pageNumber = e.target.value
             let isNumeric = !isNaN(pageNumber)
