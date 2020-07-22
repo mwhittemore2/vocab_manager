@@ -9,7 +9,7 @@ export const DisplayOptions = ({selectOption}) =>
         <div onClick={() => selectOption(C.DOC_VIEWER_OPTIONS.TRANSLATION_COORDINATOR)}>
             Select words to translate
         </div>
-        <div onClick={() => selectOption(C.DOC_VIEWER_OPTIONS.BOOKMARKS)}>
+        <div onClick={() => window.alert("This feature isn't implemented yet")}>
             Manage bookmarks
         </div>
     </div>

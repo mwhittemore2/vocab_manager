@@ -77,12 +77,14 @@ export class TranslationViewer extends React.Component{
                 if(loaded){
                     let closeViewer = this.props.closeViewer
                     let cursor = this.props.cursor
+                    let jumpToPage = this.props.jumpToPage
                     let translations = this.props.translations
                     return(
                         <div id={viewerID}>
                             <button onClick={() => closeViewer()}>Close</button>
                             <ViewMatches translations={translations}/>
                             <Navigator cursor={cursor}
+                                       jumpToPage={jumpToPage}
                                        results={translations}
                                        viewer={viewerID}/>
                         </div>
@@ -122,6 +124,7 @@ TranslationViewer.propTypes = {
     closeViewer: PropTypes.func,
     cursor: PropTypes.func,
     interaction: PropTypes.string,
+    jumpToPage: PropTypes.func,
     loaded: PropTypes.object,
     option: PropTypes.string,
     translations: PropTypes.object
@@ -132,6 +135,7 @@ TranslationViewer.defaultProps = {
     closeViewer: f=>f,
     cursor: f=>f,
     interaction: C.DOCUMENT_VIEWER,
+    jumpToPage: f=>f,
     loaded: {},
     option: C.DOC_VIEWER_OPTIONS.DEFAULT,
     translations: {}

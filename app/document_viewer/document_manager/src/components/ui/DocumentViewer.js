@@ -6,10 +6,11 @@ import C from '../../constants'
 
 const displayID = "document-viewer"
 
-export const Display = ({cursor, lines, selectWord}) =>
+export const Display = ({cursor, jumpToPage, lines, selectWord}) =>
     <div id={displayID}>
         <Page lines={lines} selectWord={selectWord} />
         <Navigator cursor={cursor}
+                   jumpToPage={jumpToPage}
                    results={lines}
                    viewer={displayID}/>
     </div>
@@ -19,10 +20,12 @@ export class DocumentViewer extends React.Component{
         let interaction = this.props.interaction
         if(interaction === C.DOCUMENT_VIEWER){
             let cursor = this.props.cursor
+            let jumpToPage = this.props.jumpToPage
             let lines = this.props.lines
             let selectWord = this.props.selectWord
             return(
                 <Display cursor={cursor}
+                         jumpToPage={jumpToPage}
                          lines={lines}
                          selectWord={selectWord}/>
             )
@@ -35,6 +38,7 @@ export class DocumentViewer extends React.Component{
 
 Display.propTypes = {
     cursor: PropTypes.func,
+    jumpToPage: PropTypes.func,
     lines: PropTypes.object,
     selectWord: PropTypes.func
 }
@@ -42,6 +46,7 @@ Display.propTypes = {
 DocumentViewer.propTypes = {
     cursor: PropTypes.func,
     interaction: PropTypes.string,
+    jumpToPage: PropTypes.func,
     lines: PropTypes.object,
     selectWord: PropTypes.func
 }
@@ -49,6 +54,7 @@ DocumentViewer.propTypes = {
 DocumentViewer.defaultProps = {
     cursor: f=>f,
     interaction: C.DOCUMENT_SELECTOR,
+    jumpToPage: f=>f,
     lines: {},
     selectWord: f=>f
 }

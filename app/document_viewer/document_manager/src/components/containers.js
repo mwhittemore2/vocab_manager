@@ -19,6 +19,9 @@ export const DocumentDisplay = connect(
             cursor: (direction, pageNumber) => {
                 dispatch(actions.navigate(direction, pageNumber, actions.getPages))
             },
+            jumpToPage: (e) => {
+                dispatch(actions.jumpToPage(e, actions.getPages))
+            },
             selectWord: (word) => {
                 dispatch(actions.registerSelectedWord(word))
             }
@@ -122,6 +125,9 @@ export const TranslationDisplay = connect(
             },
             cursor: (direction, pageNumber) => {
                 dispatch(actions.navigate(direction, pageNumber, actions.getTranslations))
+            },
+            jumpToPage: (e) => {
+                dispatch(actions.jumpToPage(e, actions.getTranslations))
             }
         })
 )(TranslationViewer);

@@ -207,6 +207,23 @@ export const highlight = (dispatch, words) => {
     dispatch(msg)
 }
 
+export const jumpToPage = (e, navigator) =>
+    (dispatch, getState) => {
+        let enterKey = 13
+        if(e.keyCode === enterKey){
+            let pageNumber = e.target.value
+            let isNumeric = !isNaN(pageNumber)
+            if(isNumeric){
+                pageNumber = parseInt(pageNumber)
+                navigator(dispatch, getState, pageNumber)
+            }
+            else{
+                let errorMessage = "Destination must be a whole number"
+                window.alert(errorMessage)
+            }
+        }
+    }
+
 export const listDocuments = () =>
     (dispatch, getState) => {
         makeServiceCall(
