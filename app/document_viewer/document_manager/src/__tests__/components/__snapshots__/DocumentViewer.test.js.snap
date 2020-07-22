@@ -22,10 +22,11 @@ exports[`Display show page 1`] = `
         ],
       }
     }
-    selectWord={[Function]}
+    selectWord={[MockFunction]}
   />
   <Navigator
     cursor={[MockFunction]}
+    jumpToPage={[MockFunction]}
     results={
       Object {
         "currPage": 1,
@@ -51,6 +52,7 @@ exports[`Display show page 1`] = `
 exports[`DocumentViewer use viewer 1`] = `
 <Display
   cursor={[MockFunction]}
+  jumpToPage={[MockFunction]}
   lines={
     Object {
       "currPage": 1,

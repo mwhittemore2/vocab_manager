@@ -55,7 +55,13 @@ describe("TranslationQueue", () => {
     it("populated queue", () => {
         let interaction = C.DOCUMENT_VIEWER
         let translations = {
-                searchPhrase: ["Die ", "Welt ", "ist ", "meine ", "Vorstellung"]
+                searchPhrase: [
+                    {fulltext: "Die "}, 
+                    {fulltext: "Welt "}, 
+                    {fulltext: "ist "}, 
+                    {fulltext: "meine "}, 
+                    {fulltext: "Vorstellung"}
+                ]
             }
         let remove = jest.fn()
         let txt = toJSON(

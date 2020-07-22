@@ -171,7 +171,9 @@ exports[`TranslationViewer view translations 1`] = `
 <div
   id="translation-viewer"
 >
-  <button>
+  <button
+    onClick={[Function]}
+  >
     Close
   </button>
   <ViewMatches

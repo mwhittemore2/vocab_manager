@@ -4,10 +4,14 @@ exports[`DisplayOptions check options 1`] = `
 <div
   id="document-viewer-options-menu"
 >
-  <div>
+  <div
+    onClick={[Function]}
+  >
     Select words to translate
   </div>
-  <div>
+  <div
+    onClick={[Function]}
+  >
     Manage bookmarks
   </div>
 </div>

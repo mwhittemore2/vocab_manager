@@ -1,13 +1,17 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`QueueElement multiple words 1`] = `
-<span>
+<span
+  onClick={[Function]}
+>
   das Buch
 </span>
 `;
 
 exports[`QueueElement single word 1`] = `
-<span>
+<span
+  onClick={[Function]}
+>
   Buch
 </span>
 `;
@@ -30,31 +34,31 @@ exports[`TranslationQueue populated queue 1`] = `
 >
   <QueueElement
     key="tq-0-Die "
-    pos={0}
+    position={0}
     remove={[MockFunction]}
     text="Die "
   />
   <QueueElement
     key="tq-1-Welt "
-    pos={1}
+    position={1}
     remove={[MockFunction]}
     text="Welt "
   />
   <QueueElement
     key="tq-2-ist "
-    pos={2}
+    position={2}
     remove={[MockFunction]}
     text="ist "
   />
   <QueueElement
     key="tq-3-meine "
-    pos={3}
+    position={3}
     remove={[MockFunction]}
     text="meine "
   />
   <QueueElement
     key="tq-4-Vorstellung"
-    pos={4}
+    position={4}
     remove={[MockFunction]}
     text="Vorstellung"
   />

@@ -6,6 +6,7 @@ exports[`Navigator correct display 1`] = `
 >
   <button
     id="DOCUMENT_VIEWER-previous"
+    onClick={[Function]}
   >
     Previous
   </button>
@@ -20,6 +21,7 @@ exports[`Navigator correct display 1`] = `
   </div>
   <button
     id="DOCUMENT_VIEWER-next"
+    onClick={[Function]}
   >
     Next
   </button>

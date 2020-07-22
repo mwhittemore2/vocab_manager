@@ -5,6 +5,7 @@ import { Display, DocumentViewer } from '../../components/ui/DocumentViewer'
 import C from '../../constants'
 
 let cursor = jest.fn()
+let jumpToPage = jest.fn()
 let lines = {
         currPage: 1,
         words: [],
@@ -18,8 +19,9 @@ describe("Display", () =>{
     it("show page", () =>{
         let txt = toJSON(
                       shallow(<Display cursor={cursor}
+                                       jumpToPage={jumpToPage}
                                        lines={lines}
-                                       selector={selector}/>
+                                       selectWord={selector}/>
                       )
                   )
         expect(txt).toMatchSnapshot()
@@ -31,6 +33,7 @@ describe("DocumentViewer", () => {
         let interaction = C.DOCUMENT_VIEWER
         let txt = toJSON(
                       shallow(<DocumentViewer cursor={cursor}
+                                              jumpToPage={jumpToPage}
                                               interaction={interaction}
                                               lines={lines}
                                               selectWord={selector}/>
@@ -43,6 +46,7 @@ describe("DocumentViewer", () => {
         let interaction = C.DOCUMENT_SELECTOR
         let txt = toJSON(
                       shallow(<DocumentViewer cursor={cursor}
+                                              jumpToPage={jumpToPage}
                                               interaction={interaction}
                                               lines={lines}
                                               selectWord={selector}/>

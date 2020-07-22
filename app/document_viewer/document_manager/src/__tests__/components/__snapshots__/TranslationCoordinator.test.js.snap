@@ -6,17 +6,23 @@ exports[`EndpointManager check tags 1`] = `
 >
   Set the boundaries of the text to be translated
   <br />
-  <button>
+  <button
+    onClick={[Function]}
+  >
     Start
   </button>
-  <button>
+  <button
+    onClick={[Function]}
+  >
     Finish
   </button>
 </div>
 `;
 
 exports[`Punctuation add comma button 1`] = `
-<button>
+<button
+  onClick={[Function]}
+>
   ,
 </button>
 `;
@@ -27,12 +33,18 @@ exports[`QueueManager check tags 1`] = `
 >
   Control the content of the translation queue
   <br />
-  <button />
+  <button
+    onClick={[Function]}
+  >
+    Clear Queue
+  </button>
 </div>
 `;
 
 exports[`Spacing add whitespace button 1`] = `
-<button>
+<button
+  onClick={[Function]}
+>
   whitespace
 </button>
 `;
@@ -76,6 +88,9 @@ exports[`TextManager check tags 1`] = `
   />
   <br />
   Custom Text
+  <CustomText
+    addText={[MockFunction]}
+  />
 </div>
 `;
 
@@ -92,7 +107,9 @@ exports[`TranslationCoordinator check tags 1`] = `
   <QueueManager
     clearQueue={[MockFunction]}
   />
-  <button>
+  <button
+    onClick={[Function]}
+  >
     Get Translations
   </button>
 </div>
