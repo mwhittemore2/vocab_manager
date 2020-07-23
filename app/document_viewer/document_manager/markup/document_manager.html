@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <title>Document Manager</title>
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <div id="document-manager"></div>
+        <!--- 
+        Initialize another script tag here which can be fed in
+        the following variables from flask through render_template:
+          var userEmail
+          var token
+          var microserviceEndpoints
+
+          These variables should then be encapsulated in a LogIn
+          object which can be used to help initialize the state
+          store.
+        -->
+        
+        <script>
+            /*
+            Contains urls of available services as well as headers
+            needed for api requests.
+
+            Note: Make sure to clear localStorage before starting application
+            */
+            localStorage.clear()
+            localStorage["login::services::getPages"] = "http://localhost:1080/page_range"
+            localStorage["login::services::getTranslations"] = "http://localhost:1080/translations"
+            localStorage["login::services::listDocuments"] = "http://localhost:1080/document_retrieval/doc_list"
+        </script>
+        <script src="../dist/assets/bundle.js"></script>
+    </body>
+</html>

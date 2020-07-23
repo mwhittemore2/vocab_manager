@@ -111,7 +111,7 @@ export class TranslationCoordinator extends React.Component{
                 let translate = this.props.translate
                 let translations = this.props.translations
                 return(
-                    <div id={coordinatorID}>
+                    <div id={coordinatorID} className="option">
                         <TextManager addText={addText}/>
                         <EndpointManager setEndpoint={setEndpoint}/>
                         <QueueManager clearQueue={clearQueue}/>

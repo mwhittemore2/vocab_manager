@@ -5,7 +5,7 @@ import C from "../../constants"
 const optionsMenuID = "document-viewer-options-menu"
 
 export const DisplayOptions = ({selectOption}) =>
-    <div id={optionsMenuID}>
+    <div id={optionsMenuID} className="option">
         <div onClick={() => selectOption(C.DOC_VIEWER_OPTIONS.TRANSLATION_COORDINATOR)}>
             Select words to translate
         </div>

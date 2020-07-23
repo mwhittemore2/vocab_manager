@@ -80,7 +80,7 @@ export class TranslationViewer extends React.Component{
                     let jumpToPage = this.props.jumpToPage
                     let translations = this.props.translations
                     return(
-                        <div id={viewerID}>
+                        <div id={viewerID} className="option">
                             <button onClick={() => closeViewer()}>Close</button>
                             <ViewMatches translations={translations}/>
                             <Navigator cursor={cursor}
