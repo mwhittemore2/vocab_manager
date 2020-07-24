@@ -1,10 +1,10 @@
 .option{
-    position: absolute;
-    top: 50px;
-    left: 800px;
-    height: 300px;
-    width: 300px;
-    overflow-y: scroll;
     border-color: #9932CC;
     border-style: solid;
+    height: 300px;
+    left: 800px;
+    overflow-y: scroll;
+    position: absolute;
+    top: 50px;
+    width: 300px;
 }
