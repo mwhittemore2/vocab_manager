@@ -1,6 +1,7 @@
 import PropTypes from "prop-types"
 import React from "react"
 import C from "../../constants"
+import stylesheet from './stylesheet'
 import { grammar } from "../../data/grammar"
 
 const coordinatorID = "translation-coordinator"
@@ -57,35 +58,40 @@ export const CustomText = ({addText}) =>
 
 export const EndpointManager = ({setEndpoint}) => 
     <div id={endpointManagerID}>
-        Set the boundaries of the text to be translated
+        Set text boundaries
         <br></br>
-        <button onClick={() => setEndpoint(C.TEXT_START)}>Start</button>
-        <button onClick={() => setEndpoint(C.TEXT_FINISH)}>Finish</button>
+        <button className={stylesheet.buttonDivider}
+                onClick={() => setEndpoint(C.TEXT_START)}>Start</button>
+        <button onClick={() => setEndpoint(C.TEXT_FINISH)}>End</button>
+        <br></br>
+        <br></br>
     </div>
 
 export const QueueManager = ({clearQueue}) => 
     <div id={queueManagerID}>
-        Control the content of the translation queue
+        Manage the translation queue
         <br></br>
         <button onClick={() => clearQueue()}>Clear Queue</button>
+        <br></br>
+        <br></br>
     </div>
 
 export const Punctuation = ({addText, punct}) => 
-    <button onClick={() => addText(punct)}>{punct}</button>
+    <button className={stylesheet.buttonDivider}
+            onClick={() => addText(punct)}>{punct}</button>
 
 export const Spacing = ({addText, description, spacing}) =>
     <button onClick={() => addText(spacing)}>{description}</button>
 
 export const TextManager = ({addText}) => 
     <div id={textManagerID}>
-        Select the text to be added to the translation queue.
-        <br></br>
         Punctuation
         <br></br>
         {grammar.default.punctuation.map((punct, index) => 
             <Punctuation addText={addText}
                          key={buildTextManagerKey(index, punct)}
                          punct={punct}/>)}
+        <br></br>
         <br></br>
         Spacing
         <br></br>
@@ -94,6 +100,7 @@ export const TextManager = ({addText}) =>
                      description={description}
                      key={buildTextManagerKey(index, description)}
                      spacing={grammar.default.spacing[description]}/>)}
+        <br></br>
         <br></br>
         Custom Text
         <CustomText addText={addText}/>
@@ -111,10 +118,15 @@ export class TranslationCoordinator extends React.Component{
                 let translate = this.props.translate
                 let translations = this.props.translations
                 return(
-                    <div id={coordinatorID} className="option">
-                        <TextManager addText={addText}/>
+                    <div id={coordinatorID} className={stylesheet.option}>
+                        <b className={stylesheet.optionHeader}>Translation Coordinator</b>
+                        <br></br>
+                        <br></br>
                         <EndpointManager setEndpoint={setEndpoint}/>
                         <QueueManager clearQueue={clearQueue}/>
+                        <TextManager addText={addText}/>
+                        <br></br>
+                        <br></br>
                         <button onClick={() => {
                             processTranslationRequest(translations, translate)
                         }}>Get Translations</button>

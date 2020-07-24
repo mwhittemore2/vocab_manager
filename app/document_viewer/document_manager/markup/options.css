@@ -1,10 +1,22 @@
+.choose-option{
+    font-weight: bold;
+    list-style-type: square;
+}
+
 .option{
-    border-color: #9932CC;
+    background-color: #D8BFD8;
+    border-color: #00008B;
     border-style: solid;
-    height: 300px;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    font-weight: bold;
+    height: 500px;
     left: 800px;
     overflow-y: scroll;
     position: absolute;
     top: 50px;
     width: 300px;
+}
+
+.option-header{
+    font-size: 150%;
 }

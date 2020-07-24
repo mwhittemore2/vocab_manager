@@ -1,14 +1,19 @@
 @import "options.css";
 
+.button-divider{
+    margin-right: 5px;
+}
+
 .display-queue{
-    border-color: #7fffd4;
+    background-color: #D8BFD8;
+    border-color: #00008B;
     border-style: solid;
     height: 30px;
     left: 0px;
     overflow-y: scroll;
     position: absolute;
     top: 10px;
-    width: 300px;
+    width: 745px;
 }
 
 .page{

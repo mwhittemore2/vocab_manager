@@ -1,17 +1,24 @@
 import PropTypes from "prop-types"
 import React from "react"
+import stylesheet from './stylesheet'
 import C from "../../constants"
 
 const optionsMenuID = "document-viewer-options-menu"
 
 export const DisplayOptions = ({selectOption}) =>
-    <div id={optionsMenuID} className="option">
-        <div onClick={() => selectOption(C.DOC_VIEWER_OPTIONS.TRANSLATION_COORDINATOR)}>
-            Select words to translate
-        </div>
-        <div onClick={() => window.alert("This feature isn't implemented yet")}>
-            Manage bookmarks
-        </div>
+    <div id={optionsMenuID} className={stylesheet.option}>
+        <b className={stylesheet.optionHeader}>Document Viewer Options</b>
+        <br></br>
+        <br></br>
+        <ul className={stylesheet.chooseOption}>
+            <div onClick={() => selectOption(C.DOC_VIEWER_OPTIONS.TRANSLATION_COORDINATOR)}>
+                <li>Select words to translate</li>
+            </div>
+            <br></br>
+            <div onClick={() => window.alert("This feature isn't implemented yet")}>
+                <li>Manage bookmarks</li>
+            </div>
+        </ul>
     </div>
 
 export class OptionsMenu extends React.Component{
