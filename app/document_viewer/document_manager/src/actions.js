@@ -326,9 +326,13 @@ export const setTextEnd = (dispatch, getState, word) => {
 
 export const setTextStart = (dispatch, getState, word) => {
     let lines = getState().lines
+    let linesCopy = {
+        breaks: lines.breaks,
+        words: lines.words
+    }
     let msg = {
         type: C.APPEND_TRANSLATION_BUFFER,
-        buffer: lines.words,
+        buffer: linesCopy,
         start: word
     }
     dispatch(msg)

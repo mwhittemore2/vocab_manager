@@ -30,8 +30,15 @@ export const collectTextRange = (dispatch, getState, word) => {
     let canAddWord = true
     let canAppendToQueue = true
     let currWord = start
+    let isOutOfBounds = false
     let maxSize = C.TRANSLATION_QUEUE_MAX_SIZE
     while(canAddWord){
+        isOutOfBounds = !(currWord.page <= word.page & currWord.line <= word.line & currWord.pos <= currWord.pos)
+        if(isOutOfBounds){
+            canAddWord = false
+            break
+        }
+
         //Make sure translation queue isn't full
         let currSize = queueSize + toAppend.length
         if(currSize > maxSize){
@@ -93,9 +100,10 @@ export const getNextWord = (direction, lines, word) => {
     let line = word.line
     let page = word.page
     let pos = word.pos
+    let currTxt = lines.words[line][pos]
     if((pos > 0) & (pos < lines.words[line].length - 1)){
         nextWord = {
-            fulltext: word.text,
+            fulltext: currTxt,
             pointer: {
                 line: line,
                 page: page,
