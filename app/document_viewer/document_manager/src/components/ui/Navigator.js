@@ -1,6 +1,6 @@
 import PropTypes from "prop-types"
 import React from "react"
-import stylesheet from './stylesheet'
+import stylesheet from './stylesheets/common'
 import C from '../../constants'
 
 export const Navigator = ({cursor, jumpToPage, results, viewer}) =>

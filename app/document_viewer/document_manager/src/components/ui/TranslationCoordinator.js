@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import React from "react"
 import C from "../../constants"
-import stylesheet from './stylesheet'
+import stylesheet from './stylesheets/common'
 import { grammar } from "../../data/grammar"
 
 const coordinatorID = "translation-coordinator"

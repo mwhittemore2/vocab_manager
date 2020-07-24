@@ -1,8 +1,7 @@
 import PropTypes from "prop-types"
 import React from "react"
+import stylesheet from './stylesheets/common'
 import C from '../../constants'
-
-const displayQueue = "display-queue"
 
 const queueID = "translation-queue"
 
@@ -23,7 +22,7 @@ export class TranslationQueue extends React.Component{
             let remove = this.props.remove
             let translations = this.props.translations
             return(
-                <div id={queueID} className={displayQueue}>
+                <div id={queueID} className={stylesheet.displayQueue}>
                     {translations.searchPhrase.map((word, index) =>
                         <QueueElement key={buildKey(index, word.fulltext)}
                                       position={index}
