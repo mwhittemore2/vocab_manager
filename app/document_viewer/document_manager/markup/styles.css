@@ -16,6 +16,15 @@
     width: 745px;
 }
 
+.navigator{
+    left: 40%;
+    position: relative;
+}
+
+div.navigator > input[type="text"]{
+    width: 4ch;
+}
+
 .page{
     background-color: #dcdcdc;
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;

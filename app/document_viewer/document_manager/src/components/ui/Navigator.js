@@ -1,17 +1,17 @@
 import PropTypes from "prop-types"
 import React from "react"
+import stylesheet from './stylesheet'
 import C from '../../constants'
 
 export const Navigator = ({cursor, jumpToPage, results, viewer}) =>
-    <div id={viewer.concat("-navigator")}>
+    <div id={viewer.concat("-navigator")} className={stylesheet.navigator}>
         <button id={viewer.concat("-previous")} onClick={() => cursor(C.PREVIOUS_PAGE, results.currPage)}>
             Previous
         </button>
-        <div id={viewer.concat("-current")}>
-           <input onKeyDown={(e) => jumpToPage(e)}
-                  type="text"
-                  placeholder={results.currPage}/>
-        </div>
+        <input id={viewer.concat("-current")}
+               onKeyDown={(e) => jumpToPage(e)}
+               type="text"
+               placeholder={results.currPage}/>
         <button id={viewer.concat("-next")} onClick={() => cursor(C.NEXT_PAGE, results.currPage)}>
             Next
         </button>
