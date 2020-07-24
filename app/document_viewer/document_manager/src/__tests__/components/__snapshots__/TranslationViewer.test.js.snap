@@ -169,6 +169,7 @@ exports[`TranslationViewer not in document viewer 1`] = `undefined`;
 
 exports[`TranslationViewer view translations 1`] = `
 <div
+  className="option"
   id="translation-viewer"
 >
   <button

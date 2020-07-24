@@ -2,6 +2,7 @@
 
 exports[`Navigator correct display 1`] = `
 <div
+  className="navigator"
   id="DOCUMENT_VIEWER-navigator"
 >
   <button
@@ -10,15 +11,12 @@ exports[`Navigator correct display 1`] = `
   >
     Previous
   </button>
-  <div
+  <input
     id="DOCUMENT_VIEWER-current"
-  >
-    <input
-      onKeyDown={[Function]}
-      placeholder={1}
-      type="text"
-    />
-  </div>
+    onKeyDown={[Function]}
+    placeholder={1}
+    type="text"
+  />
   <button
     id="DOCUMENT_VIEWER-next"
     onClick={[Function]}

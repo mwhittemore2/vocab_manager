@@ -18,6 +18,7 @@ exports[`QueueElement single word 1`] = `
 
 exports[`TranslationQueue empty queue 1`] = `
 <div
+  className="display-queue"
   id="translation-queue"
 />
 `;
@@ -30,6 +31,7 @@ exports[`TranslationQueue not in document viewer 1`] = `
 
 exports[`TranslationQueue populated queue 1`] = `
 <div
+  className="display-queue"
   id="translation-queue"
 >
   <QueueElement

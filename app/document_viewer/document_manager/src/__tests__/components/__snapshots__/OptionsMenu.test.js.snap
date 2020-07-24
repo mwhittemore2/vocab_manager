@@ -2,18 +2,35 @@
 
 exports[`DisplayOptions check options 1`] = `
 <div
+  className="option"
   id="document-viewer-options-menu"
 >
-  <div
-    onClick={[Function]}
+  <b
+    className="option-header"
   >
-    Select words to translate
-  </div>
-  <div
-    onClick={[Function]}
+    Document Viewer Options
+  </b>
+  <br />
+  <br />
+  <ul
+    className="choose-option"
   >
-    Manage bookmarks
-  </div>
+    <div
+      onClick={[Function]}
+    >
+      <li>
+        Select words to translate
+      </li>
+    </div>
+    <br />
+    <div
+      onClick={[Function]}
+    >
+      <li>
+        Manage bookmarks
+      </li>
+    </div>
+  </ul>
 </div>
 `;
 

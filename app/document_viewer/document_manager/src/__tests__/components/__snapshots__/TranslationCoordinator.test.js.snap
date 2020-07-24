@@ -4,9 +4,10 @@ exports[`EndpointManager check tags 1`] = `
 <div
   id="translation-coordinator-endpoint-manager"
 >
-  Set the boundaries of the text to be translated
+  Set text boundaries
   <br />
   <button
+    className="button-divider"
     onClick={[Function]}
   >
     Start
@@ -14,13 +15,16 @@ exports[`EndpointManager check tags 1`] = `
   <button
     onClick={[Function]}
   >
-    Finish
+    End
   </button>
+  <br />
+  <br />
 </div>
 `;
 
 exports[`Punctuation add comma button 1`] = `
 <button
+  className="button-divider"
   onClick={[Function]}
 >
   ,
@@ -31,13 +35,15 @@ exports[`QueueManager check tags 1`] = `
 <div
   id="translation-coordinator-queue-manager"
 >
-  Control the content of the translation queue
+  Manage the translation queue
   <br />
   <button
     onClick={[Function]}
   >
     Clear Queue
   </button>
+  <br />
+  <br />
 </div>
 `;
 
@@ -53,8 +59,6 @@ exports[`TextManager check tags 1`] = `
 <div
   id="translation-coordinator-text-manager"
 >
-  Select the text to be added to the translation queue.
-  <br />
   Punctuation
   <br />
   <Punctuation
@@ -78,6 +82,7 @@ exports[`TextManager check tags 1`] = `
     punct="\\""
   />
   <br />
+  <br />
   Spacing
   <br />
   <Spacing
@@ -86,6 +91,7 @@ exports[`TextManager check tags 1`] = `
     key="text-manager-0-whitespace"
     spacing=" "
   />
+  <br />
   <br />
   Custom Text
   <CustomText
@@ -96,17 +102,27 @@ exports[`TextManager check tags 1`] = `
 
 exports[`TranslationCoordinator check tags 1`] = `
 <div
+  className="option"
   id="translation-coordinator"
 >
-  <TextManager
-    addText={[MockFunction]}
-  />
+  <b
+    className="option-header"
+  >
+    Translation Coordinator
+  </b>
+  <br />
+  <br />
   <EndpointManager
     setEndpoint={[MockFunction]}
   />
   <QueueManager
     clearQueue={[MockFunction]}
   />
+  <TextManager
+    addText={[MockFunction]}
+  />
+  <br />
+  <br />
   <button
     onClick={[Function]}
   >
