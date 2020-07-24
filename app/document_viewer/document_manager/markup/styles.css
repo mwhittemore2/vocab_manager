@@ -1,57 +1,30 @@
 @import "options.css";
 
-/*
-*  Classes
-*/
-
-/*
-.option{
-    position: absolute;
-    top: 40px;
-    left: 100px;
-    height: 100px;
-    width: 40px;
-    overflow-y: scroll;
-}*/
-
-/*
-*  Identifiers
-*/
-
 .page{
-    /*background-color: #c8c8c8;*/
+    position: relative;
+    height: 500px;
+    width: 750px;
     background-color: #dcdcdc;
-    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    overflow-y: scroll;
 }
 
 #document-viewer{
     position: absolute;
-    top: 40px;
+    top: 50px;
     left: 0px;
-    height: 200px;
-    width: 200px;
-    overflow-y: scroll;
+    height: 800px;
+    width: 750px;
+    /*overflow-y: scroll;*/
 }
-
-/*.option{
-    position: absolute;
-    top: 40px;
-    left: 800px;
-    height: 300px;
-    width: 300px;
-    overflow-y: scroll;
-}*/
 
 .display-queue{
-    border-color: #7fffd4;
-    border-style: solid;
-}
-
-#translation-queue{
     position: absolute;
     top: 10px;
     left: 0px;
     height: 30px;
-    width: 100px;
+    width: 300px;
     overflow-y: scroll;
+    border-color: #7fffd4;
+    border-style: solid;
 }
