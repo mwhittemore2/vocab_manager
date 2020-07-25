@@ -1,5 +1,5 @@
 import axios from "axios"
-import { collectTextRange, getNextWord } from './lib/textProcessing'
+import { collectTextRange, getNextWord, isAlreadySelected } from './lib/textProcessing'
 import C from './constants'
 
 const buildPhrase = words => {
@@ -121,6 +121,13 @@ const parseResponse = response => {
 export const addToTranslationQueue = (dispatch, getState, word) => {
     let direction = C.DIRECTION.RIGHT
     let lines = getState().lines
+    
+    if(isAlreadySelected(getState, word)){
+        let errorMessage = "Word is already selected"
+        window.alert(errorMessage)
+        return
+    }
+
     let newWord = getNextWord(direction, lines, word)
     let msg = {
         type: C.APPEND_TRANSLATION_QUEUE,

@@ -152,6 +152,20 @@ export const getTokenIdentifier = (line, page, pos) => {
     return tokenID
 }
 
+export const isAlreadySelected = (getState, word) => {
+    let selected = getState().lines.selected
+    let hasPos = word.hasOwnProperty('pos')
+    if(!hasPos){
+        return false
+    }
+    let line = word.line
+    let page = word.page
+    let pos = word.pos
+    let tokenID = getTokenIdentifier(line, page, pos)
+    let decision = selected.has(tokenID)
+    return decision
+}
+
 export const isPreviousTo = (w1, w2) => {
     let pageInBounds = (w1.page <= w2.page)
     if(!pageInBounds){
