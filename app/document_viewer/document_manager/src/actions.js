@@ -322,6 +322,8 @@ export const setTextBoundary = (boundary) =>
 export const setTextEnd = (dispatch, getState, word) => {
         let selected = collectTextRange(dispatch, getState, word)
         highlight(dispatch, selected)
+        let defaultBoundary = C.TEXT_BOUNDARY_DEFAULT
+        setTextBoundary(defaultBoundary)(dispatch, getState)
 }
 
 export const setTextStart = (dispatch, getState, word) => {

@@ -33,7 +33,9 @@ export const collectTextRange = (dispatch, getState, word) => {
     let isOutOfBounds = false
     let maxSize = C.TRANSLATION_QUEUE_MAX_SIZE
     while(canAddWord){
-        isOutOfBounds = !(currWord.page <= word.page & currWord.line <= word.line & currWord.pos <= currWord.pos)
+        isOutOfBounds = !isPreviousTo(currWord, word)
+        console.log("out of bounds test")
+        console.log(isOutOfBounds)
         if(isOutOfBounds){
             canAddWord = false
             break
@@ -52,6 +54,8 @@ export const collectTextRange = (dispatch, getState, word) => {
         //Add new word to translate
         let direction = C.DIRECTION.RIGHT
         let nextWord = getNextWord(direction, lines, currWord)
+        console.log("current word")
+        console.log(nextWord)
         if(word.page - start.page === 1){
             toAppend.push(nextWord)
             selected = union(selected, nextWord.selected)
@@ -146,6 +150,26 @@ export const getTokenIdentifier = (line, page, pos) => {
     let tokenID = page.toString() + separator + line.toString()
     tokenID = tokenID + separator + pos.toString()
     return tokenID
+}
+
+export const isPreviousTo = (w1, w2) => {
+    let pageInBounds = (w1.page <= w2.page)
+    if(!pageInBounds){
+        return false
+    }
+    let lineInBounds = (w1.line <= w2.line)
+    if(w1.page === w2.page){
+        if(!lineInBounds){
+            return false
+        }
+    }
+    let posInBounds = (w1.pos <= w2.pos)
+    if((w1.page === w2.page) & (w1.line === w2.line)){
+        if(!posInBounds){
+            return false
+        }
+    }
+    return true
 }
 
 export const moveLeft = (breaks, currWord, lines, tokenData) => {
