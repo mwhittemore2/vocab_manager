@@ -31,8 +31,37 @@ const firstPage = {
     }
 }
 
+const secondPage = {
+    words: [
+        ["Habe ", "Mu-"],
+        ["t ", "zu ", "wissen."]
+    ],
+    breaks: {
+        pageBoundaries: {
+            next: {},
+            previous: {},
+        },
+        end: [1,2],
+        start: [0, 1],
+        tokens: [
+            {
+                fulltext: "Habe ",
+                positions: [[2,0,0]]
+            },
+            {
+                fulltext: "Mut ",
+                positions: [[2,0,1], [2,1,0]]
+            },
+            {
+                fulltext: "wissen.",
+                positions: [[2,1,2]]
+            }
+        ]
+    }
+}
+
 const pages = {
-    content: [firstPage],
+    content: [firstPage, secondPage],
     startPage: 1
 }
 
