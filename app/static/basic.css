@@ -3,6 +3,15 @@ html{
     background-size: cover;
 }
 
+.administration{
+    background-color: #c0c0c0;
+    height: 550px;
+    left: 20px;
+    position: absolute;
+    top: 50px;
+    width: 500px;
+}
+
 .welcome{
     background-color: #c0c0c0;
     height: 300px;
