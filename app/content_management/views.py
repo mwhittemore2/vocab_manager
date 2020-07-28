@@ -42,3 +42,12 @@ def document_upload():
             flash(success_msg)
 
     return render_template('content_management/document_upload.html', form=form)
+
+@cm.route("/select_content")
+@login_required
+def select_content():
+    """
+    Enables a user to choose one of the features that
+    Vocabulary Manager offers.
+    """
+    return render_template('content_management/select_content.html')

@@ -12,6 +12,17 @@ html{
     width: 500px;
 }
 
+.selection{
+    background-color: #c0c0c0;
+    float: left;
+    height: 50px;
+    left: 400px;
+    margin-right: 30px;
+    top: 200px;
+    position: relative;
+    width: 200px;
+}
+
 .welcome{
     background-color: #c0c0c0;
     height: 300px;
