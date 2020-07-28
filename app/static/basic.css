@@ -1,0 +1,13 @@
+html{
+    background: url("library.jpg") no-repeat center fixed;
+    background-size: cover;
+}
+
+.welcome{
+    background-color: #c0c0c0;
+    height: 300px;
+    left: 20px;
+    position: absolute;
+    top: 50px;
+    width: 300px;
+}

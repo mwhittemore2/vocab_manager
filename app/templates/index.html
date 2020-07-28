@@ -1,13 +1,18 @@
 {% extends "bootstrap/base.html" %}
 
+{% block title %}Vocabulary Manager{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='basic.css') }}" />
+{% endblock %}
+
 {% block content %}
-<div class="container container-table">
-  <div class="row vertical-center-row">
-      <div class="text-center col-md-4 col-md-offset-4">
-        <h1> Vocabulary Manager </h1>
-        <a class="btn btn-primary" href="auth/login" role="button">Log In</a> 
-        <a class="btn btn-primary" href="auth/register" role="button">Sign Up</a>
-      </div>
-  </div>
+<div class="welcome">
+  <h1>Vocabulary Manager</h1>
+  <br>
+  <br>
+  <a class="btn btn-primary" href="auth/login" role="button">Log In</a> 
+  <a class="btn btn-primary" href="auth/register" role="button">Sign Up</a>
 </div>
 {% endblock %}
