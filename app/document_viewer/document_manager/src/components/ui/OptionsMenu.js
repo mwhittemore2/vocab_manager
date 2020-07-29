@@ -12,7 +12,7 @@ export const DisplayOptions = ({selectOption}) =>
         <br></br>
         <ul className={stylesheet.chooseOption}>
             <div onClick={() => selectOption(C.DOC_VIEWER_OPTIONS.TRANSLATION_COORDINATOR)}>
-                <li>Select words to translate</li>
+                <li>Open Translation Coordinator</li>
             </div>
             <br></br>
             <div onClick={() => window.alert("This feature isn't implemented yet")}>

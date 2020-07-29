@@ -19,7 +19,7 @@ exports[`DisplayOptions check options 1`] = `
       onClick={[Function]}
     >
       <li>
-        Select words to translate
+        Open Translation Coordinator
       </li>
     </div>
     <br />
