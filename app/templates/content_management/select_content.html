@@ -1,0 +1,17 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Select Content{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='basic.css') }}" />
+{% endblock %}
+
+{% block content %}
+<div class="selection">
+    <a href="document_viewer">Document Viewer</a>
+</div>
+<div class="selection">
+    <a href="content_management/document_upload">Upload a document</a>
+</div>
+{% endblock %}
