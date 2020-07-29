@@ -2,12 +2,13 @@ import PropTypes from "prop-types"
 import React from "react"
 import { Navigator } from './Navigator'
 import { Page } from './Page'
+import stylesheet from './stylesheets/common'
 import C from '../../constants'
 
 const displayID = "document-viewer"
 
 export const Display = ({cursor, jumpToPage, lines, selectWord}) =>
-    <div id={displayID}>
+    <div id={displayID} className={stylesheet.displayDocumentViewer}>
         <Page lines={lines} selectWord={selectWord} />
         <Navigator cursor={cursor}
                    jumpToPage={jumpToPage}

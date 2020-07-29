@@ -29,14 +29,14 @@ describe("Document Choice", () => {
 
     it("call selector", () => {
         shallow(<DocumentChoice doc={doc} identifier={key} selector={selector}/>)
-        .find('div')
+        .find('span')
         .simulate('click')
         expect(selector).toBeCalled()
     })
 
     it("check selected document", () => {
         shallow(<DocumentChoice doc={doc} identifier={key} selector={selector}/>)
-        .find('div')
+        .find('span')
         .simulate('click')
         expect(selector).toBeCalledWith(doc)
     })

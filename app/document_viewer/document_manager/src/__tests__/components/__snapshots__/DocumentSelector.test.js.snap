@@ -2,8 +2,14 @@
 
 exports[`Document Iterator multiple docs 1`] = `
 <div
+  className="display-document-selector"
   id="document-selector"
 >
+  <b>
+    Select a document to read
+  </b>
+  <br />
+  <br />
   <DocumentChoice
     doc={
       Object {
@@ -29,14 +35,27 @@ exports[`Document Iterator multiple docs 1`] = `
 
 exports[`Document Iterator no docs 1`] = `
 <div
+  className="display-document-selector"
   id="document-selector"
-/>
+>
+  <b>
+    Select a document to read
+  </b>
+  <br />
+  <br />
+</div>
 `;
 
 exports[`Document Iterator single doc 1`] = `
 <div
+  className="display-document-selector"
   id="document-selector"
 >
+  <b>
+    Select a document to read
+  </b>
+  <br />
+  <br />
   <DocumentChoice
     doc={
       Object {

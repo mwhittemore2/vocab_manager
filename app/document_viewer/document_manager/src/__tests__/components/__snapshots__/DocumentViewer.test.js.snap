@@ -2,6 +2,7 @@
 
 exports[`Display show page 1`] = `
 <div
+  className="display-document-viewer"
   id="document-viewer"
 >
   <Page

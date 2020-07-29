@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types'
 import React from "react"
+import stylesheet from './stylesheets/common'
 import C from '../../constants'
 import { Loading } from './Loading'
 
@@ -11,12 +12,15 @@ const buildKey = (doc, index) => {
 }
 
 export const DocumentChoice = ({doc, selector}) =>
-    <div onClick={() => selector(doc)}>
-        {doc.title}
+    <div className={stylesheet.documentChoice}>
+         <span onClick={() => selector(doc)}>{doc.title}</span>
     </div>
 
 export const DocumentIterator = ({documents, selectDocument}) =>
-    <div id="document-selector">
+    <div id="document-selector" className={stylesheet.displayDocumentSelector}>
+        <b>Select a document to read</b>
+        <br></br>
+        <br></br>
         {documents.sort((a, b) => (a.title > b.title) ? 1 : -1).map((doc, index) =>
             <DocumentChoice key={buildKey(doc.title, index)}
                             doc={doc}

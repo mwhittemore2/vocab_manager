@@ -1,4 +1,5 @@
 @import "options.css";
+@import "selector.css";
 
 .button-divider{
     margin-right: 5px;
@@ -34,10 +35,19 @@ div.navigator > input[type="text"]{
     width: 750px;
 }
 
-#document-viewer{
+.display-document-viewer{
     height: 800px;
     left: 0px;
     position: absolute;
     top: 50px;
     width: 750px;
 }
+
+/*
+#document-viewer{
+    height: 800px;
+    left: 0px;
+    position: absolute;
+    top: 50px;
+    width: 750px;
+}*/
