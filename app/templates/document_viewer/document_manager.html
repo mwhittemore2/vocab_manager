@@ -1,0 +1,30 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %}Document Viewer{% endblock %}
+
+{% block head %}
+{{ super() }}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='basic.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='document_manager/styles.css') }}">
+{% endblock %}
+
+{% block content %}
+<div id="document-manager"></div>
+    {% block javascript %}
+    <script>
+        /*
+         Contains urls of available services as well as headers
+         needed for api requests.
+         */
+            
+         var logIn = JSON.parse({{ login | tojson }})
+
+        localStorage.clear()
+        localStorage["login::services::getPages"] = logIn.services.getPages
+        localStorage["login::services::getTranslations"] = logIn.services.getTranslations
+        localStorage["login::services::listDocuments"] = logIn.services.listDocuments
+        localStorage["login::headers"] = JSON.stringify(logIn.headers)
+    </script>
+    {% endblock %}
+    <script src="{{ url_for('static', filename='document_manager/bundle.js') }}"></script>
+{% endblock %}

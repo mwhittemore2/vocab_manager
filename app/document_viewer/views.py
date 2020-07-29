@@ -38,5 +38,3 @@ def document_viewer():
     logIn = json.dumps(logIn)
 
     return render_template('document_viewer/document_manager.html', login=logIn)
-
-
