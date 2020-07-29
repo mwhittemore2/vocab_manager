@@ -38,4 +38,8 @@ def create_app(config_name):
     from .content_management import cm as cm_blueprint
     app.register_blueprint(cm_blueprint, url_prefix='/content_management')
 
+    #add document viewer
+    from .document_viewer import document_viewer as document_viewer_blueprint
+    app.register_blueprint(document_viewer_blueprint, url_prefix='/document_viewer')
+
     return app

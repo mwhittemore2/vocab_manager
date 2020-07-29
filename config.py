@@ -13,6 +13,11 @@ class Config:
     DOCUMENT_UPLOAD["BATCH_SIZE"] = os.environ.get("DOCUMENT_UPLOAD_BATCH_SIZE") or 100
     DOCUMENT_UPLOAD["LINE_SIZE"] = os.environ.get("DOCUMENT_UPLOAD_LINE_SIZE") or 100
     DOCUMENT_UPLOAD["PAGE_LIMIT"] = os.environ.get("DOCUMENT_UPLOAD_PAGE_LIMIT") or 30
+    DOCUMENT_VIEWER_SERVICES = {
+        "getPages": "http://localhost:1080/page_range",
+        "getTranslations": "http://localhost:1080/translations",
+        "listDocuments": "http://localhost:1080/document_retrieval/doc_list"
+    }
     LANGUAGE_OPTIONS = [('english', 'English'), ('german', 'German')]
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     TOKENIZER = TokenizerMapper()
