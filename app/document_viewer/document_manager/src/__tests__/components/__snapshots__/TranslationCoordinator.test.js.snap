@@ -108,6 +108,12 @@ exports[`TranslationCoordinator check tags 1`] = `
   className="option"
   id="translation-coordinator"
 >
+  <button
+    onClick={[Function]}
+  >
+    Close
+  </button>
+  <br />
   <b
     className="option-header"
   >

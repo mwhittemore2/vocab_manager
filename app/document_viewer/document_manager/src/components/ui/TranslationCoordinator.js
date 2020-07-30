@@ -117,11 +117,14 @@ export class TranslationCoordinator extends React.Component{
             if(option === C.DOC_VIEWER_OPTIONS.TRANSLATION_COORDINATOR){
                 let addText = this.props.addText
                 let clearQueue = this.props.clearQueue
+                let closeViewer = this.props.closeViewer
                 let setEndpoint = this.props.setEndpoint
                 let translate = this.props.translate
                 let translations = this.props.translations
                 return(
                     <div id={coordinatorID} className={stylesheet.option}>
+                        <button onClick={() => closeViewer()}>Close</button>
+                        <br></br>
                         <b className={stylesheet.optionHeader}>Translation Coordinator</b>
                         <br></br>
                         <br></br>
@@ -174,6 +177,7 @@ TextManager.propTypes = {
 TranslationCoordinator.propTypes = {
     addText: PropTypes.func,
     clearQueue: PropTypes.func,
+    closeViewer: PropTypes.func,
     interaction: PropTypes.string,
     option: PropTypes.string,
     setEndpoint: PropTypes.func,
