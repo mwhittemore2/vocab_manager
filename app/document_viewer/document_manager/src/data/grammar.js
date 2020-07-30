@@ -7,7 +7,7 @@ export const grammar = {
             '"'
         ],
         spacing:{
-            whitespace: ' '
+            "Add Space": ' '
         }
     }
 }

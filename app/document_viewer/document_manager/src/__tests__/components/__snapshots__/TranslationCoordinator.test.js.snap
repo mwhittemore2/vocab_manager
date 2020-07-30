@@ -90,8 +90,8 @@ exports[`TextManager check tags 1`] = `
   <br />
   <Spacing
     addText={[MockFunction]}
-    description="whitespace"
-    key="text-manager-0-whitespace"
+    description="Add Space"
+    key="text-manager-0-Add Space"
     spacing=" "
   />
   <br />
