@@ -60,9 +60,10 @@ export const EndpointManager = ({setEndpoint}) =>
     <div id={endpointManagerID}>
         Set text boundaries
         <br></br>
-        <button className={stylesheet.buttonDivider}
+        <button className={stylesheet.primaryButton}
                 onClick={() => setEndpoint(C.TEXT_START)}>Start</button>
-        <button onClick={() => setEndpoint(C.TEXT_FINISH)}>End</button>
+        <button className={stylesheet.primaryButton}
+                onClick={() => setEndpoint(C.TEXT_FINISH)}>End</button>
         <br></br>
         <br></br>
     </div>
@@ -71,17 +72,19 @@ export const QueueManager = ({clearQueue}) =>
     <div id={queueManagerID}>
         Manage the translation queue
         <br></br>
-        <button onClick={() => clearQueue()}>Clear Queue</button>
+        <button className={stylesheet.primaryButton}
+                onClick={() => clearQueue()}>Clear Queue</button>
         <br></br>
         <br></br>
     </div>
 
 export const Punctuation = ({addText, punct}) => 
-    <button className={stylesheet.buttonDivider}
+    <button className={stylesheet.primaryButton}
             onClick={() => addText(punct)}>{punct}</button>
 
 export const Spacing = ({addText, description, spacing}) =>
-    <button onClick={() => addText(spacing)}>{description}</button>
+    <button className={stylesheet.primaryButton}
+            onClick={() => addText(spacing)}>{description}</button>
 
 export const TextManager = ({addText}) => 
     <div id={textManagerID}>
@@ -127,9 +130,10 @@ export class TranslationCoordinator extends React.Component{
                         <TextManager addText={addText}/>
                         <br></br>
                         <br></br>
-                        <button onClick={() => {
-                            processTranslationRequest(translations, translate)
-                        }}>Get Translations</button>
+                        <button className={stylesheet.primaryButton}
+                                onClick={() => {
+                                    processTranslationRequest(translations, translate)
+                                }}>Get Translations</button>
                     </div>
                 )
             }

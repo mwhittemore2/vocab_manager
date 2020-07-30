@@ -7,12 +7,13 @@ exports[`EndpointManager check tags 1`] = `
   Set text boundaries
   <br />
   <button
-    className="button-divider"
+    className="btn btn-primary button-divider"
     onClick={[Function]}
   >
     Start
   </button>
   <button
+    className="btn btn-primary button-divider"
     onClick={[Function]}
   >
     End
@@ -24,7 +25,7 @@ exports[`EndpointManager check tags 1`] = `
 
 exports[`Punctuation add comma button 1`] = `
 <button
-  className="button-divider"
+  className="btn btn-primary button-divider"
   onClick={[Function]}
 >
   ,
@@ -38,6 +39,7 @@ exports[`QueueManager check tags 1`] = `
   Manage the translation queue
   <br />
   <button
+    className="btn btn-primary button-divider"
     onClick={[Function]}
   >
     Clear Queue
@@ -49,6 +51,7 @@ exports[`QueueManager check tags 1`] = `
 
 exports[`Spacing add whitespace button 1`] = `
 <button
+  className="btn btn-primary button-divider"
   onClick={[Function]}
 >
   whitespace
@@ -124,6 +127,7 @@ exports[`TranslationCoordinator check tags 1`] = `
   <br />
   <br />
   <button
+    className="btn btn-primary button-divider"
     onClick={[Function]}
   >
     Get Translations

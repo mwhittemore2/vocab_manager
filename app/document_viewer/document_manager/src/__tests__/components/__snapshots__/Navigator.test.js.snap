@@ -6,6 +6,7 @@ exports[`Navigator correct display 1`] = `
   id="DOCUMENT_VIEWER-navigator"
 >
   <button
+    className="btn btn-primary button-divider"
     id="DOCUMENT_VIEWER-previous"
     onClick={[Function]}
   >
@@ -18,6 +19,7 @@ exports[`Navigator correct display 1`] = `
     type="text"
   />
   <button
+    className="btn btn-primary button-divider"
     id="DOCUMENT_VIEWER-next"
     onClick={[Function]}
   >

@@ -5,14 +5,18 @@ import C from '../../constants'
 
 export const Navigator = ({cursor, jumpToPage, results, viewer}) =>
     <div id={viewer.concat("-navigator")} className={stylesheet.navigator}>
-        <button id={viewer.concat("-previous")} onClick={() => cursor(C.PREVIOUS_PAGE, results.currPage)}>
+        <button id={viewer.concat("-previous")}
+                className={stylesheet.primaryButton} 
+                onClick={() => cursor(C.PREVIOUS_PAGE, results.currPage)}>
             Previous
         </button>
         <input id={viewer.concat("-current")}
                onKeyDown={(e) => jumpToPage(e)}
                type="text"
                placeholder={results.currPage}/>
-        <button id={viewer.concat("-next")} onClick={() => cursor(C.NEXT_PAGE, results.currPage)}>
+        <button id={viewer.concat("-next")}
+                className={stylesheet.primaryButton} 
+                onClick={() => cursor(C.NEXT_PAGE, results.currPage)}>
             Next
         </button>
     </div>

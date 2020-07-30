@@ -1,0 +1,16 @@
+.display-document-selector{
+    background-color: #dcdcdc;
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    height: 500px;
+    left: 20px;
+    overflow-x: scroll;
+    overflow-y: scroll;
+    position: absolute;
+    top: 20px;
+    width: 500px;
+}
+
+.document-choice{
+    left: 20px;
+    position: relative;
+}
