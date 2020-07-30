@@ -9,12 +9,12 @@
     background-color: #D8BFD8;
     border-color: #00008B;
     border-style: solid;
-    height: 30px;
+    height: 40px;
     left: 0px;
     overflow-y: scroll;
     position: absolute;
     top: 10px;
-    width: 745px;
+    width: 750px;
 }
 
 .navigator{
@@ -30,7 +30,7 @@ div.navigator > input[type="text"]{
 .page{
     background-color: #dcdcdc;
     font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-    height: 500px;
+    height: 550px;
     overflow-y: scroll;
     position: relative;
     width: 750px;
