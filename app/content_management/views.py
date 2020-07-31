@@ -1,5 +1,5 @@
 from flask import current_app, flash, g, render_template
-from flask_login import login_required
+from flask_login import current_user, login_required
 
 from . import cm
 from .forms import SourceTextForm
@@ -14,6 +14,8 @@ def document_upload():
     """
     form = SourceTextForm()
     if form.validate_on_submit():
+        user = current_user
+
         doc = {}
         doc["file"] = form.filename.data
         doc["author"] = form.author.data
@@ -21,7 +23,7 @@ def document_upload():
         doc["language"] = form.language.data
 
         params = {}
-        params["email"] = g.current_user.email
+        params["email"] = user.email
         params["new_page"] = current_app.config["DOCUMENT_UPLOAD"]["PAGE_LIMIT"]
         params["line_size"] = current_app.config["DOCUMENT_UPLOAD"]["LINE_SIZE"]
         params["batch_size"] = current_app.config["DOCUMENT_UPLOAD"]["BATCH_SIZE"]
