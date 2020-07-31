@@ -19,8 +19,9 @@ def register():
                     last_name=last_name,
                     password_hash=password_hash)
         user.save()
-        login = LoginForm()
-        return render_template('auth/login.html', form=login)
+        """login = LoginForm()
+        return render_template('auth/login.html', form=login)"""
+        return redirect(url_for('auth.login'))
 
     return render_template('auth/register.html', form=form)
 
@@ -37,10 +38,11 @@ def login():
             stay_logged_in = form.stay_logged_in.data
             login_user(user, stay_logged_in)
             
-            dest = request.args.get('next')
+            """dest = request.args.get('next')
             if dest is None or not dest.startswith("/"):
                 dest = url_for("main.index")
-            return redirect(dest)
+            return redirect(dest)"""
+            return redirect(url_for('content_management.select_content'))
         flash("Invalid username or password")
         
     return render_template('auth/login.html', form=form)
