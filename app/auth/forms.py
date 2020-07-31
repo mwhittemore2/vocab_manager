@@ -10,8 +10,6 @@ class LoginForm(FlaskForm):
     password_validators = [DataRequired()]
     password = PasswordField('Password', validators=password_validators)
 
-    stay_logged_in = BooleanField("Stay logged in")
-
     submit = SubmitField("Log In")
 
 class RegistrationForm(FlaskForm):
