@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from flask import g, jsonify, request
+from flask import curent_app, g, jsonify, request
 
 from . import api
 from .errors import bad_request, resource_not_found
@@ -45,6 +45,7 @@ def page():
         response = resource_not_found(msg)
         return response, HTTPStatus.NOT_FOUND.value
 
+    #Build response
     response = {}
     response["title"] = title
     response["author"] = author
@@ -52,6 +53,64 @@ def page():
     response["content"] = page.content
     
     response = jsonify(response)
+    return response, HTTPStatus.OK.value
+
+@api.route('/document_retrieval/page_range')
+def page_range():
+    """
+    Fetches all pages within a user-specified range.
+
+    Returns
+    -------
+    json
+        A JSON representation of the pages requested by the user.
+    """
+    user = g.current_user
+    email = user.email
+    req_data = request.json
+
+    #Check for required page range information
+    params = ["title", "author", "start"]
+    msg = check_request_params(req_data, params)
+    if msg:
+        response = bad_request(msg)
+        return response, HTTPStatus.BAD_REQUEST.value
+    
+    title = req_data["title"]
+    author = req_data["author"]
+    start = int(req_data["start"])
+
+    end = curent_app.config["PAGE_RANGE_DEFAULT_SIZE"]
+    if "end" in req_data:
+        end = int(req_data["end"])
+    
+    #Search for requested page range
+    pages = Page.objects(
+                         resource__title=title,
+                         resource__author=author,
+                         resource__page_number__gte=start,
+                         resource__page_number__lte=end
+                        )
+    pages.order_by('resource__page_number')
+
+    if not pages:
+        msg = "Couldn't find requested pages"
+        response = resource_not_found(msg)
+        return response, HTTPStatus.NOT_FOUND.value
+    
+    #Collect pages into response
+    content = []
+    for page in pages:
+        lines = {
+            "words": page.content.words,
+            "breaks": page.content.breaks
+        }
+        content.append(lines)
+    
+    response = jsonify({
+        "content": content,
+        "startPage": start
+    })
     return response, HTTPStatus.OK.value
 
 @api.route('/document_retrieval/doc_list')
@@ -79,8 +138,10 @@ def doc_list():
     #Collect document names into a response
     works = []
     for doc in docs:
-        work = {"title": doc.resource.title,
-                "author": doc.resource.author}
+        work = {
+            "title": doc.resource.title,
+            "author": doc.resource.author
+        }
         works.append(work)
     
     response = jsonify({"docs": works})

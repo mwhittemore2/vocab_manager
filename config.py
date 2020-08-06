@@ -19,6 +19,7 @@ class Config:
         "listDocuments": "http://localhost:1080/document_retrieval/doc_list"
     }
     LANGUAGE_OPTIONS = [('english', 'English'), ('german', 'German')]
+    PAGE_RANGE_DEFAULT_SIZE = os.environ.get("PAGE_RANGE_DEFAULT_SIZE") or 5
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     TOKENIZER = TokenizerMapper()
     TRANSLATIONS_PAGE_SIZE = os.environ.get('TRANSLATIONS_PAGE_SIZE') or 25

@@ -177,7 +177,7 @@ export const getPages = (dispatch, getState, pageNumber) => {
         let body = {
                 title: pages.currDoc.title,
                 author: pages.currDoc.author,
-                page: pageNumber
+                start: pageNumber
             }
         makeServiceCall(
             convertPages,
