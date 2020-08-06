@@ -1,5 +1,113 @@
 from ...models import Book, Page, PageContent
 
+def add_page(batch, page_content, page_number, upload_info):
+    user = upload_info["user"]
+    resource = upload_info["resource"]
+    doc = upload_info["doc"]
+
+    page = Page(
+                email=user,
+                resource=resource(doc, page_number),
+                content=page_content
+               )
+    batch.append(page)
+
+def get_next_page_pointer(words, page):
+    line = len(words) - 1
+    if(line <= 0):
+        empty_pointer = {}
+        return empty_pointer
+    
+    pos = len(words[line]) - 1
+    next_pointer = {
+        "line": line,
+        "page": page,
+        "pos": pos
+    }
+    return next_pointer
+
+def get_page_content(words, page, prev_state):
+    prev_line_breaks = prev_state["line_breaks"]
+    prev_words = prev_state["words"]
+    prev_page_pointer = get_prev_page_pointer(prev_words, prev_line_breaks)
+    next_page = page + 1
+    next_page_pointer = get_next_page_pointer(words, next_page)
+    prev_line_breaks["pageBoundaries"] = {
+        "next": next_page_pointer,
+        "previous": prev_page_pointer
+    }
+    page_content = PageContent(words=prev_words, breaks=prev_line_breaks)
+    return page_content
+
+def get_prev_page_pointer(words, line_breaks):
+    last_line_break = line_breaks["end"][-1]
+    last_word = line_breaks["tokens"][last_line_break][0]
+    page, line, pos = last_word
+    if(pos <= 0):
+        line = line - 1
+        pos = len(words[line]) - 1
+    else:
+        pos = pos - 1
+    prev_pointer = {
+        "line": line,
+        "page": page,
+        "pos": pos
+    }
+    return prev_pointer
+
+def process_line_break(token, curr_boundary, line_info, line_breaks):
+    line_num, page_num, new_page = line_info
+    if "break" in token:
+        line_breaks["end"].append(curr_boundary)
+        line_breaks["start"].append(curr_boundary)
+        left_token = [page_num, line_num, len(lines)-1]
+        right_token = []
+        if line_num < new_page:
+            right_token = [page_num, line_num + 1, 0]
+        else:
+            right_token = [page_num + 1, 0, 0]
+        to_append = {
+            "fulltext": token["break"]
+            "positions": [left_token, right_token]
+        }
+        line_breaks["tokens"].append(to_append)
+    else:
+        line_breaks["end"].append(curr_boundary)
+        to_append = {
+            "fulltext": token["text"]
+            "positions": [[page_num, line_num, len(lines)-1]]
+        }
+        line_breaks["tokens"].append(to_append)
+
+def process_line_start(token, curr_boundary, line_info, line_breaks):
+    line_num, page_num = line_info
+    line_breaks["start"].append(curr_boundary)
+    to_append = {
+        "fulltext": token["text"],  
+        "positions": [[page_num, line_num, 0]]
+    }
+    line_breaks["tokens"].append(to_append)
+
+def reset_line_breaks():
+    line_breaks = {
+        "end": [],
+        "pageBoundaries": {},
+        "start": [],
+        "tokens": []
+    }
+    return line_breaks
+
+def reset_prev_state():
+    prev_state = {
+        "line_breaks": reset_line_breaks(),
+        "words": [[]]
+    }
+    return prev_state
+
+def update_prev_state(words, line_breaks, prev_state):
+    prev_state["line_breaks"] = line_breaks
+    prev_state["words"] = words
+
 class DocumentUploader():
     """
     Uploads a user-specified document.
@@ -69,74 +177,85 @@ class DocumentUploader():
         batch_size = int(self.params["batch_size"])
         tokenizer = self.params["tokenizer"]
         resource = self.params["resource"]
+        upload_info = {"user": user, "resource": resource, "doc": doc}
         
-        #Remove existing document
+        #Remove current document from database, if it exists
         self.cleanup(doc)
 
         #Process each line in document
-        line_num = 1
-        line_str = "1"
+        line_num = 0
         page_num = 1
-        lines = {line_str:[]}
-        line_breaks = {"start":{}, "end":{}}
+        words = [[]]
+        line_breaks = reset_line_breaks()
+        prev_state = reset_prev_state()
         batch = []
+        can_add_page = False
         char_count = 0
+        curr_boundary = 0
         for line in doc["file"]:
-            #blank new line
+            #Blank new line
             if line == "\n":
                 char_count = 0
                 line_num += 1
-                line_str = str(line_num)
-                lines[line_str] = []
+                words.append([])
                 continue
 
             tokenized = tokenizer.tokenize(line, line_size)
             for token in tokenized:
                 #Check if token continues onto next line
                 if token["size"] + char_count >= line_size:
-                    lines[line_str].append(token["text"])
-                    if "break" in token:
-                        line_breaks["end"][line_str] = token["break"]
-                        line_breaks["start"][str(line_num+1)] = token["break"]
+                    words[-1].append(token["text"])
+                    line_info = [line_num, page_num, new_page]
+                    process_line_break(token, curr_boundary, line_info, line_breaks)
+                    curr_boundary += 1
                     char_count = 0
                     if line_num < new_page:
                         line_num += 1
-                        line_str = str(line_num)
-                        lines[line_str] = []
+                        words.append([])
                     else:
                         line_num += 1
                 else:
-                    lines[line_str].append(token["text"])
+                    can_process_line_start = not (line_breaks["start"][-1] == line_breaks["end"][-1])
+                    can_process_line_start = can_process_line_start and (char_count == 0)
+                    if can_process_line_start:
+                        line_info = [line_num, page_num]
+                        process_line_start(token, curr_boundary, line_info, line_breaks)
+                        curr_boundary += 1
+                    words[-1].append(token["text"])
                     char_count += token["size"]
                 
-                #Save current page and start new one
-                if line_num > new_page:
-                    page_content = PageContent(lines=lines, breaks=line_breaks)
-                    page = Page(
-                                email=user,
-                                resource=resource(doc, page_num),
-                                content=page_content
-                                )
-                    batch.append(page)
-                    page_num += 1
-                    line_num = 1
-                    line_str = "1"
-                    lines = {line_str:[]}
-                    line_breaks = {"start":{}, "end":{}}
+                #Add page to upload batch
+                if can_add_page:
+                    prev_page = page_num - 1
+                    page_content = get_page_content(words, prev_page, prev_state)
+                    add_page(batch, page_content, prev_page, upload_info)
+                    prev_state = reset_prev_state()
+                    can_add_page = False
                 
-                #Insert pages into database if there are enough
+                #Start new page
+                if (line_num + 1) > new_page:
+                    can_add_page = True
+                    update_prev_state(words, line_breaks, prev_state)
+                    page_num += 1
+                    line_num = 0
+                    words = [[]]
+                    line_breaks = reset_line_breaks()
+                
+                #Insert page batch into database
                 if len(batch) >= batch_size:
                     self.insert_batch(batch, doc)
                     batch = []
         
         #Load last page
-        page_content = PageContent(lines=lines, breaks=line_breaks)
-        page = Page(
-                        email=user,
-                        resource=resource(doc, page_num),
-                        content=page_content    
-                        )
-        batch.append(page)
-            
+        prev_page = page_num - 1
+        if len(words) > 0:
+            update_prev_state(words, line_breaks, prev_state)
+            blank_page = []
+            page_content = get_page_content(blank_page, page_num, prev_state)
+            add_page(batch, page_content, page_num, upload_info)
+        else:
+            page_content = get_page_content(words, prev_page, prev_state)
+            add_page(batch, page_content, prev_page, upload_info)
+
         #Insert final batch
         self.insert_batch(batch, doc)
