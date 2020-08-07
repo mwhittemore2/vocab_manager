@@ -34,8 +34,6 @@ export const collectTextRange = (dispatch, getState, word) => {
     let maxSize = C.TRANSLATION_QUEUE_MAX_SIZE
     while(canAddWord){
         isOutOfBounds = !isPreviousTo(currWord, word)
-        console.log("out of bounds test")
-        console.log(isOutOfBounds)
         if(isOutOfBounds){
             canAddWord = false
             break
@@ -54,8 +52,6 @@ export const collectTextRange = (dispatch, getState, word) => {
         //Add new word to translate
         let direction = C.DIRECTION.RIGHT
         let nextWord = getNextWord(direction, lines, currWord)
-        console.log("current word")
-        console.log(nextWord)
         if(word.page - start.page === 1){
             toAppend.push(nextWord)
             selected = union(selected, nextWord.selected)

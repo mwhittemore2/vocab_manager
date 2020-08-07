@@ -50,7 +50,10 @@ def page():
     response["title"] = title
     response["author"] = author
     response["page"] = page_num
-    response["content"] = page.content
+    response["content"] = {
+        "words": page.content.words,
+        "breaks": page.content.breaks
+    }
     
     response = jsonify(response)
     return response, HTTPStatus.OK.value

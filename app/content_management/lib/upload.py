@@ -12,6 +12,16 @@ def add_page(batch, page_content, page_number, upload_info):
                )
     batch.append(page)
 
+def check_line_start(line_breaks, char_count):
+    if len(line_breaks["start"]) == 0:
+        return True
+    if len(line_breaks["end"]) == 0:
+        return True
+    
+    can_process = not (line_breaks["start"][-1] == line_breaks["end"][-1])
+    can_process = can_process and (char_count == 0)
+    return can_process
+
 def get_next_page_pointer(words, page):
     line = len(words) - 1
     if(line <= 0):
@@ -40,12 +50,18 @@ def get_page_content(words, page, prev_state):
     return page_content
 
 def get_prev_page_pointer(words, line_breaks):
+    if len(line_breaks["end"] == 0):
+        empty_pointer = {}
+        return empty_pointer
+    
     last_line_break = line_breaks["end"][-1]
-    last_word = line_breaks["tokens"][last_line_break][0]
-    page, line, pos = last_word
+    last_word = line_breaks["tokens"][last_line_break]
+    indicies = last_word["positions"][0]
+    page, line, pos = indicies
     if(pos <= 0):
-        line = line - 1
-        pos = len(words[line]) - 1
+        if line > 0:
+            line = line - 1
+            pos = len(words[line]) - 1
     else:
         pos = pos - 1
     prev_pointer = {
@@ -62,7 +78,7 @@ def process_line_break(token, curr_boundary, line_info, line_breaks):
         line_breaks["start"].append(curr_boundary)
         left_token = [page_num, line_num, len(lines)-1]
         right_token = []
-        if line_num < new_page:
+        if (line_num + 1) < new_page:
             right_token = [page_num, line_num + 1, 0]
         else:
             right_token = [page_num + 1, 0, 0]
@@ -215,9 +231,7 @@ class DocumentUploader():
                     else:
                         line_num += 1
                 else:
-                    can_process_line_start = not (line_breaks["start"][-1] == line_breaks["end"][-1])
-                    can_process_line_start = can_process_line_start and (char_count == 0)
-                    if can_process_line_start:
+                    if check_line_start(line_breaks, char_count):
                         line_info = [line_num, page_num]
                         process_line_start(token, curr_boundary, line_info, line_breaks)
                         curr_boundary += 1

@@ -4,7 +4,7 @@ import datetime
 from base64 import b64encode
 from http import HTTPStatus
 
-from app.models import Book, Page, VocabEntry
+from app.models import Book, Page, PageContent, VocabEntry
 from testing.test_base import BaseTest
 
 class APITest(BaseTest):
@@ -52,8 +52,38 @@ class DocumentRetrievalTest(APITest):
         super().setUp()
 
         #Load sample data
-        content_kant = "Erfahrung ist ohne Zweifel das erste Produkt..."
-        content_hegel = "Das Wissen, welches zuerst oder unmittlebar..."
+        #content_kant = "Erfahrung ist ohne Zweifel das erste Produkt..."
+        kant_dict = {
+            "words": [
+                ["Erfahrung ist", "ohne Zwei-"],
+                ["fel", "das erste Produkt..."]
+            ],
+            "breaks": {
+                "start": [0],
+                "end": [0],
+                "tokens": {
+                    "fulltext": "Zweifel",
+                    "positions": [[1,0,1],[1,1,0]]
+                }
+            }
+        }
+        content_kant = PageContent(words=kant_dict["words"], breaks=kant_dict["breaks"])
+        #content_hegel = "Das Wissen, welches zuerst oder unmittlebar..."
+        hegel_dict = {
+            "words": [
+                ["Das Wissen, ", "welches ", "zu-"],
+                ["erst ", "oder unmittelbar..."]
+            ],
+            "breaks": {
+                "start": [0],
+                "end": [0],
+                "tokens": {
+                    "fulltext": "zuerst",
+                    "positions": [[1,0,2],[1,1,0]]
+                }
+            }
+        }
+        content_hegel = PageContent(words=hegel_dict["words"], breaks=hegel_dict["breaks"])
         book1 = Book(
                      title="Kritik der reinen Vernunft",
                      author="Immanuel Kant",
@@ -81,12 +111,12 @@ class DocumentRetrievalTest(APITest):
         page1.save()
         page2.save()
 
-        self.kant = {"book": book1, "page": page1}
-        self.hegel = {"book": book2, "page": page2}
+        self.kant = {"book": book1, "content": kant_dict, "page": page1}
+        self.hegel = {"book": book2, "content": hegel_dict, "page": page2}
 
     def test_fetch_page(self):
         """
-        Tests the fetch_page service provided by document_retrieval.
+        Tests the single page service provided by document_retrieval.
         """
         #Get page to fetch
         query = {}
@@ -108,7 +138,7 @@ class DocumentRetrievalTest(APITest):
         self.assertEqual(json_response["title"], self.kant["book"].title)
         self.assertEqual(json_response["author"], self.kant["book"].author)
         self.assertEqual(int(json_response["page"]), 1)
-        self.assertEqual(json_response["content"], self.kant["page"].content)
+        self.assertEqual(json_response["content"], self.kant["content"])
 
     def test_list_docs(self):
         """
@@ -172,7 +202,65 @@ class DocumentRetrievalTest(APITest):
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
+    
+    def test_page_range(self):
+        """
+        Tests the page range service provided by document_retrieval.
+        """
+        #Load new page
+        book_kant = Book(
+                         title="Kritik der reinen Vernunft",
+                         author="Immanuel Kant",
+                         language="german",
+                         page_number=2,
+                         publisher="Johann Friedrich Hartknoch"
+                        )
+        new_dict = {
+            "words": [
+                ["Wenn aber gleich ", "alle unsere Erken-"],
+                ["ntniss ", "mit der Erfahrung anhebt..."]
+            ],
+            "breaks": {
+                "start": [0],
+                "end": [0],
+                "tokens": {
+                    "fulltext": "Erkenntniss",
+                    "positions": [[1,0,1],[1,1,0]]
+                }
+            }
+        }
+        new_content = PageContent(words=new_dict["words"], breaks=new_dict["breaks"])
+        new_page = Page(
+                        email=self.username,
+                        resource=book_kant,
+                        content=new_content
+                       )
+        new_page.save()
 
+        #Specify page range
+        query = {}
+        query["title"] = self.kant["book"].title
+        query["author"] = self.kant["book"].author
+        query["start"] = 1
+        query["end"] = 5
+        query = json.dumps(query, ensure_ascii=False)
+
+        #Make API call to fetch page
+        response = self.client.get(
+                                   '/api/v1/document_retrieval/page_range',
+                                   headers=self.get_headers(self.username, self.password),
+                                   data=query
+                                   )
+        
+        #Process response
+        self.assertEqual(response.status_code, HTTPStatus.OK.value)
+        json_response = json.loads(response.get_data(as_text=True))
+        self.assertEqual(json_response["title"], self.kant["book"].title)
+        self.assertEqual(json_response["author"], self.kant["book"].author)
+        self.assertEqual(int(json_response["startPage"]), 1)
+        self.assertEqual(len(json_response["content"]), 2)
+        self.assertEqual(json_response["content"][0], self.kant["content"])
+        self.assertEqual(json_response["content"][1], new_dict)
 
 class APISecurityTest(APITest):
     """
