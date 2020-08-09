@@ -1,5 +1,12 @@
 from ...models import Book, Page, PageContent
 
+def add_padding(char_count, line_size, cutoff):
+    diff = line_size - char_count
+    padding = 0
+    if diff <= cutoff:
+        padding = diff
+    return padding
+
 def add_page(batch, page_content, page_number, upload_info):
     user = upload_info["user"]
     resource = upload_info["resource"]
@@ -190,6 +197,7 @@ class DocumentUploader():
         user = self.params["email"]
         new_page = int(self.params["new_page"])
         line_size = int(self.params["line_size"])
+        early_cutoff = int(self.params["early_cutoff"])
         batch_size = int(self.params["batch_size"])
         tokenizer = self.params["tokenizer"]
         resource = self.params["resource"]
@@ -237,6 +245,7 @@ class DocumentUploader():
                         curr_boundary += 1
                     words[-1].append(token["text"])
                     char_count += token["size"]
+                    char_count += add_padding(char_count, line_size, early_cutoff)
                 
                 #Add page to upload batch
                 if can_add_page:

@@ -26,6 +26,7 @@ def document_upload():
         params["email"] = user.email
         params["new_page"] = current_app.config["DOCUMENT_UPLOAD"]["PAGE_LIMIT"]
         params["line_size"] = current_app.config["DOCUMENT_UPLOAD"]["LINE_SIZE"]
+        params["early_cutoff"] = current_app.config["DOCUMENT_UPLOAD"]["EARLY_CUTOFF"]
         params["batch_size"] = current_app.config["DOCUMENT_UPLOAD"]["BATCH_SIZE"]
         params["tokenizer"] = current_app.config["TOKENIZER"].select(doc["language"])
         params["resource"] = create_book

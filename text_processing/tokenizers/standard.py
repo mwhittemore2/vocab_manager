@@ -77,7 +77,7 @@ class Tokenizer():
         
         return tokens
 
-    def tokenize(self, line, line_size):
+    def tokenize(self, line, line_size, offset=0):
         """
         Tokenizes text according to the user-specified
         line length.
@@ -88,9 +88,11 @@ class Tokenizer():
             The text to be tokenized
         line_size : int
             The character position at which to insert a line break
+        offset : int
+            The position at which to start counting characters
         """
         tokens = self.convert(line)
-        char_count = 0
+        char_count = offset
         while tokens:
             token = tokens.popleft()
             if char_count + token["size"] > line_size:
