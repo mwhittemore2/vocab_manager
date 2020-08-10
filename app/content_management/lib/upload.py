@@ -90,14 +90,14 @@ def process_line_break(token, curr_boundary, line_info, line_breaks):
         else:
             right_token = [page_num + 1, 0, 0]
         to_append = {
-            "fulltext": token["break"]
+            "fulltext": token["break"],
             "positions": [left_token, right_token]
         }
         line_breaks["tokens"].append(to_append)
     else:
         line_breaks["end"].append(curr_boundary)
         to_append = {
-            "fulltext": token["text"]
+            "fulltext": token["text"],
             "positions": [[page_num, line_num, len(lines)-1]]
         }
         line_breaks["tokens"].append(to_append)

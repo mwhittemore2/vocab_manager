@@ -1,6 +1,6 @@
 from http import HTTPStatus
 
-from flask import curent_app, g, jsonify, request
+from flask import current_app, g, jsonify, request
 
 from . import api
 from .errors import bad_request, resource_not_found
@@ -83,7 +83,7 @@ def page_range():
     author = req_data["author"]
     start = int(req_data["start"])
 
-    end = curent_app.config["PAGE_RANGE_DEFAULT_SIZE"]
+    end = current_app.config["PAGE_RANGE_DEFAULT_SIZE"]
     if "end" in req_data:
         end = int(req_data["end"])
     
@@ -111,6 +111,8 @@ def page_range():
         content.append(lines)
     
     response = jsonify({
+        "title": title,
+        "author": author,
         "content": content,
         "startPage": start
     })
