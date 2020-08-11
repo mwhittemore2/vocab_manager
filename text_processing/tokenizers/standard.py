@@ -77,7 +77,7 @@ class Tokenizer():
         
         return tokens
 
-    def tokenize(self, line, line_size, offset=0):
+    def tokenize(self, line, line_size, offset=0, padding=0):
         """
         Tokenizes text according to the user-specified
         line length.
@@ -103,4 +103,9 @@ class Tokenizer():
                 yield new_tokens[0]
             else:
                 char_count = char_count + token["size"]
+                diff = line_size - char_count
+                if diff < padding:
+                    token["size"] = token["size"] + diff   
+                if diff == 0:
+                    char_count = 0 
                 yield token
