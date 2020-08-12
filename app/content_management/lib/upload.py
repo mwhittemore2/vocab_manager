@@ -272,6 +272,9 @@ class DocumentUploader():
             "pos": 0
         }
         for line in doc["file"]:
+            #Convert from bytes to unicode if necessary
+            if isinstance(line, bytes):
+                line = line.decode('utf-8')
             #Blank new line
             if line == "\n":
                 #Insert empty Line

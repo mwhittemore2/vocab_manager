@@ -1,3 +1,5 @@
+import traceback
+
 from flask import current_app, flash, g, render_template
 from flask_login import current_user, login_required
 
@@ -36,6 +38,8 @@ def document_upload():
         try:
             doc_uploader.upload(doc)
         except Exception as e:
+            #print(e)
+            traceback.print_exc()
             could_upload = False
             error_msg = "Error uploading document. Please try again."
             flash(error_msg)
