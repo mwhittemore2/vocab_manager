@@ -70,6 +70,7 @@ class DocumentManagementTest(BaseTest):
         language : str
             The language the test documents are written in
         """
+
         params = {}
         params["email"] = self.username
         params["new_page"] = self.app.config["TEST_DOCUMENT_UPLOAD"]["page_limit"]
@@ -78,26 +79,57 @@ class DocumentManagementTest(BaseTest):
         params["batch_size"] = self.app.config["TEST_DOCUMENT_UPLOAD"]["batch_size"]
         params["tokenizer"] = self.app.config["TOKENIZER"].select(language)
         params["resource"] = create_book
+        self.params = params
         self.doc_uploader = DocumentUploader(params)
 
-    """@classmethod
-    def setUpClass(self):
-        Performs some initialization tasks once before
-        the test suite is run.
-        language = self.__language__
-        self.init_documents(language)
-        self.init_uploader(language)
-    """
     def setUp(self):
+        """
+        Initializes the infrastructure for running
+        a unit test.
+        """
+
         super().setUp()
         language = self.__language__
         self.init_documents(language)
         self.init_uploader(language)
+    
+    def test_blank_line(self):
+        """
+        Tests that a document with a blank line
+        is processed correctly.
+        """
+
+        #Upload document
+        document = self.doc[self.metadata["blank_line"]]
+        self.doc_uploader.upload(document)
+
+        pages = Page.objects(
+                             email=self.username,
+                             resource__title=document["title"],
+                             resource__author=document["author"]
+                            )
+        
+        has_page = True
+        page = pages.first()
+        if not page:
+            has_page = False
+
+        self.assertTrue(has_page)
+
+        #Check first page
+        content = page.content
+        self.assertEqual(len(content.words), 3)
+        self.assertEqual(len(content.words[1]), 0)
+        first_line = ["Habe", " ", "Mut"]
+        self.assertEqual(content.words[0][0:3], first_line)
+        last_line = ["zuwissen", " "]
+        self.assertEqual(content.words[2][0:2], last_line)
 
     def test_cleanup(self):
         """
         Tests that a document can be successfully deleted.
         """
+
         #Upload document
         document = self.doc[self.metadata["cleanup"]]
         self.doc_uploader.upload(document)
@@ -134,9 +166,6 @@ class DocumentManagementTest(BaseTest):
         Tests that a word which has to be split across
         two lines is processed correctly.
         """
-        #line_break = {"start":{}, "end":{}}
-        #line_break["end"]["1"] = "ist"
-        #line_break["start"]["2"] = "ist"
         
         #Upload document
         document = self.doc[self.metadata["line_break"]]
@@ -161,17 +190,13 @@ class DocumentManagementTest(BaseTest):
         self.assertEqual(content.breaks["tokens"][1]["fulltext"], "ist")
         self.assertEqual(content.breaks["start"][1], 1)
         self.assertEqual(content.breaks["end"][0], 1)
-        
-        #self.assertIn("1", content.breaks["end"])
-        #self.assertIn("2", content.breaks["start"])
-        #self.assertEqual(content.breaks["end"]["1"], line_break["end"]["1"])
-        #self.assertEqual(content.breaks["start"]["2"], line_break["start"]["2"])
     
     def test_load_multi_page(self):
         """
         Tests that more than one page can be saved
         properly.
         """
+
         #Upload document
         document = self.doc[self.metadata["load_multi_page"]]
         self.doc_uploader.upload(document)
@@ -194,6 +219,7 @@ class DocumentManagementTest(BaseTest):
         """
         Tests that a single page can be loaded properly.
         """
+
         #Upload document
         document = self.doc[self.metadata["load_single_page"]]
         self.doc_uploader.upload(document)
@@ -212,11 +238,54 @@ class DocumentManagementTest(BaseTest):
         has_correct_count = (count == 1)
         self.assertTrue(has_correct_count)
     
+    def test_next_page_pointer(self):
+        """
+        Tests that the JSON representation of a page of text
+        contains the proper pointer to the first word of the
+        next page.
+        """
+
+        #Upload document
+        document = self.doc[self.metadata["page_boundaries"]]
+        self.doc_uploader.upload(document)
+
+        #Get pages
+        pages = Page.objects(
+                             email=self.username,
+                             resource__title=document["title"],
+                             resource__author=document["author"]
+                            )
+        pages.order_by('resource__page_number')
+        
+        test_data = []
+        for page in pages:
+            test_data.append(page)
+        
+        has_pages = (len(test_data) == 2)
+        self.assertTrue(has_pages)
+
+        #Test empty pointer
+        content = test_data[1].content
+        page_boundaries = content["breaks"]["pageBoundaries"]
+        empty_pointer = {}
+        self.assertEqual(page_boundaries["next"], empty_pointer)
+
+        #Test regular pointer
+        content = test_data[0].content
+        page_boundaries = content["breaks"]["pageBoundaries"]
+        test_pointer = {
+            "line": 0,
+            "page": 2,
+            "pos": 1
+        }
+        self.assertEqual(page_boundaries["next"], test_pointer)
+    
     def test_no_line_break(self):
         """
         Tests that a word isn't split across two lines
         if it isn't necessary.
         """
+
         #Upload document
         document = self.doc[self.metadata["no_line_break"]]
         self.doc_uploader.upload(document)
@@ -240,14 +309,13 @@ class DocumentManagementTest(BaseTest):
         self.assertEqual(content.breaks["tokens"][1]["fulltext"], "Welt")
         self.assertEqual(content.breaks["start"][1], 2)
         self.assertEqual(content.breaks["tokens"][2]["fulltext"], " ")
-        #self.assertNotIn("1", content.breaks["end"])
-        #self.assertNotIn("2", content.breaks["start"])
 
     def test_page_content_multi_line(self):
         """
         Tests that a page with multiple lines
         is processed correctly.
         """
+
         #Upload document
         document = self.doc[self.metadata["page_content_multi_line"]]
         self.doc_uploader.upload(document)
@@ -274,29 +342,18 @@ class DocumentManagementTest(BaseTest):
         self.assertEqual(content.breaks["end"][0], 1)
         self.assertEqual(content.breaks["tokens"][1]["fulltext"], "ist")
 
-        #self.assertIn("1", content.lines)
-        #self.assertLessEqual(3, len(content.lines["1"]))
-        #self.assertEqual("Welt", content.lines["1"][2])
-        #self.assertIn("1", content.breaks["end"])
-        #self.assertEqual("ist", content.breaks["end"]["1"])
-
         #Check second line
         self.assertGreaterEqual(len(content.words), 2)
         self.assertLessEqual(3, len(content.words[1]))
         self.assertEqual(content.words[1][2], "meine")
         self.assertEqual(content.breaks["start"][1], 1)
-
-        #self.assertIn("2", content.lines)
-        #self.assertLessEqual(3, len(content.lines["2"]))
-        #self.assertEqual("meine", content.lines["2"][2])
-        #self.assertIn("2", content.breaks["start"])
-        #self.assertEqual("ist", content.breaks["start"]["2"])
     
     def test_page_content_single_line(self):
         """
         Tests that a page with a single line
         is processed correctly.
         """
+
         #Upload document
         document = self.doc[self.metadata["page_content_single_line"]]
         self.doc_uploader.upload(document)
@@ -320,29 +377,76 @@ class DocumentManagementTest(BaseTest):
         self.assertEqual(len(content.words[1]), 0)
         self.assertLessEqual(3, len(content.words[0]))
         self.assertEqual(content.words[0][2], "Welt")
-        
-        #self.assertIn("2", content.lines)
-        #self.assertFalse(content.lines["2"])
-        #self.assertIn("1", content.lines)
-        #self.assertLessEqual(3, len(content.lines["1"]))
-        #self.assertEqual("Welt", content.lines["1"][2])
     
-    #def test_next_page_pointer():
-        """
-        Tests that the JSON representation of a page of text
-        contains the proper pointer to the first word of the
-        next page.
-        """
-        #Test empty pointer
-
-        #Test regular pointer
-    
-    #def test_prev_page_pointer():
+    def test_prev_page_pointer(self):
         """
         Tests that the JSON representation of a page of text
         contains the proper pointer to the last word of the
         previous page.
         """
+
+        #Upload document
+        document = self.doc[self.metadata["page_boundaries"]]
+        self.doc_uploader.upload(document)
+
+        #Get pages
+        pages = Page.objects(
+                             email=self.username,
+                             resource__title=document["title"],
+                             resource__author=document["author"]
+                            )
+        pages.order_by('resource__page_number')
+        
+        test_data = []
+        for page in pages:
+            test_data.append(page)
+        
+        has_pages = (len(test_data) == 2)
+        self.assertTrue(has_pages)
+
         #Test empty pointer
+        content = test_data[0].content
+        page_boundaries = content["breaks"]["pageBoundaries"]
+        empty_pointer = {}
+        self.assertEqual(page_boundaries["previous"], empty_pointer)
 
         #Test regular pointer
+        content = test_data[1].content
+        page_boundaries = content["breaks"]["pageBoundaries"]
+        test_pointer = {
+            "line": 2,
+            "page": 1,
+            "pos": 3
+        }
+        self.assertEqual(page_boundaries["previous"], test_pointer)
+    
+    def test_token_offset(self):
+        """
+        Tests the tokenizer when starting from
+        a non-zero offset.
+        """
+        #Upload document
+        document = self.doc[self.metadata["offset"]]
+        self.doc_uploader.upload(document)
+
+        #Get pages
+        pages = Page.objects(
+                             email=self.username,
+                             resource__title=document["title"],
+                             resource__author=document["author"]
+                            )
+        
+        test_data = []
+        for page in pages:
+            test_data.append(page)
+        
+        has_page = (len(test_data) == 1)
+        self.assertTrue(has_page)
+
+        #Check offsets are processed correctly
+        content = test_data[0].content
+        expected = [
+            ['Habe', ' ', 'Mut', ' ', 'z-'],
+            ['u', ' ', 'wissen', ' ']
+        ]
+        self.assertEqual(content["words"], expected)

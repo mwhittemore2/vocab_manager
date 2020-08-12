@@ -274,12 +274,17 @@ class DocumentUploader():
         for line in doc["file"]:
             #Blank new line
             if line == "\n":
+                #Insert empty Line
+                line_num += 1
+                words.append([])
+
+                #Start new line for text
                 char_count = 0
                 line_num += 1
                 words.append([])
                 continue
 
-            tokenized = tokenizer.tokenize(line, line_size)
+            tokenized = tokenizer.tokenize(line, line_size, offset=char_count, padding=early_cutoff)
             for token in tokenized:
                 #Check if token continues onto next line
                 if token["size"] + char_count >= line_size:

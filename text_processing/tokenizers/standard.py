@@ -90,6 +90,10 @@ class Tokenizer():
             The character position at which to insert a line break
         offset : int
             The position at which to start counting characters
+        padding: int
+            The maximum difference between line_size and the number
+            of counted characters before a new line could be inserted
+            earlier than normal
         """
         tokens = self.convert(line)
         char_count = offset
