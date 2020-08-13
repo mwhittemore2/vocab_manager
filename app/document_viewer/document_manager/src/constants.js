@@ -41,7 +41,7 @@ const C = {
     RESET_TRANSLATIONS: "RESET_TRANSLATIONS",
     SELECT_DOCUMENT: "SELECT_DOCUMENT",
     SERVICES: {
-        HEADERS: "VocabularyManager::logIn::headers"
+        HEADERS: "login::headers"
     },
     SET_CURRENT_PAGE: "SET_CURRENT_PAGE",
     SET_INTERACTION: "SET_INTERACTION",

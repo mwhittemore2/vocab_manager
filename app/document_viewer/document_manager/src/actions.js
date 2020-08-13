@@ -1,4 +1,5 @@
 import axios from "axios"
+import { getHeaders } from './lib/apiTools'
 import { collectTextRange, getNextWord, isAlreadySelected } from './lib/textProcessing'
 import C from './constants'
 
@@ -96,7 +97,7 @@ const makeServiceCall = (convert, dispatch, url, method, body={}) => {
     axios({
       url: url,
       method: method,
-      headers: {}, //TODO: Implement getHeaders()
+      headers: getHeaders(), 
       data: body,
       timeout: 20000  
     })

@@ -85,7 +85,7 @@ def page_range():
 
     end = current_app.config["PAGE_RANGE_DEFAULT_SIZE"]
     if "end" in req_data:
-        end = int(req_data["end"])
+        end = start + int(req_data["end"])
     
     #Search for requested page range
     pages = Page.objects(
@@ -149,5 +149,5 @@ def doc_list():
         }
         works.append(work)
     
-    response = jsonify({"docs": works})
+    response = jsonify({"works": works})
     return response, HTTPStatus.OK.value

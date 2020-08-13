@@ -161,8 +161,8 @@ class DocumentRetrievalTest(APITest):
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
         json_response = json.loads(response.get_data(as_text=True))
-        self.assertIn(kant, json_response["docs"])
-        self.assertIn(hegel, json_response["docs"])
+        self.assertIn(kant, json_response["works"])
+        self.assertIn(hegel, json_response["works"])
             
     def test_no_page(self):
         """

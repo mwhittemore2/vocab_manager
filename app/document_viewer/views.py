@@ -20,9 +20,8 @@ def document_viewer():
     #Build credentials for API calls
     token_lifetime = current_app.config["AUTH_TOKEN_LIFETIME"]
     auth_token = user.generate_auth_token(expiration=token_lifetime)
-    username = user.email
     password = ''
-    credentials = b64encode((username + ":" + password).encode('utf-8'))
+    credentials = b64encode((auth_token + ":" + password).encode('utf-8'))
     credentials = credentials.decode('utf-8')
     
     #Format headers
