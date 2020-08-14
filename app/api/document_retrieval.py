@@ -7,7 +7,7 @@ from .errors import bad_request, resource_not_found
 from ..models import Page
 from .validation import check_request_params
 
-@api.route('/document_retrieval/page')
+@api.route('/document_retrieval/page', methods=['POST'])
 def page():
     """
     Gets a specified page from a user resource.
@@ -58,7 +58,7 @@ def page():
     response = jsonify(response)
     return response, HTTPStatus.OK.value
 
-@api.route('/document_retrieval/page_range')
+@api.route('/document_retrieval/page_range', methods=['POST'])
 def page_range():
     """
     Fetches all pages within a user-specified range.
@@ -83,9 +83,9 @@ def page_range():
     author = req_data["author"]
     start = int(req_data["start"])
 
-    end = current_app.config["PAGE_RANGE_DEFAULT_SIZE"]
+    end = start + current_app.config["PAGE_RANGE_DEFAULT_SIZE"]
     if "end" in req_data:
-        end = start + int(req_data["end"])
+        end = int(req_data["end"])
     
     #Search for requested page range
     pages = Page.objects(

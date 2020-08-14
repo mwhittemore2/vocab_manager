@@ -15,8 +15,8 @@ class Config:
     DOCUMENT_UPLOAD["LINE_SIZE"] = os.environ.get("DOCUMENT_UPLOAD_LINE_SIZE") or 50
     DOCUMENT_UPLOAD["PAGE_LIMIT"] = os.environ.get("DOCUMENT_UPLOAD_PAGE_LIMIT") or 30
     DOCUMENT_VIEWER_SERVICES = {
-        "getPages": "http://localhost:5000/api/v1/page_range",
-        "getTranslations": "http://localhost:5000/api/v1/translations",
+        "getPages": "http://localhost:5000/api/v1/document_retrieval/page_range",
+        "getTranslations": "http://localhost:5000/api/v1/translation/LANGUAGE",
         "listDocuments": "http://localhost:5000/api/v1/document_retrieval/doc_list"
     }
     LANGUAGE_OPTIONS = [('english', 'English'), ('german', 'German')]

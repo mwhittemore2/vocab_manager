@@ -6,7 +6,7 @@ from . import api
 from .errors import bad_request
 from .validation import check_request_params
 
-@api.route('translation/<string:language>')
+@api.route('translation/<string:language>', methods=['POST'])
 def translation(language):
     """
     Translates a user-specified piece of text.

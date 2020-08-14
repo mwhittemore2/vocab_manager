@@ -113,7 +113,7 @@ def get_vocab_response(vocab_entry):
     response["page"] = vocab_entry.resource.page_number
     return response
 
-@api.route('vocab_acquisition/<string:language>/vocab_entry', methods=['POST'])
+@api.route('vocab_acquisition/<string:language>/vocab_entry/addition', methods=['POST'])
 def add_vocab_entry(language):
     """
     Saves a new vocabulary word to a user's vocabulary list.
@@ -189,7 +189,7 @@ def add_vocab_entry(language):
     response = jsonify(text="Vocabulary item added.")
     return response, HTTPStatus.CREATED.value
 
-@api.route('vocab_acquisition/<string:language>/vocab_entry')
+@api.route('vocab_acquisition/<string:language>/vocab_entry/lookup', methods=['POST'])
 def find_vocab_entry(language):
     """
     Finds a single vocabulary entry from a user's vocabulary list.
@@ -240,7 +240,7 @@ def find_vocab_entry(language):
     response = jsonify(response)
     return response, HTTPStatus.OK.value
 
-@api.route('vocab_acquisition/<string:language>/vocab_collection')
+@api.route('vocab_acquisition/<string:language>/vocab_collection/lookup', methods=['POST'])
 def find_vocab_list(language):
     """
     Finds a collection of vocabulary words based on the user-specified search criteria.

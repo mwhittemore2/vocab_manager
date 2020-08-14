@@ -184,7 +184,7 @@ export const getPages = (dispatch, getState, pageNumber) => {
             convertPages,
             (messages) => multiDispatch(dispatch, messages),
             localStorage["login::services::getPages"],
-            'GET',
+            'POST',
             body 
         )
     }

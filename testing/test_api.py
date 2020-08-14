@@ -126,10 +126,10 @@ class DocumentRetrievalTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
         
         #Make API call to fetch page
-        response = self.client.get(
-                                   '/api/v1/document_retrieval/page',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/document_retrieval/page',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
@@ -177,10 +177,10 @@ class DocumentRetrievalTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to fetch page
-        response = self.client.get(
-                                   '/api/v1/document_retrieval/page',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/document_retrieval/page',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
@@ -246,10 +246,10 @@ class DocumentRetrievalTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to fetch page
-        response = self.client.get(
-                                   '/api/v1/document_retrieval/page_range',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/document_retrieval/page_range',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
         
         #Process response
@@ -312,7 +312,7 @@ class APISecurityTest(APITest):
 
     def test_token(self):
         """
-        Test that a user can properly receive and use an authentication token.
+        Test that a user can properly receive an authentication token.
         """
         #Make API call to get token
         response = self.client.post(
@@ -324,16 +324,6 @@ class APISecurityTest(APITest):
         self.assertEqual(response.status_code, HTTPStatus.OK.value)
         json_response = json.loads(response.get_data(as_text=True))
         self.assertIsNotNone(json_response.get('token'))
-        token = json_response['token']
-        
-        #Make API call with the token
-        response = self.client.get(
-                                   '/api/v1/document_retrieval/doc_list',
-                                   headers=self.get_headers(token,'')
-                                   )
-
-        #Process response
-        self.assertEqual(response.status_code, HTTPStatus.OK.value)
 
 class TranslationTest(APITest):
     """
@@ -353,10 +343,10 @@ class TranslationTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to translate word
-        response = self.client.get(
-                                   '/api/v1/translation/german',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/translation/german',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
@@ -380,10 +370,10 @@ class TranslationTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to translate phrase
-        response = self.client.get(
-                                   '/api/v1/translation/german',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query        
+        response = self.client.post(
+                                    '/api/v1/translation/german',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query        
                                    )
 
         #Process response
@@ -404,10 +394,10 @@ class TranslationTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to translate word
-        response = self.client.get(
-                                   '/api/v1/translation/german',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/translation/german',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
@@ -429,10 +419,10 @@ class TranslationTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to translate word
-        response = self.client.get(
-                                   '/api/v1/translation/german',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/translation/german',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
@@ -450,10 +440,10 @@ class TranslationTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to translate word
-        response = self.client.get(
-                                   '/api/v1/translation/german',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/translation/german',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
@@ -555,7 +545,7 @@ class VocabularyAcquisitionTest(APITest):
 
         #Make API call to add a vocabulary entry
         response = self.client.post(
-                                    '/api/v1/vocab_acquisition/german/vocab_entry',
+                                    '/api/v1/vocab_acquisition/german/vocab_entry/addition',
                                     headers=self.get_headers(self.username, self.password),
                                     data=query
                                     )
@@ -582,10 +572,10 @@ class VocabularyAcquisitionTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to look up words
-        response = self.client.get(
-                                   '/api/v1/vocab_acquisition/german/vocab_collection',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/vocab_acquisition/german/vocab_collection/lookup',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
@@ -641,10 +631,10 @@ class VocabularyAcquisitionTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to look up words
-        response = self.client.get(
-                                   '/api/v1/vocab_acquisition/german/vocab_collection',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/vocab_acquisition/german/vocab_collection/lookup',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
@@ -698,11 +688,11 @@ class VocabularyAcquisitionTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to look up word
-        response = self.client.get(
-                                   '/api/v1/vocab_acquisition/german/vocab_entry',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
-                                  )
+        response = self.client.post(
+                                    '/api/v1/vocab_acquisition/german/vocab_entry/lookup',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -715,11 +705,11 @@ class VocabularyAcquisitionTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to look up words
-        response = self.client.get(
-                                   '/api/v1/vocab_acquisition/german/vocab_collection',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
-                                  )
+        response = self.client.post(
+                                    '/api/v1/vocab_acquisition/german/vocab_collection/lookup',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
+                                   )
 
         #Process response
         self.assertEqual(response.status_code, HTTPStatus.NOT_FOUND.value)
@@ -776,10 +766,10 @@ class VocabularyAcquisitionTest(APITest):
         query = json.dumps(query, ensure_ascii=False)
 
         #Make API call to look up single word
-        response = self.client.get(
-                                   '/api/v1/vocab_acquisition/german/vocab_entry',
-                                   headers=self.get_headers(self.username, self.password),
-                                   data=query
+        response = self.client.post(
+                                    '/api/v1/vocab_acquisition/german/vocab_entry/lookup',
+                                    headers=self.get_headers(self.username, self.password),
+                                    data=query
                                    )
 
         #Process response
