@@ -43,7 +43,7 @@ def translation(language):
         return response, HTTPStatus.BAD_REQUEST.value
     
     #Get the translation
-    size = current_app.config["TRANSLATIONS_PAGE_SIZE"]
+    size = int(current_app.config["TRANSLATIONS_PAGE_SIZE"])
     translator = dict_manager.get_dictionary(language)
     response = translator.get_translation(query, page, size)
     return response[0], response[1]

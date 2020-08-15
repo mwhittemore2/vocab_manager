@@ -148,9 +148,11 @@ class DocumentRetrievalTest(APITest):
         kant = {}
         kant["title"] = self.kant["book"].title
         kant["author"] = self.kant["book"].author
+        kant["language"] = self.kant["book"].language
         hegel = {}
         hegel["title"] = self.hegel["book"].title
         hegel["author"] = self.hegel["book"].author
+        hegel["language"] = self.hegel["book"].language
 
         #Make API call to list a user's documents
         response = self.client.get(

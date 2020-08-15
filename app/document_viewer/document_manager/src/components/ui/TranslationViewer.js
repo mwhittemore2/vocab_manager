@@ -37,18 +37,14 @@ export const BaseFormMatch = ({match, page}) =>
         <br></br>
         POS: {match.pos}
         <br></br>
-        Definitions:
-        <Definitions match={match}
-                     page={page}/>
+        Definition: {match.definition}
     </div>
 
 export const DerivedFormMatch = ({match, page}) =>
     <div>
         Text: {match.text}
         <br></br>
-        Definitions:
-        <Definitions match={match}
-                     page={page}/>
+        Definition: {match.definition}
         <br></br>
         See Also: {match.see_also.text} ({match.see_also.pos})
         <br></br>
@@ -92,7 +88,7 @@ export class TranslationViewer extends React.Component{
                 }
                 else{
                     return(
-                        <div id={viewerID}>
+                        <div id={viewerID} className="option">
                             <Loading/>
                         </div>
                     )

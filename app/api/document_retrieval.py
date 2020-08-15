@@ -145,7 +145,8 @@ def doc_list():
     for doc in docs:
         work = {
             "title": doc.resource.title,
-            "author": doc.resource.author
+            "author": doc.resource.author,
+            "language": doc.resource.language
         }
         works.append(work)
     

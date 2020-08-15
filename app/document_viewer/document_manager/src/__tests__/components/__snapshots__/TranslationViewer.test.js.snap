@@ -8,20 +8,7 @@ exports[`BaseFormMatch multiple definitions 1`] = `
   POS: 
   Noun
   <br />
-  Definitions:
-  <Definitions
-    match={
-      Object {
-        "definitions": Array [
-          "world",
-          "earth",
-        ],
-        "pos": "Noun",
-        "text": "Welt",
-      }
-    }
-    page={1}
-  />
+  Definition: 
 </div>
 `;
 
@@ -33,19 +20,7 @@ exports[`BaseFormMatch single definition 1`] = `
   POS: 
   Noun
   <br />
-  Definitions:
-  <Definitions
-    match={
-      Object {
-        "definitions": Array [
-          "world",
-        ],
-        "pos": "Noun",
-        "text": "Welt",
-      }
-    }
-    page={1}
-  />
+  Definition: 
 </div>
 `;
 
@@ -99,23 +74,7 @@ exports[`DerivedFormMatch multiple definitions 1`] = `
   Text: 
   Welten
   <br />
-  Definitions:
-  <Definitions
-    match={
-      Object {
-        "definitions": Array [
-          "worlds",
-          "earths",
-        ],
-        "see_also": Object {
-          "pos": "Noun",
-          "text": "Welt",
-        },
-        "text": "Welten",
-      }
-    }
-    page={1}
-  />
+  Definition: 
   <br />
   See Also: 
   Welt
@@ -131,22 +90,7 @@ exports[`DerivedFormMatch single definition 1`] = `
   Text: 
   Welten
   <br />
-  Definitions:
-  <Definitions
-    match={
-      Object {
-        "definitions": Array [
-          "worlds",
-        ],
-        "see_also": Object {
-          "pos": "Noun",
-          "text": "Welt",
-        },
-        "text": "Welten",
-      }
-    }
-    page={1}
-  />
+  Definition: 
   <br />
   See Also: 
   Welt
@@ -159,6 +103,7 @@ exports[`DerivedFormMatch single definition 1`] = `
 
 exports[`TranslationViewer loading 1`] = `
 <div
+  className="option"
   id="translation-viewer"
 >
   <Loading />

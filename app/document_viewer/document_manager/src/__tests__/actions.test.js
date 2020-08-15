@@ -69,10 +69,20 @@ describe("Choose document", () => {
 describe("Display translations", () => {
     beforeEach(() => {
         localStorage.removeItem('redux-store')
+        localStorage["login::services::getTranslations"] = "api/v1/translation/LANGUAGE"
+    })
+
+    afterEach(() => {
+        localStorage.removeItem('login::services::getTranslations')
     })
 
     it("First page", () => {
         let initState = {
+                pages: {
+                    currDoc: {
+                        language: "german"
+                    }
+                },
                 translations:{
                     currPage: 1,
                     matches: [],
@@ -91,7 +101,9 @@ describe("Display translations", () => {
         axios.mockResolvedValue(JSON.stringify(data))
         let testDispatch = (msg) => {
             store.dispatch(msg)
-            expect(store.getState().translations.matches).toStrictEqual(data.translations)
+            if(!(msg.type === C.NOT_LOADED)){
+                expect(store.getState().translations.matches).toStrictEqual(data.translations)
+            }
         }
         actions.getTranslations(testDispatch, store.getState, 1)
     })

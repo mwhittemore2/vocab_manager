@@ -1,11 +1,16 @@
 import axios from "axios"
-import { getHeaders } from './lib/apiTools'
+import { getHeaders, setLanguage } from './lib/apiTools'
 import { collectTextRange, getNextWord, isAlreadySelected } from './lib/textProcessing'
 import C from './constants'
 
 const buildPhrase = words => {
     if(words.length > 0){
-        let phrase = words.reduce((acc, currVal) => acc.fulltext + currVal)
+        //let phrase = words.reduce((acc, currVal) => acc.fulltext + currVal)
+        //return phrase
+        let phrase = ""
+        words.forEach(word => {
+            phrase = phrase + word.fulltext
+        })
         return phrase
     }
     else{
@@ -197,12 +202,21 @@ export const getTranslations = (dispatch, getState, pageNumber) => {
         page: pageNumber,
         query: phrase
     }
-    //TODO: Insert loading message here
+    
+    let msg = {
+        type: C.NOT_LOADED,
+        component: C.TRANSLATION_VIEWER
+    }
+    dispatch(msg)
+
+    let language = getState().pages.currDoc.language
+    let template = localStorage["login::services::getTranslations"]
+    let route = setLanguage(language, template)
     makeServiceCall(
         (response) => convertTranslations(pageNumber, response),
         (messages) => multiDispatch(dispatch, messages),
-        localStorage["login::services::getTranslations"],
-        'GET',
+        route,
+        'POST',
         body
     )
 }

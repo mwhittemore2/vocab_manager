@@ -23,7 +23,7 @@ class Config:
     PAGE_RANGE_DEFAULT_SIZE = os.environ.get("PAGE_RANGE_DEFAULT_SIZE") or 0
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
     TOKENIZER = TokenizerMapper()
-    TRANSLATIONS_PAGE_SIZE = os.environ.get('TRANSLATIONS_PAGE_SIZE') or 25
+    TRANSLATIONS_PAGE_SIZE = os.environ.get('TRANSLATIONS_PAGE_SIZE') or 5
     VOCAB_ENTRIES_PER_PAGE = os.environ.get('VOCAB_ENTRIES_PER_PAGE') or 50
 
     @staticmethod
