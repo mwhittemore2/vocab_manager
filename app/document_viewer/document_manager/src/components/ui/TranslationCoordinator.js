@@ -16,6 +16,14 @@ const queueManagerID = "translation-coordinator-queue-manager"
 
 const textManagerID = "translation-coordinator-text-manager"
 
+/**
+ * Assigns a unique key to a button in a submenu which can manage 
+ * the content appearing in the translation queue.
+ * 
+ * @param {number} index The position of the button in the submenu.
+ * @param {string} text The text of the button.
+ * @return {string} The button identifier.
+ */
 const buildTextManagerKey = (index, text) => {
     let domain = "text-manager"
     let separator = "-"
@@ -23,6 +31,13 @@ const buildTextManagerKey = (index, text) => {
     return key
 }
 
+/**
+ * Sends along the text in the translation queue to be translated,
+ * if it's possible to do so.
+ * 
+ * @param {object} currState The current state of the translation queue.
+ * @param {func} translate Triggers a translation request on the server.
+ */
 const processTranslationRequest = (currState, translate) => {
     if(currState.searchPhrase.length > 0){
         translate()
@@ -33,6 +48,13 @@ const processTranslationRequest = (currState, translate) => {
     }
 }
 
+/**
+ * Adds user-supplied raw text to the translation queue,
+ * if user pressed the enter key.
+ * 
+ * @param {object} e A key press event.
+ * @param {func} addText Adds raw text to the translation queue.
+ */
 const submitCustomText = (e, addText) => {
     let enterKey = C.KEYBOARD_INPUT.ENTER
     if(e.keyCode === enterKey){
@@ -48,6 +70,13 @@ const submitCustomText = (e, addText) => {
     }
 }
 
+/**
+ * A menu for preparing raw text supplied by the user for
+ * eventual translation.
+ * 
+ * @param {func} addText Adds raw text to the translation queue.
+ * @return {html} The HTML representation of the custom text menu 
+ */
 export const CustomText = ({addText}) =>
     <div id={customTextID}>
         <input id={customTextSubmit}
@@ -56,6 +85,13 @@ export const CustomText = ({addText}) =>
                placeholder="Enter text here"/>
     </div>
 
+/**
+ * A menu for selecting a continuous span of text to be
+ * translated.
+ * 
+ * @param {func} setEndpoint Determines the boundaries of the text span.
+ * @return {html} The HTML representation of the menu. 
+ */
 export const EndpointManager = ({setEndpoint}) => 
     <div id={endpointManagerID}>
         Set text boundaries
@@ -68,6 +104,13 @@ export const EndpointManager = ({setEndpoint}) =>
         <br></br>
     </div>
 
+/**
+ * A menu for providing more granular control over the contents
+ * of the translation queue.
+ * 
+ * @param {func} clearQueue Deletes all content in the translation queue.
+ * @return {html} The HTML representation of the menu. 
+ */
 export const QueueManager = ({clearQueue}) => 
     <div id={queueManagerID}>
         Manage the translation queue
@@ -78,14 +121,42 @@ export const QueueManager = ({clearQueue}) =>
         <br></br>
     </div>
 
+/**
+ * A button that adds specific punctuation to the
+ * translation queue.
+ * 
+ * @param {func} addText Adds the specified punctuation to the
+ *                       translation queue.
+ * @param {string} punct The specific punctuation to add to the
+ *                       translation queue.
+ * @return {html} The HTML representation of the button.
+ */
 export const Punctuation = ({addText, punct}) => 
     <button className={stylesheet.primaryButton}
             onClick={() => addText(punct)}>{punct}</button>
 
+/**
+ * A button that adds a specific type of spacing to the
+ * translation queue.
+ * 
+ * @param {func} addText Adds the specified spacing to the
+ *                       translation queue.
+ * @param {string} description A natural language description
+ *                             of the type of spacing to be added.
+ * @param {string} spacing The spacing to be added.
+ * @return {html} The HTML representation of the menu. 
+ */
 export const Spacing = ({addText, description, spacing}) =>
     <button className={stylesheet.primaryButton}
             onClick={() => addText(spacing)}>{description}</button>
 
+/**
+ * Top-level menu for adding text to the translation queue.
+ * 
+ * @param {func} addText Adds the specified text to the translation
+ *                       queue.
+ * @return {html} The HTML representation of the the menu.
+ */
 export const TextManager = ({addText}) => 
     <div id={textManagerID}>
         Punctuation
@@ -109,6 +180,10 @@ export const TextManager = ({addText}) =>
         <CustomText addText={addText}/>
     </div>
 
+/**
+ * Renders the menus used to build up a candidate phrase
+ * to be translated.
+ */
 export class TranslationCoordinator extends React.Component{
     render(){
         let interaction = this.props.interaction
@@ -183,6 +258,17 @@ TranslationCoordinator.propTypes = {
     setEndpoint: PropTypes.func,
     translate: PropTypes.func,
     translations: PropTypes.object
+}
+
+TranslationCoordinator.defaultProps = {
+    addText: f=>f,
+    clearQueue: f=>f,
+    closeViewer: f=>f,
+    interaction: C.DOCUMENT_SELECTOR,
+    option: C.DOC_VIEWER_OPTIONS.DEFAULT,
+    setEndpoint: f=>f,
+    translate: f=>f,
+    translations: {}
 }
 
 export default TranslationCoordinator

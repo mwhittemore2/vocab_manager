@@ -141,6 +141,7 @@ exports[`TranslationViewer view translations 1`] = `
   />
   <Navigator
     cursor={[MockFunction]}
+    jumpToPage={[Function]}
     results={
       Object {
         "currPage": 1,

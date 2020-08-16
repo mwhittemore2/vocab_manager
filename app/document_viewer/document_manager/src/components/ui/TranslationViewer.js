@@ -8,6 +8,14 @@ const matchesID = "translation-matches"
 
 const viewerID = "translation-viewer"
 
+/**
+ * Assigns a unique identifier to each definition in a list
+ * of definitions.
+ * 
+ * @param {number} index The position of the definition in the list. 
+ * @param {number} page The current page of translation results.
+ * @return {string} The definition identifier.
+ */
 const buildDefinitionKey = (index, page) => {
     let domain = "tr-def"
     let separator = "-"
@@ -15,6 +23,14 @@ const buildDefinitionKey = (index, page) => {
     return key
 }
 
+/**
+ * Assigns a unique identifier to each result of the user's
+ * translation query.
+ * 
+ * @param {number} index The position of the match in the result set.
+ * @param {number} page The current page of translation results.
+ * @return {string} The match identifier
+ */
 const buildMatchKey = (index, page) => {
     let domain = "tr-match"
     let separator = "-"
@@ -22,6 +38,14 @@ const buildMatchKey = (index, page) => {
     return key
 }
 
+/**
+ * A list of target-language definitions/translations based on the
+ * user's query.
+ * 
+ * @param {object} match A translation of the user's query.
+ * @param {number} page The current page of translation results.
+ * @return {html} The HTML representation of the definitions.
+ */
 export const Definitions = ({match, page}) =>
     <ol>
         {match.definitions.map((definition, index) => 
@@ -31,6 +55,13 @@ export const Definitions = ({match, page}) =>
         )}
     </ol>
 
+/**
+ * A simple translation of the user's query.
+ * 
+ * @param {object} match The translation.
+ * @param {number} page The current page of translation results.
+ * @return {html} The HTML representation of the translation.
+ */
 export const BaseFormMatch = ({match, page}) =>
     <div>
         Text: {match.text}
@@ -40,6 +71,14 @@ export const BaseFormMatch = ({match, page}) =>
         Definition: {match.definition}
     </div>
 
+/**
+ * A translation with suggestions for similar phrases
+ * in the base language.
+ * 
+ * @param {object} match The translation
+ * @param {number} page The current page of translation results.
+ * @return {html} The HTML representation of the translation. 
+ */
 export const DerivedFormMatch = ({match, page}) =>
     <div>
         Text: {match.text}
@@ -50,6 +89,12 @@ export const DerivedFormMatch = ({match, page}) =>
         <br></br>
     </div>
 
+/**
+ * Displays the translations of the user's query.
+ * 
+ * @param {object} translations The translations to be displayed.
+ * @return {html} The HTML representation of the matching translations.
+ */
 export const ViewMatches = ({translations}) =>
     <div id={matchesID}>
         {translations.matches.map((match, index) =>
@@ -63,6 +108,9 @@ export const ViewMatches = ({translations}) =>
         )}
     </div>
 
+/**
+ * Renders the tool for viewing translations of a user's query.
+ */
 export class TranslationViewer extends React.Component{
     render(){
         let interaction = this.props.interaction
@@ -126,15 +174,18 @@ TranslationViewer.propTypes = {
     translations: PropTypes.object
 }
 
-/*
 TranslationViewer.defaultProps = {
     closeViewer: f=>f,
     cursor: f=>f,
-    interaction: C.DOCUMENT_VIEWER,
+    interaction: C.DOCUMENT_SELECTOR,
     jumpToPage: f=>f,
     loaded: {},
     option: C.DOC_VIEWER_OPTIONS.DEFAULT,
     translations: {}
-}*/
+}
+
+ViewMatches.propTypes = {
+    translations: PropTypes.object
+}
 
 export default TranslationViewer

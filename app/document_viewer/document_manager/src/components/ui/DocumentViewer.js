@@ -7,6 +7,16 @@ import C from '../../constants'
 
 const displayID = "document-viewer"
 
+/**
+ * Manages the current page that the user is reading.
+ * 
+ * @param {func} cursor Function for moving to previous or next page.
+ * @param {func} jumpToPage Function for moving to a specified page.
+ * @param {object} lines The text of the currently displayed page.
+ * @param {func} selectWord Adds the user-selected word to the translation 
+ *                          queue.
+ * @return {html} The HTML representation of the current page.
+ */
 export const Display = ({cursor, jumpToPage, lines, selectWord}) =>
     <div id={displayID} className={stylesheet.displayDocumentViewer}>
         <Page lines={lines} selectWord={selectWord} />
@@ -16,6 +26,9 @@ export const Display = ({cursor, jumpToPage, lines, selectWord}) =>
                    viewer={displayID}/>
     </div>
 
+/**
+ * Renders the interface for reading and traversing a document.
+ */
 export class DocumentViewer extends React.Component{
     render(){
         let interaction = this.props.interaction
