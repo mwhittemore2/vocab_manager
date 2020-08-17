@@ -10,6 +10,9 @@ const store = storeFactory(initStateData)
 window.React = React
 window.store = store
 
+/**
+ * Renders the application in the browser.
+ */
 render(
     <Provider store={store}>
         <App />

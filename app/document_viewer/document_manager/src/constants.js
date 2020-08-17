@@ -1,3 +1,7 @@
+/**
+ * Common variables that are used throughout
+ * the application.
+ */
 const C = {
     ADD_WORD: "ADD_WORD",
     APPEND_TRANSLATION_BUFFER: "APPEND_TRANSLATION_BUFFER",

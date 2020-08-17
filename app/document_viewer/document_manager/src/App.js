@@ -5,6 +5,10 @@ import {
     TranslationDisplay
 } from './components/containers'
 
+/**
+ * Organizes the components of the application under
+ * a single div.
+ */
 const App = () =>
     <div className="app">
         <DocumentSelection />
