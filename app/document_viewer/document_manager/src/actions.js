@@ -3,10 +3,15 @@ import { getHeaders, setLanguage } from './lib/apiTools'
 import { collectTextRange, getNextWord, isAlreadySelected } from './lib/textProcessing'
 import C from './constants'
 
+/**
+ * Constructs a phrase from an array of words which will
+ * then be used as the user's translation query.
+ * 
+ * @param {array} words The words comprising the phrase.
+ * @return {string} The user's translation query.
+ */
 const buildPhrase = words => {
     if(words.length > 0){
-        //let phrase = words.reduce((acc, currVal) => acc.fulltext + currVal)
-        //return phrase
         let phrase = ""
         words.forEach(word => {
             phrase = phrase + word.fulltext
@@ -19,6 +24,14 @@ const buildPhrase = words => {
     }
 }
 
+/**
+ * Loads documents for the user to choose from after
+ * they've been received from the corresponding service
+ * call.
+ * 
+ * @param {object} response The document choices.
+ * @return {array} The messages to be dispatched.
+ */
 const convertDocuments = response => {
     let messages = []
     let msg = {
@@ -36,6 +49,14 @@ const convertDocuments = response => {
     return messages
 }
 
+/**
+ * Loads pages for the user to read in the document
+ * viewer after receiving them from the corresponding
+ * service call.
+ * 
+ * @param {object} response The pages to be dispalyed.
+ * @return {array} The messages to be dispatched.
+ */
 const convertPages = response => {
     let messages = []
     
@@ -68,6 +89,14 @@ const convertPages = response => {
     return messages
 }
 
+/**
+ * Loads translations of a the user's query after receiving
+ * them from the corresponding service.
+ * 
+ * @param {number} page The current page of translation results
+ * @param {object} response The translation results from the server.
+ * @return {array} The messages to be dispatched.
+ */
 const convertTranslations = (page, response) => {
     let messages = []
     let msg = {}
@@ -96,8 +125,23 @@ const convertTranslations = (page, response) => {
     return messages
 }
 
+/**
+ * Logs an error message to the console.
+ * 
+ * @param {string} error The error message to be logged.
+ */
 const logError = error => console.error(error)
 
+/**
+ * Makes an API call to a microservice.
+ * 
+ * @param {func} convert Transforms the microservice response into messages
+ *                       to be dispatched to the state store.
+ * @param {func} dispatch Sends a message to the state store.
+ * @param {string} url The endpoint for accessing the microservice.
+ * @param {string} method The type of HTTP request to make.
+ * @param {object} body The body of the JSON request.
+ */
 const makeServiceCall = (convert, dispatch, url, method, body={}) => {
     axios({
       url: url,
@@ -112,10 +156,25 @@ const makeServiceCall = (convert, dispatch, url, method, body={}) => {
     .catch(logError)
 }
 
+/**
+ * Dispatches a series of messages to the state store to the 
+ * synchronous manner.
+ * 
+ * @param {func} dispatch Sends an individial message to the
+ *                        state store.
+ * @param {array} messages The messages to be sent.
+ */
 const multiDispatch = (dispatch, messages) => {
     messages.forEach(msg => dispatch(msg)) 
 }
 
+/**
+ * Converts the JSON response of a microservice call to a form that
+ * can be processed more easily by downstream components.
+ * 
+ * @param {object} response The JSON response from a microservice call.
+ * @return {object} The converted response.
+ */
 const parseResponse = response => {
     if(typeof response === "string"){
         return JSON.parse(response)
@@ -124,6 +183,13 @@ const parseResponse = response => {
     return response.data
 }
 
+/**
+ * Appends a word to the translation queue.
+ * 
+ * @param {func} dispatch Sends a message to the state store.
+ * @param {func} getState Fetches the state store.
+ * @param {object} word The word to add to the queue.
+ */
 export const addToTranslationQueue = (dispatch, getState, word) => {
     let direction = C.DIRECTION.RIGHT
     let lines = getState().lines
@@ -143,6 +209,9 @@ export const addToTranslationQueue = (dispatch, getState, word) => {
     highlight(dispatch, newWord.selected)
 }
 
+/**
+ * Removes all content in the translation queue.
+ */
 export const clearTranslationQueue = () =>
     (dispatch, getState) => {
         let toUnighlight = getState().lines.selected
@@ -155,6 +224,13 @@ export const clearTranslationQueue = () =>
         unhighlight(dispatch, toUnighlight)
     }
 
+/**
+ * Deletes a particular item from the translation queue based
+ * on its position in the queue.
+ * 
+ * @param {number} position The position of the item to be
+ *                          deleted.
+ */
 export const deleteFromTranslationQueue = (position) =>
     (dispatch, getState) => {
         let searchPhrase = getState().translations.searchPhrase
@@ -168,6 +244,13 @@ export const deleteFromTranslationQueue = (position) =>
         unhighlight(dispatch, toUnhighlight)
     }
 
+/**
+ * Fetches the pages that the user wants to read next.
+ * 
+ * @param {func} dispatch Sends a message to the state store.
+ * @param {func} getState Fetches the state store.
+ * @param {number} pageNumber The number of the first page to fetch.
+ */
 export const getPages = (dispatch, getState, pageNumber) => {
     let pages = getState().pages
     if (pageNumber >= pages.startPage & pageNumber <= pages.endPage){
@@ -195,6 +278,14 @@ export const getPages = (dispatch, getState, pageNumber) => {
     }
 }
 
+/**
+ * Processes the user's translation query.
+ * 
+ * @param {func} dispatch Sends a message to the state store.
+ * @param {func} getState Fetches the state store.
+ * @param {number} pageNumber The page of translation results
+ *                            to fetch.
+ */
 export const getTranslations = (dispatch, getState, pageNumber) => {
     let translations = getState().translations
     let phrase = buildPhrase(translations.searchPhrase)
@@ -221,6 +312,12 @@ export const getTranslations = (dispatch, getState, pageNumber) => {
     )
 }
 
+/**
+ * Colors the specified words in the browser.
+ * 
+ * @param {func} dispatch Sends a message to the state store.
+ * @param {Set} words The words to be colored.
+ */
 export const highlight = (dispatch, words) => {
     let msg = {
         type: C.HIGHLIGHT,
@@ -229,6 +326,12 @@ export const highlight = (dispatch, words) => {
     dispatch(msg)
 }
 
+/**
+ * Moves the calling component to the specified page.
+ * 
+ * @param {event} e A key press.
+ * @param {func} navigator Fetches desired page.
+ */
 export const jumpToPage = (e, navigator) =>
     (dispatch, getState) => {
         let enterKey = C.KEYBOARD_INPUT.ENTER
@@ -246,6 +349,9 @@ export const jumpToPage = (e, navigator) =>
         }
     }
 
+/**
+ * Fetches the documents that the user can choose to read.
+ */
 export const listDocuments = () =>
     (dispatch, getState) => {
         makeServiceCall(
@@ -256,6 +362,14 @@ export const listDocuments = () =>
         )            
     }
 
+/**
+ * Fetches the desired page for the calling component.
+ * 
+ * @param {string} direction The direction in which to move.
+ * @param {number} pageNumber The number of the current page
+ * @param {func} navigator Sends the calling component its
+ *                         desired page.
+ */
 export const navigate = (direction, pageNumber, navigator) => 
     (dispatch, getState) => {
         if (direction === C.PREVIOUS_PAGE){
@@ -266,6 +380,12 @@ export const navigate = (direction, pageNumber, navigator) =>
         }
     }
 
+/**
+ * Decides what action to take with the word the user
+ * has just clicked on.
+ * 
+ * @param {object} word The word the user has clicked on.
+ */
 export const registerSelectedWord = (word) =>
     (dispatch, getState) => {
         let boundary = getState().translations.boundary.currState
@@ -280,6 +400,9 @@ export const registerSelectedWord = (word) =>
         }
     }
 
+/**
+ * Deletes the current translation results.
+ */
 export const resetTranslations = () =>
     (dispatch, getState) => {
         clearTranslationQueue()(dispatch, getState)
@@ -290,6 +413,11 @@ export const resetTranslations = () =>
         dispatch(msg)
     }
 
+/**
+ * Specifies the document to display.
+ * 
+ * @param {object} doc The document to display.
+ */
 export const setCurrentDocument = doc =>
     (dispatch, getState) => {
         //Start transition to document viewer
@@ -322,6 +450,12 @@ export const setCurrentDocument = doc =>
         dispatch(msg)
     }
 
+/**
+ * Specifies the specific tool for working with the
+ * document the user is reading.
+ * 
+ * @param {string} option The name of the tool to use.
+ */
 export const setOption = option => 
     (dispatch, getState) => {
         let msg = {
@@ -340,7 +474,13 @@ export const setTextBoundary = (boundary) =>
         dispatch(msg)
     }
 
-//Add full phrase to translation queue
+/**
+ * Adds a span of text to the translation queue.
+ * 
+ * @param {func} dispatch Sends a message to the state store.
+ * @param {func} getState Fetches the state store.
+ * @param {object} word The end of the span.
+ */
 export const setTextEnd = (dispatch, getState, word) => {
         let selected = collectTextRange(dispatch, getState, word)
         highlight(dispatch, selected)
@@ -348,6 +488,14 @@ export const setTextEnd = (dispatch, getState, word) => {
         setTextBoundary(defaultBoundary)(dispatch, getState)
 }
 
+/**
+ * Specifies the start of a span of text that will eventually
+ * be added to the translation queue.
+ * 
+ * @param {func} dispatch Sends a message to the state store.
+ * @param {func} getState Fetches the state store.
+ * @param {object} word The start of the span of text.
+ */
 export const setTextStart = (dispatch, getState, word) => {
     let lines = getState().lines
     let linesCopy = {
@@ -362,6 +510,12 @@ export const setTextStart = (dispatch, getState, word) => {
     dispatch(msg)
 }
 
+/**
+ * Removes coloring from specified words.
+ * 
+ * @param {func} dispatch Sends a message to the state store.
+ * @param {Set} words The words that will lose their coloring.
+ */
 export const unhighlight = (dispatch, words) => {
     let msg = {
         type: C.UNHIGHLIGHT,
