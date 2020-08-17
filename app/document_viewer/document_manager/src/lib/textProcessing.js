@@ -1,6 +1,18 @@
 import { union } from './setProcessing'
 import C from '../constants'
 
+/**
+ * Constructs a JS object representation of a word in
+ * the user's document.
+ * 
+ * @param {number} index The position of the word in its
+ *                       corresponding line.
+ * @param {number} line The position of the line in its
+ *                      corresponding page.
+ * @param {number} page The number of the page in the document.
+ * @param {string} text The actual text comprising the word.
+ * @return {object} The JS object representation of the word.
+ */
 export const buildWord = (index, line, page, text) => {
     word = {
         line: line,
@@ -11,6 +23,16 @@ export const buildWord = (index, line, page, text) => {
     return word
 }
 
+/**
+ * Builds a phrase out of all the text between a previously specified
+ * start point up to a user-supplied end point.
+ * 
+ * @param {func} dispatch Sends messages to the state store.
+ * @param {func} getState Fetches the current state store.
+ * @param {object} word The end point of the phrase to be built.
+ * @return {Set} The words in the newly constructed phrase.
+ * 
+ */
 export const collectTextRange = (dispatch, getState, word) => {
     let translations = getState().translations
     let lines = translations.boundary.buffer
@@ -82,6 +104,17 @@ export const collectTextRange = (dispatch, getState, word) => {
     return selected
 }
 
+/**
+ * Fetches the next word relative to the currently supplied word and 
+ * direction. Serves as the foundation for building iterators over 
+ * the user's document.
+ * 
+ * @param {string} direction The direction to move when finding
+ *                           the next word.
+ * @param {object} lines The words comprising the current page. 
+ * @param {object} word The word whose successor is to be found.
+ * @return {object} The successor to the currently supplied word.
+ */
 export const getNextWord = (direction, lines, word) => {
     let nextWord
 
@@ -141,6 +174,18 @@ export const getNextWord = (direction, lines, word) => {
     return nextWord
 }
 
+/**
+ * A string representation of a word useful for set-theoretic 
+ * processing.
+ * 
+ * @param {number} line The position of the line in which the
+ *                      word occurs.
+ * @param {number} page The number of the page in which the
+ *                      word occurs.
+ * @param {number} pos The position of the word in its corresponding
+ *                     line.
+ * @return {string} The string representation of the the word. 
+ */
 export const getTokenIdentifier = (line, page, pos) => {
     let separator = ":"
     let tokenID = page.toString() + separator + line.toString()
@@ -148,6 +193,15 @@ export const getTokenIdentifier = (line, page, pos) => {
     return tokenID
 }
 
+/**
+ * Determines if a word has already been added to the
+ * translation queue.
+ * 
+ * @param {func} getState Fetches the current state store.
+ * @param {object} word The word to check.
+ * @return {bool} True if the word is already in the 
+ *                translation queue, False otherwise.
+ */
 export const isAlreadySelected = (getState, word) => {
     let selected = getState().lines.selected
     let hasPos = word.hasOwnProperty('pos')
@@ -162,6 +216,15 @@ export const isAlreadySelected = (getState, word) => {
     return decision
 }
 
+/**
+ * Determines if the first word occurs before the second
+ * in the user's document.
+ * 
+ * @param {object} w1 The first word.
+ * @param {object} w2 The second word.
+ * @return {bool} True if the first word occurs before the
+ *                second, False otherwise.
+ */
 export const isPreviousTo = (w1, w2) => {
     let pageInBounds = (w1.page <= w2.page)
     if(!pageInBounds){
@@ -182,6 +245,17 @@ export const isPreviousTo = (w1, w2) => {
     return true
 }
 
+/**
+ * Fetches the first word to the left of the currently
+ * supplied word.
+ * 
+ * @param {object} breaks The line breaks in the page.
+ * @param {object} currWord The word to move left from.
+ * @param {object} lines The words making up the page.
+ * @param {array} tokenData The boundaries of the word.
+ * @return {object} The first word to the left of the
+ *                  current one.
+ */
 export const moveLeft = (breaks, currWord, lines, tokenData) => {
     let nextWord = {}
     let leftToken = tokenData.positions[0]
@@ -217,6 +291,17 @@ export const moveLeft = (breaks, currWord, lines, tokenData) => {
     return nextWord
 }
 
+/**
+ * Fetches the first word to the right of the currently
+ * supplied word.
+ * 
+ * @param {object} breaks The line breaks in the page.
+ * @param {object} currWord The word to move right from.
+ * @param {object} lines The words making up the page.
+ * @param {array} tokenData The boundaries of the word.
+ * @return {object} The first word to the right of the
+ *                  current one.
+ */
 export const moveRight = (breaks, currWord, lines, tokenData) => {
     let nextWord = {}
     let lastTokenPos = tokenData.positions.length - 1
@@ -255,6 +340,17 @@ export const moveRight = (breaks, currWord, lines, tokenData) => {
     return nextWord
 }
 
+/**
+ * Finds the next word when the word is split across multiple lines.
+ * 
+ * @param {string} direction The direction to move when searching for
+ *                           the next word.
+ * @param {object} lines The words comprising the current page.
+ * @param {string} side The line boundary, if any, where the word is 
+ *                      located
+ * @param {object} word The word whose successor is to be found.
+ * @return {object} The successor of the current word.
+ */
 export const processLineBreak = (direction, lines, side, word) => {
     let breaks = lines.breaks
     let line = word.line
