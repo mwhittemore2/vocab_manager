@@ -1,18 +1,13 @@
 # Vocabulary Manager
 
-This application is designed to integrate the foreign language vocabularies a user acquires from both electronic sources (like websites and text files) and paper sources (like books and magazines). While there are technologies that already exist to acquire vocabulary words electronically, they don't easily support tracking vocabulary words that can be acquired from offline sources. As a foreign language learner, the lack of such tools enabling vocabulary consolidation across multiple sources was a source of difficulty for me for years, which is why I undertook this project.
+The mission of this appilication is to provide a comprehensive platform for acquiring and retaining foreign-language vocabulary for language learners at all levels. At its core, this application is an E-book reader that is optimized for learning a new language. Users can upload documents of their choice, read them in the browser and then lookup the translations of unknown words or phrases with a few simple mouse clicks. This is just the start, however. Future releases will add features for performing tasks such as acquiring vocabulary from audio sources, uploading vocabulary acquired from print media, and providing sophisticated interfaces for querying all previously acquired vocabulary in order to build customized vocabulary-retention tests.
 
-To reach the goal of offering a consolidated vocabulary management tool, the project currently supports the following web services:
+From a more technical perspective, this application is designed to be a SaaS application. The back-end code is written in Python 3 with help from the Flask web framework. This code is used to both handle routing to different web pages as well as offer microservices that can be consumed by the front-end component of this application and by third-parties. The code for the microservices can be found under **vocab_manager/app/api**.
 
-    -- Addition and deletion of acquired foreign language vocabulary along with their context
+In addition to Flask, MongoDB was used as a database for storing user data and Elasticsearch was used to provide a foreign language dictionary service. The ETL code for populating Elasticsearch with dictionary data can be found under **vocab_manager/dictionaries**.
 
-    -- Dictionary translations from German to English (more languages to come)
-    
-    -- Access to foreign language resources a user has acquired
+The front-end code is written in Javascript with help from the React framework as well as HTML and CSS. This code allows users to upload foreign-language documents from the browser and then view them in the E-book reader. The code for the E-book reader is currently the most interesting part of the front-end code from a technical perspective and it can be found at **vocab_manager/document_viewer/document_manager**
 
-These services can be found under **vocab_manager/app/api**. From a technical perspective, the back-end code for these services is written in Python with Flask used as the web framework for supporting these services. In addition, MongoDB was used as a database for storing user data
-and Elasticsearch was used to provide a foreign language dictionary service. The code for populating Elasticsearch with dictionary data can be found under **vocab_manager/dictionaries**.
+Please note that while the application can be run directly from a desktop computer, it's not primarily designed to be run in this manner. In particular, it will be difficult to get much use out of it as a desktop application without external dictionary data which is not provided in this repository. With this in mind, the next stage of development for this application is to support cloud deployments. When this is done, the url to the application will be available on request.
 
-The front-end component of the project should be regarded only as a skeleton, but I plan to eventually build it out using React.
-
-The project is still ongoing. More features to support management of non-electronic vocabulary sources are planned for future releases. Please keep checking for further updates.
+Development is ongoing. Please check back for future updates.
