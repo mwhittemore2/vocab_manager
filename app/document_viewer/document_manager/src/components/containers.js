@@ -8,6 +8,9 @@ import TranslationViewer from './ui/TranslationViewer'
 import * as actions from '../actions'
 import C from '../constants'
 
+/**
+ * Display's a user's document in the browser.
+ */
 export const DocumentDisplay = connect(
     state => 
         ({
@@ -28,6 +31,9 @@ export const DocumentDisplay = connect(
         })
 )(DocumentViewer);
 
+/**
+ * Presents the user with documents to read.
+ */
 export const DocumentSelection = connect(
     state =>
         ({
@@ -46,7 +52,10 @@ export const DocumentSelection = connect(
         })
 )(DocumentSelector);
 
-
+/**
+ * Presents the user with options for interacting with
+ * the current document.
+ */
 export const Options = connect(
     state =>
         ({
@@ -61,7 +70,9 @@ export const Options = connect(
         })
 )(OptionsMenu);
 
-
+/**
+ * Displays the text of the user's query to be translated.
+ */
 export const TranslationCandidate = connect(
     state => 
         ({
@@ -76,6 +87,9 @@ export const TranslationCandidate = connect(
         })
 )(TranslationQueue);
 
+/**
+ * Provides tools for building a phrase to be translated.
+ */
 export const TranslationCoordination = connect(
     state =>
         ({
@@ -94,7 +108,7 @@ export const TranslationCoordination = connect(
             clearQueue: () => {
                 dispatch(actions.clearTranslationQueue())
             },
-            //TODO: Update UI component to support this action
+            
             closeViewer: () => {
                 dispatch(actions.setOption(C.DOC_VIEWER_OPTIONS.DEFAULT))
                 dispatch(actions.resetTranslations())
@@ -109,6 +123,9 @@ export const TranslationCoordination = connect(
         })
 )(TranslationCoordinator);
 
+/**
+ * Displays the translations of the user's query.
+ */
 export const TranslationDisplay = connect(
     state => 
         ({
