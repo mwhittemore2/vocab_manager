@@ -44,8 +44,3 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
-
-@auth.route('/test_login')
-@login_required
-def test_login():
-    return render_template('auth/test_login.html')

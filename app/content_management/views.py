@@ -38,7 +38,6 @@ def document_upload():
         try:
             doc_uploader.upload(doc)
         except Exception as e:
-            #print(e)
             traceback.print_exc()
             could_upload = False
             error_msg = "Error uploading document. Please try again."
