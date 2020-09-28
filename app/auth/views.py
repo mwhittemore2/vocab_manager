@@ -7,6 +7,9 @@ from .forms import LoginForm, RegistrationForm
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Creates the account for a new user.
+    """
     form = RegistrationForm()
     if form.validate_on_submit():
         email=form.email.data
@@ -25,6 +28,9 @@ def register():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Authenticates the user.
+    """
     form = LoginForm()
     if form.validate_on_submit():
         user_email = form.email.data
@@ -42,5 +48,8 @@ def login():
 @auth.route('/logout')
 @login_required
 def logout():
+    """
+    Terminates the user's session.
+    """
     logout_user()
     return redirect(url_for('main.index'))
