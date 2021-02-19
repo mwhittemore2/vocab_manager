@@ -1,0 +1,15 @@
+vocabmanager:
+    build: .
+    image: #TODO: Add image to dockerhub
+    ports:
+      - "27017:27017" #MongoDB Port
+      - "9200:9200" #Elasticsearch Port
+    links:
+      - elasticsearch
+      - mongo
+    volumes:
+      - ./vocab_manager:/vocab_manager
+elasticsearch:
+    image: elasticsearch:6.8.12
+mongo:
+    image: mongo:3.6
