@@ -1,11 +1,27 @@
+from http import HTTPStatus
+
 from flask import jsonify
 
 from . import api
 
 @api.errorhandler(400)
 def bad_request(e):
-    response = jsonify(status=400, text=str(e))
-    return response
+    """
+    Informs the user that there is an issue with his/her request.
+
+    Parameters
+    ----------
+    e : str
+        A custom error message
+
+    Returns
+    -------
+    json
+        JSON representation of the error message 
+    """
+    error_code = HTTPStatus.BAD_REQUEST.value
+    response = jsonify(status=error_code, text=str(e))
+    return response, error_code
 
 @api.errorhandler(401)
 def unauthorized(e):
@@ -22,8 +38,9 @@ def unauthorized(e):
     json
         JSON representation of the error message
     """
-    response = jsonify(status=401, text=str(e))
-    return response
+    error_code = HTTPStatus.UNAUTHORIZED.value
+    response = jsonify(status=error_code, text=str(e))
+    return response, error_code
 
 @api.errorhandler(403)
 def forbidden(e):
@@ -40,8 +57,9 @@ def forbidden(e):
     json
         JSON representation of the error message
     """
-    response = jsonify(status=403, text=str(e))
-    return response
+    error_code = HTTPStatus.FORBIDDEN.value
+    response = jsonify(status=error_code, text=str(e))
+    return response, error_code
 
 @api.errorhandler(404)
 def resource_not_found(e):
@@ -58,8 +76,9 @@ def resource_not_found(e):
     json
         JSON representation of the error message
     """
-    response = jsonify(status=404, text=str(e))
-    return response
+    error_code = HTTPStatus.NOT_FOUND.value
+    response = jsonify(status=error_code, text=str(e))
+    return response, error_code
 
 @api.errorhandler(500)
 def server_error(e):
@@ -76,5 +95,6 @@ def server_error(e):
     json
         JSON representation of the error message
     """
-    response = jsonify(status=500, text=str(e))
-    return response
+    error_code = HTTPStatus.INTERNAL_SERVER_ERROR.value
+    response = jsonify(status=error_code, text=str(e))
+    return response, error_code

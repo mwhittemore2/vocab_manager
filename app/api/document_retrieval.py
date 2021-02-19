@@ -26,7 +26,7 @@ def page():
     msg = check_request_params(req_data, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
     
     title = req_data["title"]
     author = req_data["author"]
@@ -43,7 +43,7 @@ def page():
     if not page:
         msg = "Couldn't retrieve requested page"
         response = resource_not_found(msg)
-        return response, HTTPStatus.NOT_FOUND.value
+        return response
 
     #Build response
     response = {}
@@ -77,7 +77,7 @@ def page_range():
     msg = check_request_params(req_data, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
     
     title = req_data["title"]
     author = req_data["author"]
@@ -99,7 +99,7 @@ def page_range():
     if not pages:
         msg = "Couldn't find requested pages"
         response = resource_not_found(msg)
-        return response, HTTPStatus.NOT_FOUND.value
+        return response
     
     #Collect pages into response
     content = []
@@ -138,7 +138,7 @@ def doc_list():
     if not docs:
         msg = "Couldn't find user's documents"
         response = resource_not_found(msg)
-        return response, HTTPStatus.NOT_FOUND.value
+        return response
     
     #Collect document names into a response
     works = []

@@ -69,8 +69,6 @@ def before_request():
         Otherwise, the user may access the REST APIs.
     """
     is_known = not g.current_user.is_anonymous
-    #is_unconfirmed = not g.current_user.confirmed
-    #if is_known and is_unconfirmed:
     if not is_known:
         msg = "Account is unconfirmed."
         return forbidden(msg)

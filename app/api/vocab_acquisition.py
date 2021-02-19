@@ -139,7 +139,7 @@ def add_vocab_entry(language):
     msg = check_request_params(req_data, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
 
     vocab_info = req_data["vocab_info"]
     resource = req_data["resource"]
@@ -150,14 +150,14 @@ def add_vocab_entry(language):
     msg = check_request_params(resource, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
     
     #Check vocabulary entry
     params = ["text", "pos", "definitions"]
     msg = check_request_params(vocab_info, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
 
     #Insert vocabulary item
     resource = convert_resource(resource, language)
@@ -214,7 +214,7 @@ def find_vocab_entry(language):
     msg = check_request_params(req_data, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
 
     page = int(req_data["page"])
     title = req_data["title"]
@@ -233,7 +233,7 @@ def find_vocab_entry(language):
     if not vocab_entry:
         msg = "Couldn't find vocabulary entry"
         response = resource_not_found(msg)
-        return response, HTTPStatus.NOT_FOUND.value
+        return response
     
     response = {}
     response["vocab_item"] = get_vocab_response(vocab_entry)
@@ -266,7 +266,7 @@ def find_vocab_list(language):
     msg = check_request_params(req_data, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
 
     page = int(req_data["page"])
     entries_per_page = current_app.config["VOCAB_ENTRIES_PER_PAGE"]
@@ -277,13 +277,13 @@ def find_vocab_list(language):
     if type(queries) is not list:
         msg = "No list of queries is given"
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
 
     for query in queries:
         msg = check_request_params(query, params)
         if msg:
             response = bad_request(msg)
-            return response, HTTPStatus.BAD_REQUEST.value
+            return response
 
     #Combine user queries into a single filter
     filters = get_filter(queries[0], language)
@@ -309,7 +309,7 @@ def find_vocab_list(language):
     if not vocab_items:
         msg = "Page contains no vocabulary entries"
         response = resource_not_found(msg)
-        return response, HTTPStatus.NOT_FOUND.value
+        return response
 
     response = {}
     response["vocab_items"] = vocab_items
@@ -343,7 +343,7 @@ def remove_vocab_entry(language):
     msg = check_request_params(req_data, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
 
     vocab_text = req_data["vocab_text"]
 
@@ -353,7 +353,7 @@ def remove_vocab_entry(language):
         msg = check_request_params(req_data["query"], params)
         if msg:
             response = bad_request(msg),
-            return response, HTTPStatus.BAD_REQUEST.value
+            return response
 
         #Delete occurrence of vocab item in a specific text
         query = req_data["query"]
@@ -373,7 +373,7 @@ def remove_vocab_entry(language):
         else:
             msg = "Vocabulary entries to be deleted aren't found"
             response = resource_not_found(msg)
-            return response, HTTPStatus.NOT_FOUND.value
+            return response
     else:
         #Delete all occurrences of vocab item
         to_delete = VocabEntry.objects(vocab_text=vocab_text, language=language)
@@ -382,7 +382,7 @@ def remove_vocab_entry(language):
         else:
             msg = "Vocabulary entries to be deleted aren't found"
             response = resource_not_found(msg)
-            return response, HTTPStatus.NOT_FOUND.value
+            return response
 
     response = jsonify(text="Vocabulary item deleted")
     return response, HTTPStatus.NO_CONTENT.value

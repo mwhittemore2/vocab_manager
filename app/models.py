@@ -30,10 +30,7 @@ class User(UserMixin, db.Document):
         boolean
             True if the user's password is correct, False otherwise.
         """
-        #self.confirmed = False
         check_hash = check_password_hash(self.password_hash, password)
-        #if check_hash:
-            #self.confirmed = True
         return check_hash
     
     @login_manager.user_loader

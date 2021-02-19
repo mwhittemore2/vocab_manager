@@ -30,7 +30,7 @@ def translation(language):
     msg = check_request_params(req_data, params)
     if msg:
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
     
     page = int(req_data["page"])
     query = req_data["query"]
@@ -40,7 +40,7 @@ def translation(language):
     if not dict_manager.has_dictionary(language):
         msg = language + " is not a supported language"
         response = bad_request(msg)
-        return response, HTTPStatus.BAD_REQUEST.value
+        return response
     
     #Get the translation
     size = int(current_app.config["TRANSLATIONS_PAGE_SIZE"])
