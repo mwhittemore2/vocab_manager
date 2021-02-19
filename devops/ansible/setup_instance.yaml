@@ -1,0 +1,5 @@
+- name: install project dependencies
+  import_playbook: install_dependencies.yaml
+
+- name: start the vocabulary manager application
+  import_playbook: start_app.yaml

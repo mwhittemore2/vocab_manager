@@ -1,0 +1,13 @@
+- hosts: localhost
+  connection: local
+  tasks:
+  
+    - name: start docker service
+      service:
+        name: docker
+        state: started
+    
+    - name: run docker compose
+      shell: docker-compose up
+      args:
+        chdir: /tmp/vocab_manager/devops/docker
