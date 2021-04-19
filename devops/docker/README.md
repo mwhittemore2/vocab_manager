@@ -1,0 +1,3 @@
+# Docker
+
+This section contains the code for managing the containers that run the Vocabulary Manager application. Currently, docker-compose is used to build a top-level container that runs the application server code as well as supporting containers for various data stores. Eventually, the functionality provided by these data stores may be moved into separate third-party services, but the modularity of the overall Vocabulary Manager project should make it easy to swap out the appropriate containers for third-party services.
